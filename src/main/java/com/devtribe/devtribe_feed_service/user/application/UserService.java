@@ -2,8 +2,6 @@ package com.devtribe.devtribe_feed_service.user.application;
 
 import com.devtribe.devtribe_feed_service.user.application.dtos.CreateUserRequestDto;
 import com.devtribe.devtribe_feed_service.user.application.interfaces.UserRepository;
-import com.devtribe.devtribe_feed_service.user.domain.Email;
-import com.devtribe.devtribe_feed_service.user.domain.Password;
 import com.devtribe.devtribe_feed_service.user.domain.User;
 import com.devtribe.devtribe_feed_service.user.domain.UserInfo;
 
@@ -18,10 +16,10 @@ public class UserService {
     public User createUser(CreateUserRequestDto dto) {
         User user = User.builder()
             .email(
-                Email.of(dto.email())
+                dto.email()
             )
             .password(
-                Password.of(dto.password())
+                dto.password()
             )
             .nickname(dto.nickname())
             .userInfo(
