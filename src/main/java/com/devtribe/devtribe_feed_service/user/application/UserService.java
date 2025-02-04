@@ -14,26 +14,7 @@ public class UserService {
     }
 
     public User createUser(CreateUserRequestDto dto) {
-        User user = User.builder()
-            .email(
-                dto.email()
-            )
-            .password(
-                dto.password()
-            )
-            .nickname(dto.nickname())
-            .userInfo(
-                UserInfo.builder()
-                    .biography(dto.biography())
-                    .companyName(dto.companyName())
-                    .jobTitle(dto.jobTitle())
-                    .githubUrl(dto.githubUrl())
-                    .linkedinUrl(dto.linkedinUrl())
-                    .blogUrl(dto.blogUrl())
-                    .build()
-            )
-            .build();
-
+        User user = dto.toUser();
         return userRepository.save(user);
     }
 
