@@ -3,9 +3,9 @@ package com.devtribe.devtribe_feed_service.user.application.dtos;
 import com.devtribe.devtribe_feed_service.user.domain.User;
 import com.devtribe.devtribe_feed_service.user.domain.UserInfo;
 
-public record CreateUserRequestDto(String email, String password, String nickname,
-                                   String biography, String companyName, String jobTitle,
-                                   String githubUrl, String linkedinUrl, String blogUrl) {
+public record CreateUserRequest(String email, String password, String nickname,
+                                String biography, String companyName, String jobTitle,
+                                String githubUrl, String linkedinUrl, String blogUrl) {
 
     public User toUser() {
         return User.builder()
