@@ -15,15 +15,15 @@ public class PasswordValidator {
 
     public void validatePassword(String password) {
         if (password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("비밀번호는 비어 있거나 null일 수 없습니다.");
+            throw new IllegalArgumentException("비밀번호는 빈 값일 수 없습니다.");
         }
 
         if (password.length() < PASSWORD_MIN_LENGTH || password.length() > PASSWORD_MAX_LENGTH) {
-            throw new IllegalArgumentException("유효한 비밀번호가 아닙니다.");
+            throw new IllegalArgumentException("비밀번호의 길이가 유효하지 않습니다.");
         }
 
         if (!Pattern.matches(PASSWORD_REGEX, password)) {
-            throw new IllegalArgumentException("유효한 비밀번호가 아닙니다.");
+            throw new IllegalArgumentException("비밀번호는 대문자, 소문자, 숫자 및 특수문자를 모두 포함해야 합니다.");
         }
     }
 
