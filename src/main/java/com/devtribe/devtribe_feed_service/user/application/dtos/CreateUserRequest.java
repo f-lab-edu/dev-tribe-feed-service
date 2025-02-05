@@ -1,7 +1,6 @@
 package com.devtribe.devtribe_feed_service.user.application.dtos;
 
 import com.devtribe.devtribe_feed_service.user.domain.User;
-import com.devtribe.devtribe_feed_service.user.domain.UserInfo;
 
 public record CreateUserRequest(String email, String password, String nickname,
                                 String biography, String companyName, String jobTitle,
@@ -12,16 +11,12 @@ public record CreateUserRequest(String email, String password, String nickname,
             .email(email)
             .password(password)
             .nickname(nickname)
-            .userInfo(
-                UserInfo.builder()
-                    .biography(biography)
-                    .companyName(companyName)
-                    .jobTitle(jobTitle)
-                    .githubUrl(githubUrl)
-                    .linkedinUrl(linkedinUrl)
-                    .blogUrl(blogUrl)
-                    .build()
-            )
+            .biography(biography)
+            .companyName(companyName)
+            .jobTitle(jobTitle)
+            .githubUrl(githubUrl)
+            .linkedinUrl(linkedinUrl)
+            .blogUrl(blogUrl)
             .build();
     }
 }
