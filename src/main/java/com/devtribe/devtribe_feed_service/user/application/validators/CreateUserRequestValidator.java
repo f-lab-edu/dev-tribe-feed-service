@@ -1,5 +1,8 @@
 package com.devtribe.devtribe_feed_service.user.application.validators;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CreateUserRequestValidator {
 
     public static final Integer MAX_BIOGRAPHY_LENGTH = 100;
