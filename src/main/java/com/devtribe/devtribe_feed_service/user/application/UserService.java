@@ -6,7 +6,9 @@ import com.devtribe.devtribe_feed_service.user.application.validators.CreateUser
 import com.devtribe.devtribe_feed_service.user.application.validators.EmailValidator;
 import com.devtribe.devtribe_feed_service.user.application.validators.PasswordValidator;
 import com.devtribe.devtribe_feed_service.user.domain.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
 
     private final UserRepository userRepository;
