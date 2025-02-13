@@ -1,19 +1,26 @@
 package com.devtribe.devtribe_feed_service.user.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
+    @Id
     private String id;
-    private final String email;
-    private final String nickname;
-    private final String password;
-    private final String biography;
-    private final String companyName;
-    private final String jobTitle;
-    private final String githubUrl;
-    private final String linkedinUrl;
-    private final String blogUrl;
+    private String email;
+    private String nickname;
+    private String password;
+    private String biography;
+    private String companyName;
+    private String jobTitle;
+    private String githubUrl;
+    private String linkedinUrl;
+    private String blogUrl;
 
     @Builder
     public User(String email, String nickname, String password, String biography,
