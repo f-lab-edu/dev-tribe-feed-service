@@ -5,4 +5,8 @@ import com.devtribe.devtribe_feed_service.user.domain.User;
 public interface UserRepository {
 
     User save(User user);
+
+    boolean isEmailRegistered(String email);
+
+    boolean isNicknameUsed(String nickname);
 }
