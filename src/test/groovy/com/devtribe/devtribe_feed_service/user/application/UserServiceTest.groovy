@@ -21,17 +21,21 @@ class UserServiceTest extends Specification {
     def "유효한 유저 생성 요청이 주어지면 회원가입이 성공한다."() {
         given:
         def request = Mock(CreateUserRequest)
+        def expectedUser = request.toUser()
 
         when:
-        userService.createUser(request)
+        def user = userService.createUser(request)
 
         then:
+        user == expectedUser
+
+        and:
         1 * createUserRequestValidator.validateBiography(request.biography())
         1 * emailValidator.validateEmail(request.email())
         1 * passwordValidator.validatePassword(request.password())
         1 * userRepository.isEmailRegistered(request.email())
         1 * userRepository.isNicknameUsed(request.nickname())
-        1 * userRepository.save(request.toUser())
+        1 * userRepository.save(_) >> expectedUser
     }
 
     def "유효하지 않은 이메일로 유저 생성 요청할 경우 회원가입에 실패한다."() {
