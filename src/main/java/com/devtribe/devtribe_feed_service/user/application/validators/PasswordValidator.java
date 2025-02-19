@@ -1,5 +1,6 @@
 package com.devtribe.devtribe_feed_service.user.application.validators;
 
+import com.google.common.base.Preconditions;
 import java.util.regex.Pattern;
 
 public class PasswordValidator {
@@ -14,17 +15,13 @@ public class PasswordValidator {
             + "[A-Za-z\\d@$!%*?&]+$";
 
     public void validatePassword(String password) {
-        if (password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("비밀번호는 빈 값일 수 없습니다.");
-        }
-
-        if (password.length() < PASSWORD_MIN_LENGTH || password.length() > PASSWORD_MAX_LENGTH) {
-            throw new IllegalArgumentException("비밀번호의 길이가 유효하지 않습니다.");
-        }
-
-        if (!Pattern.matches(PASSWORD_REGEX, password)) {
-            throw new IllegalArgumentException("비밀번호는 대문자, 소문자, 숫자 및 특수문자를 모두 포함해야 합니다.");
-        }
+        Preconditions.checkArgument(password != null, "비밀번호는 필수 값입니다.");
+        Preconditions.checkArgument(!password.isEmpty(), "비밀번호는 비어있을 수 없습니다.");
+        Preconditions.checkArgument(password.length() >= PASSWORD_MIN_LENGTH,
+            "비밀번호의 길이가 유효하지 않습니다.");
+        Preconditions.checkArgument(password.length() <= PASSWORD_MAX_LENGTH,
+            "비밀번호의 길이가 유효하지 않습니다.");
+        Preconditions.checkArgument(Pattern.matches(PASSWORD_REGEX, password),
+            "비밀번호는 대문자, 소문자, 숫자 및 특수문자를 모두 포함해야 합니다.");
     }
-
 }
