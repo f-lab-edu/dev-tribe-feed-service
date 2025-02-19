@@ -1,7 +1,9 @@
 package com.devtribe.devtribe_feed_service.user.application.validators;
 
 import java.util.regex.Pattern;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EmailValidator {
 
     public static final Integer EMAIL_MAX_LENGTH = 320;
