@@ -1,43 +1,46 @@
 plugins {
-    id 'java'
-    id 'groovy'
-    id 'org.springframework.boot' version '3.4.2'
-    id 'io.spring.dependency-management' version '1.1.7'
+	id 'java'
+	id 'groovy'
+	id 'org.springframework.boot' version '3.4.2'
+	id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.devtribe'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
 }
 
 configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation "com.google.guava:guava:33.4.0-jre"
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation("org.assertj:assertj-core:3.26.3")
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation("org.assertj:assertj-core:3.26.3")
 
-    testImplementation 'org.spockframework:spock-core:2.4-M4-groovy-4.0'
-    testImplementation 'org.spockframework:spock-spring:2.4-M4-groovy-4.0'
+	testImplementation 'org.spockframework:spock-core:2.4-M4-groovy-4.0'
+	testImplementation 'org.spockframework:spock-spring:2.4-M4-groovy-4.0'
+
+    implementation "com.google.guava:guava:33.4.0-jre"
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+	useJUnitPlatform()
 }
