@@ -2,10 +2,13 @@ package com.devtribe.devtribe_feed_service.post.domain.comment;
 
 import com.devtribe.devtribe_feed_service.post.domain.Post;
 import com.devtribe.devtribe_feed_service.user.domain.User;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
 
     private Long id;

@@ -1,10 +1,13 @@
 package com.devtribe.devtribe_feed_service.post.domain;
 
 import com.devtribe.devtribe_feed_service.user.domain.User;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post {
 
     private Long id;
