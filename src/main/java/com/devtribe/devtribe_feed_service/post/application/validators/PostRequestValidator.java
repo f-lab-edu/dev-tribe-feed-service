@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreatePostRequestValidator {
+public class PostRequestValidator {
 
     public static final Integer MAX_TITLE_LENGTH = 250;
     public static final Integer MAX_BODY_LENGTH = 1000;
