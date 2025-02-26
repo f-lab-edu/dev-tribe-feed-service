@@ -26,6 +26,11 @@ public class UserService {
         this.createUserRequestValidator = createUserRequestValidator;
     }
 
+    public User getUser(Long userId) {
+        // TODO: userId를 갖는 User를 반환.
+        return null;
+    }
+
     @Transactional
     public User createUser(CreateUserRequest request) {
         validateCreateUserRequest(request);
