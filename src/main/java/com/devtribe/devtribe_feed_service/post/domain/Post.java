@@ -67,5 +67,21 @@ public class Post {
         this.upvoteCount = 0;
         this.downvoteCount = 0;
     }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void changeThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public void changePublication(Publication publication) {
+        this.publication = publication;
+    }
 }
 
