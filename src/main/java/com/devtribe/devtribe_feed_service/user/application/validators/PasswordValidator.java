@@ -2,7 +2,9 @@ package com.devtribe.devtribe_feed_service.user.application.validators;
 
 import com.google.common.base.Preconditions;
 import java.util.regex.Pattern;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PasswordValidator {
 
     public static final Integer PASSWORD_MIN_LENGTH = 8;
