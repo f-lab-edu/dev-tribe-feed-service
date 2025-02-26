@@ -24,10 +24,13 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == exceptedMessage
 
         where:
-        email << [null, ""]
+        email || exceptedMessage
+        null  || "이메일은 필수값입니다."
+        ""    || "이메일은 빈 값일 수 없습니다."
     }
 
     def "@가 포함되지 않은 이메일이 주어졌을 때 이메일 생성시 예외가 발생해야한다."() {
@@ -38,7 +41,8 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "유효하지 않은 이메일 형식입니다."
     }
 
     def "@가 한 개 이상 포함된 이메일이 주어졌을 때 이메일 생성시 예외가 발생해야한다."() {
@@ -49,7 +53,8 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "유효하지 않은 이메일 형식입니다."
     }
 
     def "로컬 파트 최대 길이가 넘는 이메일이 주어졌을 때 이메일 생성시 예외가 발생해야한다."() {
@@ -60,7 +65,8 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "유효하지 않은 이메일 형식입니다."
     }
 
     def "도메인 파트 최대 길이가 넘는 이메일이 주어졌을 때 이메일 생성시 예외가 발생해야한다."() {
@@ -71,7 +77,8 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "유효하지 않은 이메일 형식입니다."
     }
 
     def "로컬 파트가 빈 문자열인 이메일이 주어졌을 때 이메일 생성시 예외가 발생해야한다."() {
@@ -82,7 +89,8 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "유효하지 않은 이메일 형식입니다."
     }
 
     def "도메인파트가 빈 문자열인 이메일이 주어졌을 때 이메일 생성시 예외가 발생해야한다."() {
@@ -93,7 +101,8 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "유효하지 않은 이메일 형식입니다."
     }
 
     def "로컬 파트와 도메인 파트 모두 빈 문자열인 이메일이 주어졌을 때 이메일 생성시 예외가 발생해야한다."() {
@@ -104,7 +113,8 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "유효하지 않은 이메일 형식입니다."
     }
 
     def "로컬 파트에 허용되지 않은 특수 문자 포함한 이메일이 주어졌을 때 이메일 생성시 예외가 발생해야한다."() {
@@ -112,7 +122,8 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "유효하지 않은 이메일 형식입니다."
 
         where:
         email << ["user,name@example.com", "(username)@example.com", "user:name@example.com",
@@ -125,7 +136,8 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "유효하지 않은 이메일 형식입니다."
 
         where:
         email << ["username@exam_ple.com", "user@example\$name.com", "user@example!name.com",
@@ -137,13 +149,14 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "유효하지 않은 이메일 형식입니다."
 
         where:
         email << ["username@-example", "username@example-"]
     }
 
-    def "도메인 파트에 연속된 점이 포함된 이메일이 주어졌을 때 이메일 생성시 예외가 발생해야한다."(){
+    def "도메인 파트에 연속된 점이 포함된 이메일이 주어졌을 때 이메일 생성시 예외가 발생해야한다."() {
         given:
         String email = "username@example..com"
 
@@ -151,6 +164,7 @@ class EmailValidatorTest extends Specification {
         validator.validateEmail(email)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "유효하지 않은 이메일 형식입니다."
     }
 }

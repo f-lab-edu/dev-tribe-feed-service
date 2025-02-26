@@ -2,11 +2,10 @@ package com.devtribe.devtribe_feed_service.user.application.validators
 
 import spock.lang.Specification
 
-import static com.devtribe.devtribe_feed_service.user.application.validators.CreateUserRequestValidator.MAX_BIOGRAPHY_LENGTH
-
 class CreateUserRequestValidatorTest extends Specification {
 
     def validator = new CreateUserRequestValidator()
+    static def MAX_BIOGRAPHY_LENGTH = CreateUserRequestValidator.MAX_BIOGRAPHY_LENGTH
 
     def "자기소개는 Null이거나 Empty여도 유저 정보 생성에 성공해야한다."(){
         when:
@@ -27,6 +26,7 @@ class CreateUserRequestValidatorTest extends Specification {
         validator.validateBiography(biography)
 
         then:
-        thrown(IllegalArgumentException)
+        def e = thrown(IllegalArgumentException)
+        e.getMessage() == "자기소개는 " + MAX_BIOGRAPHY_LENGTH + "자를 초과할 수 없습니다."
     }
 }
