@@ -36,9 +36,15 @@ public class PostService {
     public Post createPost(CreatePostRequest request) {
         postRequestValidator.validateTitle(request.title());
         postRequestValidator.validateBody(request.content());
-        validateContentSource(request.contentSource());
+        postRequestValidator.validateContentSource(request.contentSource());
 
         User findUser = userService.getUser(request.authorId());
+        // TODO 추가: ContentType별 Source 존재 여부 검증 로직
+        //  - ContentId와 ContentType에 따른 Source 검증 로직
+        //  - 향후 구현 예정:
+        //   - ContentType별 전용 서비스 구현 (예: ChannelService, TribeService)
+        //   - existById 메소드를 통한 존재 여부 확인
+        //  - 커뮤니티, 채널 도메인 추가 후 구현 예정
 
         return postRepository.save(request.toEntity(findUser));
     }
@@ -67,14 +73,4 @@ public class PostService {
         Preconditions.checkArgument(findPost.getAuthor().equals(findAuthor), "게시물 작성자가 아닙니다.");
     }
 
-    private void validateContentSource(ContentSource contentSource) {
-        Preconditions.checkArgument(contentSource != null, "컨텐츠 소스는 필수값입니다.");
-        Preconditions.checkArgument(contentSource.getContentId() != null, "컨텐츠 식별자는 필수값입니다.");
-        Preconditions.checkArgument(contentSource.getContentType() != null, "컨텐츠 타입은 필수값입니다.");
-
-        // TODO: ContentId를 가지는 ContentType에 해당하는 Source들이 존재하는지 검증 필요.
-        //  ContentType에 맞는 서비스 필요. 커뮤니티, 채널 도메인 추가 후 작업 예정.
-        //  ex) ChannelService.existById(contentId)
-        //  ex) TribeService.existById(contentId)
-    }
 }

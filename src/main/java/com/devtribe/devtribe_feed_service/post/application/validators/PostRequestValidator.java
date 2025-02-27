@@ -1,5 +1,6 @@
 package com.devtribe.devtribe_feed_service.post.application.validators;
 
+import com.devtribe.devtribe_feed_service.post.domain.ContentSource;
 import com.google.common.base.Preconditions;
 import org.springframework.stereotype.Component;
 
@@ -23,5 +24,11 @@ public class PostRequestValidator {
 
         Preconditions.checkArgument(content.length() <= MAX_BODY_LENGTH,
             "본문은 " + MAX_BODY_LENGTH + "자를 초과할 수 없습니다.");
+    }
+
+    public void validateContentSource(ContentSource contentSource) {
+        Preconditions.checkArgument(contentSource != null, "컨텐츠 소스는 필수값입니다.");
+        Preconditions.checkArgument(contentSource.getContentId() != null, "컨텐츠 식별자는 필수값입니다.");
+        Preconditions.checkArgument(contentSource.getContentType() != null, "컨텐츠 타입은 필수값입니다.");
     }
 }
