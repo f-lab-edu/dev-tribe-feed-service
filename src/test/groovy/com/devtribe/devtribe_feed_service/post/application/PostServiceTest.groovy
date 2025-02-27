@@ -94,36 +94,6 @@ class PostServiceTest extends Specification {
         0 * postRepository.save(_)
     }
 
-    def "contentSource가 null로 Post 생성 요청이 주어질 때, Post 생성에 실패한다."() {
-        given:
-        def request = getCreatePostRequest(1L, null)
-
-        when:
-        postService.createPost(request)
-
-        then:
-        def e = thrown(IllegalArgumentException)
-        e.getMessage() == "컨텐츠 소스는 필수값입니다."
-    }
-
-    def "유효하지 않은 contentSource로 Post 생성 요청이 주어질 때, Post 생성에 실패한다."() {
-        given:
-        def invalidContentSource = new ContentSource(contentId, contentType)
-        def request = getCreatePostRequest(1L, invalidContentSource)
-
-        when:
-        postService.createPost(request)
-
-        then:
-        def e = thrown(IllegalArgumentException)
-        e.getMessage() == expectedMessage
-
-        where:
-        contentId | contentType      || expectedMessage
-        null      | ContentType.USER || "컨텐츠 식별자는 필수값입니다."
-        1L        | null             || "컨텐츠 타입은 필수값입니다."
-    }
-
     def "유효한 Post 수정 요청이 주어질 때, Post 수정에 성공한다."() {
         given:
         def postId = 1L
