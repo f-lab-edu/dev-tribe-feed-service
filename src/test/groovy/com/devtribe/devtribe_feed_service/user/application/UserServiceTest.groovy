@@ -24,10 +24,11 @@ class UserServiceTest extends Specification {
         def expectedUser = request.toEntity()
 
         when:
-        def user = userService.createUser(request)
+        def createUserResponse = userService.createUser(request)
 
         then:
-        user == expectedUser
+        createUserResponse.userId() == expectedUser.getId()
+        createUserResponse.nickname() == expectedUser.getNickname()
 
         and:
         1 * createUserRequestValidator.validateBiography(request.biography())
