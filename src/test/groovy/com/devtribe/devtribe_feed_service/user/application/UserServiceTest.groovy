@@ -21,7 +21,7 @@ class UserServiceTest extends Specification {
     def "유효한 유저 생성 요청이 주어질때 유저 생성에 성공한다."() {
         given:
         def request = CreateUserRequestFixtures.validRequest()
-        def expectedUser = request.toUser()
+        def expectedUser = request.toEntity()
 
         when:
         def user = userService.createUser(request)
