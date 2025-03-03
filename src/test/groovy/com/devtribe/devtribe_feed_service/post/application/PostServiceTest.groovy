@@ -1,17 +1,13 @@
 package com.devtribe.devtribe_feed_service.post.application
 
-
 import com.devtribe.devtribe_feed_service.post.application.interfaces.PostRepository
 import com.devtribe.devtribe_feed_service.post.application.validators.PostRequestValidator
-import com.devtribe.devtribe_feed_service.post.domain.ContentSource
-import com.devtribe.devtribe_feed_service.post.domain.ContentType
 import com.devtribe.devtribe_feed_service.post.domain.Post
 import com.devtribe.devtribe_feed_service.post.domain.Publication
 import com.devtribe.devtribe_feed_service.user.application.UserService
 import spock.lang.Specification
 import spock.lang.Subject
 
-import static com.devtribe.devtribe_feed_service.test.fixtures.ContentSourceFixture.getUserContentSource
 import static com.devtribe.devtribe_feed_service.test.fixtures.CreatePostRequestFixture.getCreatePostRequest
 import static com.devtribe.devtribe_feed_service.test.fixtures.PostFixture.getPost
 import static com.devtribe.devtribe_feed_service.test.fixtures.PostFixture.getUpdatedPost
@@ -55,9 +51,8 @@ class PostServiceTest extends Specification {
 
     def "유효한 Post 생성 요청이 주어질 때, Post 생성에 성공한다."() {
         given:
-        def contentSource = getUserContentSource(1L)
         def author = getUser(1L)
-        def request = getCreatePostRequest(1L, contentSource)
+        def request = getCreatePostRequest(1L)
 
         def expectedPost = request.toEntity(author)
         postRepository.save(_ as Post) >> { args -> args[0] }
@@ -72,14 +67,12 @@ class PostServiceTest extends Specification {
         actualPost.getTitle() == expectedPost.getTitle()
         actualPost.getContent() == expectedPost.getContent()
         actualPost.getAuthor() == author
-        actualPost.getContentSource() == contentSource
     }
 
     def "존재하지 않은 작성자로 Post 생성 요청이 주어질 때, Post 생성에 실패한다."() {
         given:
         def notExistUserId = 999L
-        def contentSource = getUserContentSource(1L)
-        def request = getCreatePostRequest(notExistUserId, contentSource)
+        def request = getCreatePostRequest(notExistUserId)
 
         userService.getUser(request.authorId()) >> { throw new IllegalArgumentException("존재하지 않는 유저입니다.") }
 
@@ -99,10 +92,9 @@ class PostServiceTest extends Specification {
         def postId = 1L
         def userId = 1L
         def author = getUser(userId)
-        def contentSource = getUserContentSource(userId)
         def updatePostRequest = getUpdatePostRequest(userId, Publication.PRIVATE)
-        def originPost = getPost(postId, author, contentSource)
-        def expected = getUpdatedPost(postId, author, contentSource)
+        def originPost = getPost(postId, author)
+        def expected = getUpdatedPost(postId, author)
 
         and:
         postRepository.findById(postId) >> Optional.of(originPost)
@@ -130,7 +122,7 @@ class PostServiceTest extends Specification {
 
         def authorId = 1L
         def author = getUser(authorId)
-        def originPost = getPost(postId, author, getUserContentSource(authorId))
+        def originPost = getPost(postId, author)
 
         and:
         postRepository.findById(postId) >> Optional.of(originPost)
