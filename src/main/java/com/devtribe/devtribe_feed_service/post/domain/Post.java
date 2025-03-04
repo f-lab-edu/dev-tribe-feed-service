@@ -1,5 +1,6 @@
 package com.devtribe.devtribe_feed_service.post.domain;
 
+import com.devtribe.devtribe_feed_service.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -82,6 +83,14 @@ public class Post {
 
     public void changePublication(Publication publication) {
         this.publication = publication;
+    }
+
+    public boolean isWrittenBy(User findAuthor) {
+        if (this.userId == null || findAuthor == null) {
+            return false;
+        }
+
+        return this.userId.equals(findAuthor.getId());
     }
 }
 

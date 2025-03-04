@@ -61,7 +61,7 @@ public class PostService {
     }
 
     private void validateAuthor(Post findPost, User findAuthor) {
-        Preconditions.checkArgument(findPost.getAuthor().equals(findAuthor), "게시물 작성자가 아닙니다.");
+        Preconditions.checkArgument(findPost.isWrittenBy(findAuthor), "게시물 작성자가 아닙니다.");
     }
 
 }
