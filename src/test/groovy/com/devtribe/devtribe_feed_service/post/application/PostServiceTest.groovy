@@ -146,7 +146,7 @@ class PostServiceTest extends Specification {
         postService.deletePost(postId)
 
         then:
-        1 * postRepository.delete(post)
+        post.isDeleted
     }
 
     def "존재하지 않는 postId가 주어질때, postId를 가진 Post 삭제에 실패한다."() {
@@ -160,8 +160,5 @@ class PostServiceTest extends Specification {
         then:
         def e = thrown(IllegalArgumentException)
         e.getMessage() == "존재하지 않는 게시물입니다."
-
-        and:
-        0 * postRepository.delete(_)
     }
 }
