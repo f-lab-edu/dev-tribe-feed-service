@@ -26,6 +26,7 @@ public class PostService {
         this.userService = userService;
     }
 
+    @Transactional(readOnly = true)
     public Post getPost(Long postId) {
         return postRepository.findById(postId)
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
@@ -53,8 +54,10 @@ public class PostService {
         return findPost;
     }
 
+    @Transactional
     public void deletePost(Long postId) {
-        postRepository.delete(getPost(postId));
+        Post findPost = getPost(postId);
+        findPost.deletePost();
     }
 
     private void validateAuthor(Post findPost, User findAuthor) {

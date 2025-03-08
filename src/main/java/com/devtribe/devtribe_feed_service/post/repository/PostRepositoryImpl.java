@@ -24,9 +24,4 @@ public class PostRepositoryImpl implements PostRepository {
     public Optional<Post> findById(Long postId) {
         return postRepository.findById(postId);
     }
-
-    @Override
-    public void delete(Post post) {
-        postRepository.delete(post);
-    }
 }

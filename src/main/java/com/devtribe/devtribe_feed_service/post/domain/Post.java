@@ -50,6 +50,9 @@ public class Post {
     @Column(name = "downvote_count", nullable = false)
     private Integer downvoteCount;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -75,6 +78,10 @@ public class Post {
         this.content = request.content();
         this.thumbnail = request.thumbnail();
         this.publication = request.publication();
+    }
+
+    public void deletePost() {
+        this.isDeleted = true;
     }
 
     public boolean isWrittenBy(User findAuthor) {
