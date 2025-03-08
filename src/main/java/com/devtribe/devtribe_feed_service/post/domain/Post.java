@@ -1,5 +1,6 @@
 package com.devtribe.devtribe_feed_service.post.domain;
 
+import com.devtribe.devtribe_feed_service.post.application.dtos.UpdatePostRequest;
 import com.devtribe.devtribe_feed_service.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -69,20 +70,11 @@ public class Post {
         this.downvoteCount = 0;
     }
 
-    public void updateTitle(String title) {
-        this.title = title;
-    }
-
-    public void updateContent(String content) {
-        this.content = content;
-    }
-
-    public void changeThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public void changePublication(Publication publication) {
-        this.publication = publication;
+    public void updatePostDetail(UpdatePostRequest request) {
+        this.title = request.title();
+        this.content = request.content();
+        this.thumbnail = request.thumbnail();
+        this.publication = request.publication();
     }
 
     public boolean isWrittenBy(User findAuthor) {

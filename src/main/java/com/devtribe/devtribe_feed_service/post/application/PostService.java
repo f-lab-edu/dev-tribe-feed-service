@@ -49,11 +49,8 @@ public class PostService {
         User requestAuthor = userService.getUser(request.authorId());
         validateAuthor(findPost, requestAuthor);
 
-        findPost.updateTitle(request.title());
-        findPost.updateContent(request.content());
-        findPost.changeThumbnail(request.thumbnail());
-        findPost.changePublication(request.publication());
-        return postRepository.save(findPost);
+        findPost.updatePostDetail(request);
+        return findPost;
     }
 
     public void deletePost(Long postId) {
