@@ -1,7 +1,9 @@
 package com.devtribe.devtribe_feed_service.post.application;
 
 import com.devtribe.devtribe_feed_service.post.application.dtos.CreatePostRequest;
+import com.devtribe.devtribe_feed_service.post.application.dtos.CreatePostResponse;
 import com.devtribe.devtribe_feed_service.post.application.dtos.UpdatePostRequest;
+import com.devtribe.devtribe_feed_service.post.application.dtos.UpdatePostResponse;
 import com.devtribe.devtribe_feed_service.post.application.interfaces.PostRepository;
 import com.devtribe.devtribe_feed_service.post.application.validators.PostRequestValidator;
 import com.devtribe.devtribe_feed_service.post.domain.Post;
@@ -33,16 +35,17 @@ public class PostService {
     }
 
     @Transactional
-    public Post createPost(CreatePostRequest request) {
+    public CreatePostResponse createPost(CreatePostRequest request) {
         postRequestValidator.validateTitle(request.title());
         postRequestValidator.validateBody(request.content());
 
         User findUser = userService.getUser(request.authorId());
-        return postRepository.save(request.toEntity(findUser));
+        Post savedPost = postRepository.save(request.toEntity(findUser));
+        return new CreatePostResponse(savedPost.getId());
     }
 
     @Transactional
-    public Post updatePost(Long postId, UpdatePostRequest request) {
+    public UpdatePostResponse updatePost(Long postId, UpdatePostRequest request) {
         postRequestValidator.validateTitle(request.title());
         postRequestValidator.validateBody(request.content());
 
@@ -51,7 +54,7 @@ public class PostService {
         validateAuthor(findPost, requestAuthor);
 
         findPost.updatePostDetail(request);
-        return findPost;
+        return UpdatePostResponse.from(findPost);
     }
 
     @Transactional
