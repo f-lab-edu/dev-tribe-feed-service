@@ -24,6 +24,11 @@ repositories {
 	mavenCentral()
 }
 
+// gradle build 스크립트에서 사용하는 추가 속성 정의
+ext {
+    set('queryDslVersion', "5.0.0")
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -39,6 +44,13 @@ dependencies {
 	testImplementation 'org.spockframework:spock-spring:2.4-M4-groovy-4.0'
 
     implementation "com.google.guava:guava:33.4.0-jre"
+
+    // Querydsl
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
 }
 
 tasks.named('test') {
