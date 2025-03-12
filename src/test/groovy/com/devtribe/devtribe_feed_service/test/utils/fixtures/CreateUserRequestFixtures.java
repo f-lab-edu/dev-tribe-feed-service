@@ -1,4 +1,4 @@
-package com.devtribe.devtribe_feed_service.user.application.test.fixtures;
+package com.devtribe.devtribe_feed_service.test.utils.fixtures;
 
 import com.devtribe.devtribe_feed_service.user.application.dtos.CreateUserRequest;
 

@@ -1,7 +1,7 @@
 package com.devtribe.devtribe_feed_service.user.application
 
+import com.devtribe.devtribe_feed_service.test.utils.fixtures.CreateUserRequestFixtures
 import com.devtribe.devtribe_feed_service.user.application.interfaces.UserRepository
-import com.devtribe.devtribe_feed_service.user.application.test.fixtures.CreateUserRequestFixtures
 import com.devtribe.devtribe_feed_service.user.application.validators.CreateUserRequestValidator
 import com.devtribe.devtribe_feed_service.user.application.validators.EmailValidator
 import com.devtribe.devtribe_feed_service.user.application.validators.PasswordValidator
