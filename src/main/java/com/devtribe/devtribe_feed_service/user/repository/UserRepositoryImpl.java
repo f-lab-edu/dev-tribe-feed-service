@@ -3,6 +3,7 @@ package com.devtribe.devtribe_feed_service.user.repository;
 import com.devtribe.devtribe_feed_service.user.application.interfaces.UserRepository;
 import com.devtribe.devtribe_feed_service.user.domain.User;
 import com.devtribe.devtribe_feed_service.user.repository.jpa.JpaUserRepository;
+import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -27,5 +28,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean isNicknameUsed(String nickname) {
         return jpaUserRepository.existsByNickname(nickname);
+    }
+
+    @Override
+    public Optional<User> findById(long id) {
+        return jpaUserRepository.findById(id);
     }
 }
