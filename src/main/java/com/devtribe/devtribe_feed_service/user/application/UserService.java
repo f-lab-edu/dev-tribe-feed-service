@@ -1,6 +1,7 @@
 package com.devtribe.devtribe_feed_service.user.application;
 
 import com.devtribe.devtribe_feed_service.user.application.dtos.CreateUserRequest;
+import com.devtribe.devtribe_feed_service.user.application.dtos.CreateUserResponse;
 import com.devtribe.devtribe_feed_service.user.application.interfaces.UserRepository;
 import com.devtribe.devtribe_feed_service.user.application.validators.CreateUserRequestValidator;
 import com.devtribe.devtribe_feed_service.user.application.validators.EmailValidator;
@@ -27,13 +28,13 @@ public class UserService {
     }
 
     @Transactional
-    public User createUser(CreateUserRequest request) {
+    public CreateUserResponse createUser(CreateUserRequest request) {
         validateCreateUserRequest(request);
         checkEmailAlreadyRegistered(request);
         checkNicknameAlreadyUsed(request);
 
-        User user = request.toEntity();
-        return userRepository.save(user);
+        User savedUser = userRepository.save(request.toEntity());
+        return new CreateUserResponse(savedUser);
     }
 
     private void checkEmailAlreadyRegistered(CreateUserRequest request) {
