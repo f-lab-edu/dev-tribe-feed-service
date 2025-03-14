@@ -81,6 +81,9 @@ class UserServiceTest extends Specification {
         then:
         def e = thrown(IllegalArgumentException)
         e.getMessage() == message
+
+        where:
+        message << ["자기소개는 " + CreateUserRequestValidator.MAX_BIOGRAPHY_LENGTH + "자를 초과할 수 없습니다."]
     }
 
     def "이미 존재하는 이메일로 유저 생성 요청할 경우 유저 생성에 실패한다."() {
