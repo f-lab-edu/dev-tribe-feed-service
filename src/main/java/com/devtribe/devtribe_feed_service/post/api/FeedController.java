@@ -20,11 +20,10 @@ public class FeedController {
     }
 
     @GetMapping
-    public ResponseEntity<GetFeedResponse> getFeedListBySortOption(
+    public GetFeedResponse getFeedListBySortOption(
         @RequestParam(required = false) CursorPagination cursorPagination,
         @RequestParam(required = false) String sort
     ) {
-        GetFeedResponse response = feedService.getFeedListBySortOption(cursorPagination, sort);
-        return ResponseEntity.ok(response);
+        return feedService.getFeedListBySortOption(cursorPagination, sort);
     }
 }
