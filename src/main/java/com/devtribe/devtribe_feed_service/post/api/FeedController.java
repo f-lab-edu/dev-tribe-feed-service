@@ -22,9 +22,10 @@ public class FeedController {
 
     @GetMapping
     public PageResponse<PostResponse> getFeedListBySortOption(
-        @RequestParam(required = false) CursorPagination cursorPagination,
+        @RequestParam(value = "cursorId", required = false) Long cursorId,
+        @RequestParam(value = "size", required = false) Integer pageSize,
         @RequestParam(defaultValue = "BY_NEWEST") FeedSortOption sort
     ) {
-        return feedService.getFeedListBySortOption(cursorPagination, sort);
+        return feedService.getFeedListBySortOption(new CursorPagination(cursorId, pageSize), sort);
     }
 }
