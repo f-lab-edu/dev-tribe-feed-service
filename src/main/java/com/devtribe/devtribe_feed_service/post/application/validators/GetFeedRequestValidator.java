@@ -10,16 +10,15 @@ import org.springframework.stereotype.Component;
 public class GetFeedRequestValidator {
 
     public void validateCursorPagination(CursorPagination cursorPagination) {
-        if (cursorPagination == null) {
-            return;
-        }
-
-        Preconditions.checkArgument(!cursorPagination.isPageSizeInRange(), "유효하지 않은 요청 값입니다.");
+        Preconditions.checkArgument(cursorPagination != null, "유효하지 않은 요청 값입니다.");
+        Preconditions.checkArgument(cursorPagination.pageSize() != null, "페이지 수는 null일 수 없습니다.");
+        Preconditions.checkArgument(cursorPagination.isPageSizeInRange(), "요청한 페이지 수의 범위가 올바르지 않습니다.");
     }
 
-    public void validateSortOption(String sort) {
+    public void validateSortOption(FeedSortOption sort) {
+        Preconditions.checkArgument(sort != null, "유효하지 않은 요청 값입니다.");
         Arrays.stream(FeedSortOption.values())
-            .filter(feedSortOption -> feedSortOption.valueEquals(sort))
+            .filter(feedSortOption -> feedSortOption.equals(sort))
             .findAny().orElseThrow(() -> new IllegalArgumentException("올바른 정렬 값이 아닙니다."));
     }
 }

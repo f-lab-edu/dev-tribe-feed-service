@@ -1,9 +1,7 @@
 package com.devtribe.devtribe_feed_service.post.application;
 
-import com.devtribe.devtribe_feed_service.global.common.CursorMetadata;
 import com.devtribe.devtribe_feed_service.global.common.CursorPagination;
 import com.devtribe.devtribe_feed_service.global.common.PageResponse;
-import com.devtribe.devtribe_feed_service.post.application.dtos.GetFeedResponse;
 import com.devtribe.devtribe_feed_service.post.application.dtos.PostResponse;
 import com.devtribe.devtribe_feed_service.post.application.interfaces.FeedRepository;
 import com.devtribe.devtribe_feed_service.post.application.validators.GetFeedRequestValidator;
@@ -25,7 +23,7 @@ public class FeedService {
     }
 
     @Transactional(readOnly = true)
-    public GetFeedResponse getFeedListBySortOption(CursorPagination cursorPagination, String sort) {
+    public PageResponse<PostResponse> getFeedListBySortOption(CursorPagination cursorPagination, String sort) {
         getFeedRequestValidator.validateCursorPagination(cursorPagination);
         getFeedRequestValidator.validateSortOption(sort);
 
@@ -38,21 +36,15 @@ public class FeedService {
             FeedSortOption.fromValue(sort)
         );
 
-        return new GetFeedResponse(
+        return new PageResponse<>(
             convertToPostResponses(postPageResponse.data()),
-            createCursorMetadata(postPageResponse)
+            postPageResponse.nextCursor(),
+            postPageResponse.totalCount(),
+            postPageResponse.hasNextPage()
         );
     }
 
     private List<PostResponse> convertToPostResponses(List<Post> posts) {
         return posts.stream().map(PostResponse::from).toList();
-    }
-
-    private CursorMetadata createCursorMetadata(PageResponse<Post> postPageResponse) {
-        return new CursorMetadata(
-            postPageResponse.nextCursor(),
-            postPageResponse.totalCount(),
-            postPageResponse.hasNextPage()
-        );
     }
 }
