@@ -23,7 +23,7 @@ public class FeedService {
     }
 
     @Transactional(readOnly = true)
-    public PageResponse<PostResponse> getFeedListBySortOption(CursorPagination cursorPagination, String sort) {
+    public PageResponse<PostResponse> getFeedListBySortOption(CursorPagination cursorPagination, FeedSortOption sort) {
         getFeedRequestValidator.validateCursorPagination(cursorPagination);
         getFeedRequestValidator.validateSortOption(sort);
 
@@ -31,10 +31,7 @@ public class FeedService {
             cursorPagination = CursorPagination.defaultCursorPagination();
         }
 
-        PageResponse<Post> postPageResponse = feedRepository.findAllBySortOption(
-            cursorPagination,
-            FeedSortOption.fromValue(sort)
-        );
+        PageResponse<Post> postPageResponse = feedRepository.findAllBySortOption(cursorPagination, sort);
 
         return new PageResponse<>(
             convertToPostResponses(postPageResponse.data()),
