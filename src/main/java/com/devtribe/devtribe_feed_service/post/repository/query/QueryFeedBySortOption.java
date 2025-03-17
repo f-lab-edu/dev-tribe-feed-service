@@ -40,12 +40,12 @@ public class QueryFeedBySortOption {
 
     private BooleanExpression cursorCondition(CursorPagination cursorPagination,
         FeedSortOption feedSortOption) {
-        if (cursorPagination.lastFetchedId() == null) {
+        if (cursorPagination.cursorId() == null) {
             return null;
         }
 
         Post lastPost = queryFactory.selectFrom(post)
-            .where(post.id.eq(cursorPagination.lastFetchedId()))
+            .where(post.id.eq(cursorPagination.cursorId()))
             .fetchOne();
 
         if (lastPost == null) {

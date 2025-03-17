@@ -1,6 +1,9 @@
 package com.devtribe.devtribe_feed_service.global.common;
 
-public record CursorPagination(Long lastFetchedId, int pageSize) {
+public record CursorPagination(
+    Long cursorId,
+    Integer pageSize
+) {
 
     private static final int DEFAULT_PAG_SIZE = 10;
     private static final int MAX_PAG_SIZE = 30;
