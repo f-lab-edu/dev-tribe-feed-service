@@ -27,10 +27,6 @@ public class FeedService {
         getFeedRequestValidator.validateCursorPagination(cursorPagination);
         getFeedRequestValidator.validateSortOption(sort);
 
-        if (cursorPagination == null) {
-            cursorPagination = CursorPagination.defaultCursorPagination();
-        }
-
         PageResponse<Post> postPageResponse = feedRepository.findAllBySortOption(cursorPagination, sort);
 
         return new PageResponse<>(

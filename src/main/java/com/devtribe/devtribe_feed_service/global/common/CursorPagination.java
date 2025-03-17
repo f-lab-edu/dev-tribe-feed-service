@@ -9,8 +9,9 @@ public record CursorPagination(
     private static final int MAX_PAG_SIZE = 30;
     private static final int MIN_PAG_SIZE = 1;
 
-    public static CursorPagination defaultCursorPagination() {
-        return new CursorPagination(null, DEFAULT_PAG_SIZE);
+    public CursorPagination(Long cursorId, Integer pageSize) {
+        this.cursorId = cursorId;
+        this.pageSize = pageSize == null ? DEFAULT_PAG_SIZE : pageSize;
     }
 
     public boolean isPageSizeInRange() {
