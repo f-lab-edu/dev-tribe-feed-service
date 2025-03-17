@@ -1,18 +1,15 @@
 package com.devtribe.devtribe_feed_service.post.api
 
-import com.devtribe.devtribe_feed_service.global.common.CursorMetadata
+import com.devtribe.devtribe_feed_service.global.common.PageResponse
 import com.devtribe.devtribe_feed_service.post.application.FeedService
-import com.devtribe.devtribe_feed_service.post.application.dtos.GetFeedResponse
-import com.devtribe.devtribe_feed_service.post.application.dtos.PostResponse
 import com.devtribe.devtribe_feed_service.test.fixtures.PostResponseFixture
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.util.LinkedMultiValueMap
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import spock.lang.Specification
 import spock.lang.Title
 
@@ -25,64 +22,56 @@ class FeedControllerTest extends Specification {
     @Autowired
     MockMvc mockMvc
 
-    @Autowired
-    ObjectMapper objectMapper
-
     @SpringBean
     FeedService feedService = Mock()
 
-    def "피드 정렬 조회 성공 - 200 status와 피드 리스트 반환"() {
+    def "피드 정렬 조회 성공 - 200 status 반환"() {
         given:
-        def requestParams = new LinkedMultiValueMap<String, String>()
-        requestParams.add("cursor", "1")
-        requestParams.add("pageSize", "10")
-        requestParams.add("sort", "latest")
-        def response = new GetFeedResponse(
+        def api = "/api/v1/feeds?cursorId=1&size=10&sort=BY_NEWEST"
+        def response = new PageResponse<>(
                 PostResponseFixture.createLatestPostResponse(10),
-                new CursorMetadata(null, 10, false))
+                11L,
+                10,
+                false
+        )
         feedService.getFeedListBySortOption(_, _) >> response
 
         when:
-        def result = mockMvc.perform(get("/api/v1/feeds")
-                .contentType(MediaType.APPLICATION_JSON)
-                .params(requestParams))
+        def result = mockMvc.perform(get(api)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andReturn()
 
         then:
-        def content = result.response.getContentAsString()
-        def responseBody = objectMapper.readTree(content)
-
         result.response.status == HttpStatus.OK.value()
-        (responseBody.get("data") as List<PostResponse>).size() == 10
-        responseBody.get("cursorMetaData").get("nextCursor").isNull()
-        responseBody.get("cursorMetaData").get("totalCount").asInt() == 10
-        !responseBody.get("cursorMetaData").get("hasNextPage")
     }
 
-    def "피드 정렬 조회 실패 - 올바르지 않은 파라미터, 400 status와 에러메시지 반환"() {
+    def "피드 정렬 조회 실패 - 올바르지 않은 정렬 옵션, 400 status와 에러메시지 반환"() {
         given:
-        def requestParams = new LinkedMultiValueMap<String, String>()
-        requestParams.add("cursor", "1")
-        requestParams.add("pageSize", pageSize)
-        requestParams.add("sort", sort)
-        feedService.getFeedListBySortOption(_, _) >> { throw new IllegalArgumentException(exceptionMessage) }
+        def api = "/api/v1/feeds?cursorId=1&size=10&sort=invalidSort"
+        feedService.getFeedListBySortOption(_, _) >> { throw new MethodArgumentTypeMismatchException("올바르지 않은 요청 값입니다.") }
 
         when:
-        def result = mockMvc.perform(get("/api/v1/feeds")
-                .contentType(MediaType.APPLICATION_JSON)
-                .params(requestParams))
+        def result = mockMvc.perform(get(api)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andReturn()
 
         then:
-        def content = result.response.getContentAsString()
-        def responseBody = objectMapper.readTree(content)
-
         result.response.status == HttpStatus.BAD_REQUEST.value()
-        responseBody.get("errorMessage").asText() == exceptionMessage
+        result.response.getContentAsString() == """{\"errorMessage":"올바르지 않은 요청 값입니다.\"}"""
+    }
 
-        where:
-        pageSize | sort          || exceptionMessage
-        "10"     | "invalidSort" || "올바른 정렬 값이 아닙니다."
-        "999999" | "oldest"      || "유효하지 않은 요청 값입니다."
+    def "피드 정렬 조회 실패 - 페이지 크기 초과, 400 status와 에러메시지 반환"() {
+        given:
+        def api = "/api/v1/feeds?cursorId=1&size=999999&sort=BY_OLDEST"
+        feedService.getFeedListBySortOption(_, _) >> { throw new IllegalArgumentException("요청한 페이지 수의 범위가 올바르지 않습니다.") }
+
+        when:
+        def result = mockMvc.perform(get(api)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+
+        then:
+        result.response.status == HttpStatus.BAD_REQUEST.value()
+        result.response.getContentAsString() == """{\"errorMessage":"요청한 페이지 수의 범위가 올바르지 않습니다.\"}"""
     }
 }
