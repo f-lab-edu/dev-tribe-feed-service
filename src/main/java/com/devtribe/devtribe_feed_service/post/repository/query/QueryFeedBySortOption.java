@@ -38,11 +38,7 @@ public class QueryFeedBySortOption {
             .limit(pageSize + 1)
             .fetch();
 
-        boolean hasMore = queryResult.size() > pageSize;
-        List<Post> data = getPostList(queryResult, pageSize, hasMore);
-        Long nextCursor = getNextCursor(queryResult, pageSize, hasMore);
-
-        return new PageResponse<>(data, nextCursor, (long) data.size(), hasMore);
+        return getPageResponse(queryResult, pageSize);
     }
 
     private Post getCursorPost(Long cursorId) {
@@ -52,6 +48,14 @@ public class QueryFeedBySortOption {
         return queryFactory.selectFrom(post)
             .where(post.id.eq(cursorId))
             .fetchOne();
+    }
+
+    private PageResponse<Post> getPageResponse(List<Post> queryResult, Integer pageSize) {
+        boolean hasMore = queryResult.size() > pageSize;
+        List<Post> data = getPostList(queryResult, pageSize, hasMore);
+        Long nextCursor = getNextCursor(queryResult, pageSize, hasMore);
+
+        return new PageResponse<>(data, nextCursor, (long) data.size(), hasMore);
     }
 
     private List<Post> getPostList(List<Post> queryResult, int pageSize, boolean hasMore) {
