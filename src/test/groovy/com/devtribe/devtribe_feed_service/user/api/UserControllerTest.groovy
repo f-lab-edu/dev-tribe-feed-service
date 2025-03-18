@@ -41,15 +41,8 @@ class UserControllerTest extends Specification {
                 .andReturn()
 
         then:
-        def responseBody = objectMapper.readTree(result.getResponse().getContentAsString())
-
         result.response.status == HttpStatus.CREATED.value()
-        responseBody.get("userId").asLong() == userId
-        responseBody.get("nickname").asText() == nickname
-
-        where:
-        userId | nickname
-        1L     | "codongmin"
+        result.response.getContentAsString() == """{"userId":1,"nickname":"codongmin"}"""
     }
 
     def "유저 회원가입 실패 - 400 status 반환"() {
@@ -64,10 +57,8 @@ class UserControllerTest extends Specification {
                 .andReturn()
 
         then:
-        def responseBody = objectMapper.readTree(result.getResponse().getContentAsString())
-
         result.response.status == HttpStatus.BAD_REQUEST.value()
-        responseBody.get("errorMessage").asText() == exceptionMessage
+        result.response.getContentAsString() == """{"errorMessage":"$exceptionMessage"}"""
 
         where:
         email                     | nickname           | exceptionMessage
