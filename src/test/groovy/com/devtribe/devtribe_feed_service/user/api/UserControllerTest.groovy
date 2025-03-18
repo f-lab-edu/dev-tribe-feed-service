@@ -13,7 +13,6 @@ import spock.lang.Specification
 import spock.lang.Title
 
 import static com.devtribe.devtribe_feed_service.test.utils.fixtures.CreateUserRequestFixtures.createRequiredUserRequest
-import static com.devtribe.devtribe_feed_service.test.utils.fixtures.CreateUserRequestFixtures.createUserRequestWithNickname
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 
 @Title(value = "유저 컨트롤러 테스트")
@@ -31,8 +30,8 @@ class UserControllerTest extends Specification {
 
     def "유저 회원가입 성공 - 200 status와 반환값"() {
         given:
-        def requestBody = createUserRequestWithNickname(nickname)
-        def response = new CreateUserResponse(userId, nickname)
+        def requestBody = createRequiredUserRequest("existing@gmail.com", "password", "codongmin")
+        def response = new CreateUserResponse(1L, "codongmin")
         userService.createUser(_) >> response
 
         when:
@@ -55,7 +54,7 @@ class UserControllerTest extends Specification {
 
     def "유저 회원가입 실패 - 400 status 반환"() {
         given:
-        def requestBody = createRequiredUserRequest(email, "password", nickname, "Hello, I'm a new user!")
+        def requestBody = createRequiredUserRequest(email, "password", nickname)
         userService.createUser(_) >> { throw new IllegalArgumentException(exceptionMessage) }
 
         when:

@@ -8,7 +8,7 @@ import com.devtribe.devtribe_feed_service.user.application.validators.PasswordVa
 import spock.lang.Specification
 import spock.lang.Subject
 
-import static com.devtribe.devtribe_feed_service.test.utils.fixtures.CreateUserRequestFixtures.*
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.CreateUserRequestFixtures.createRequiredUserRequest
 
 class UserServiceTest extends Specification {
 
@@ -22,7 +22,7 @@ class UserServiceTest extends Specification {
 
     def "유효한 유저 생성 요청이 주어질때 유저 생성에 성공한다."() {
         given:
-        def request = createUserRequestWithCredentials("user@example.com", "password123")
+        def request = createRequiredUserRequest("user@example.com", "password123")
         def expectedUser = request.toEntity()
 
         when:
@@ -43,7 +43,7 @@ class UserServiceTest extends Specification {
 
     def "유효하지 않은 이메일로 유저 생성 요청할 경우 유저 생성에 실패한다."() {
         given:
-        def request = createUserRequestWithCredentials("invalidEmail", "password")
+        def request = createRequiredUserRequest("invalidEmail", "password")
         emailValidator.validateEmail(request.email()) >> { throw new IllegalArgumentException(message) }
 
         when:
@@ -59,7 +59,7 @@ class UserServiceTest extends Specification {
 
     def "유효하지 않은 비밀번호로 유저 생성 요청할 경우 유저 생성에 실패한다."() {
         given:
-        def request = createUserRequestWithCredentials("email", "invalidPassword")
+        def request = createRequiredUserRequest("email", "invalidPassword")
         passwordValidator.validatePassword(request.password()) >> { throw new IllegalArgumentException(message) }
 
         when:
@@ -75,7 +75,7 @@ class UserServiceTest extends Specification {
 
     def "유효하지 않은 자기소개로 유저 생성 요청할 경우 유저 생성에 실패한다."() {
         given:
-        def request = createUserRequestWithBiography("invalidBiography")
+        def request = createRequiredUserRequest("email@gmail.com", "password", "nickName", "invalidBiography")
         createUserRequestValidator.validateBiography(request.biography()) >> { throw new IllegalArgumentException(message) }
 
         when:
@@ -91,7 +91,7 @@ class UserServiceTest extends Specification {
 
     def "이미 존재하는 이메일로 유저 생성 요청할 경우 유저 생성에 실패한다."() {
         given:
-        def request = createUserRequestWithCredentials("existing@gmail.com", "password")
+        def request = createRequiredUserRequest("existing@gmail.com", "password")
         userRepository.isEmailRegistered(request.email()) >> true
 
         when:
@@ -104,7 +104,7 @@ class UserServiceTest extends Specification {
 
     def "이미 존재하는 닉네임으로 유저 생성 요청할 경우 유저 생성에 실패한다."() {
         given:
-        def request = createUserRequestWithNickname("existingNickname")
+        def request = createRequiredUserRequest("email@gmail.com", "password", "existingNickname")
         userRepository.isNicknameUsed(request.nickname()) >> true
 
         when:
