@@ -14,45 +14,45 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class QueryFeedBySortOption {
 
+    private final SortQueryFactory sortQueryFactory;
     private final JPAQueryFactory queryFactory;
 
-    public QueryFeedBySortOption(JPAQueryFactory queryFactory) {
+    public QueryFeedBySortOption(SortQueryFactory sortQueryFactory, JPAQueryFactory queryFactory) {
+        this.sortQueryFactory = sortQueryFactory;
         this.queryFactory = queryFactory;
     }
 
-    public PageResponse<Post> findAllBySortOption(CursorPagination cursorPagination,
-        FeedSortOption feedSortOption) {
-        int pageSize = cursorPagination.pageSize();
+    public PageResponse<Post> findAllBySortOption(
+        CursorPagination cursorPagination,
+        FeedSortOption feedSortOption
+    ) {
+        SortQuery sortQuery = sortQueryFactory.getSortQuery(feedSortOption);
+        Post cursorPost = getCursorPost(cursorPagination.cursorId());
+        BooleanExpression whereCondition =
+            cursorPost != null ? sortQuery.getWhereCondition(cursorPost) : null;
 
         List<Post> queryResult = queryFactory
             .selectFrom(post)
-            .where(cursorCondition(cursorPagination, feedSortOption))
-            .orderBy(feedSortOption.getOrderSpecifier())
+            .where(whereCondition)
+            .orderBy(sortQuery.getOrderBy())
             .limit(cursorPagination.pageSize() + 1)
             .fetch();
 
+        int pageSize = cursorPagination.pageSize();
         boolean hasMore = queryResult.size() > pageSize;
         List<Post> data = getPostList(queryResult, pageSize, hasMore);
         Long nextCursor = getNextCursor(queryResult, pageSize, hasMore);
 
-        return new PageResponse<>(data, nextCursor, (long) queryResult.size(), hasMore);
+        return new PageResponse<>(data, nextCursor, (long) data.size(), hasMore);
     }
 
-    private BooleanExpression cursorCondition(CursorPagination cursorPagination,
-        FeedSortOption feedSortOption) {
-        if (cursorPagination.cursorId() == null) {
+    private Post getCursorPost(Long cursorId) {
+        if (cursorId == null) {
             return null;
         }
-
-        Post lastPost = queryFactory.selectFrom(post)
-            .where(post.id.eq(cursorPagination.cursorId()))
+        return queryFactory.selectFrom(post)
+            .where(post.id.eq(cursorId))
             .fetchOne();
-
-        if (lastPost == null) {
-            return null;
-        }
-
-        return feedSortOption.getQueryCondition(lastPost);
     }
 
     private List<Post> getPostList(List<Post> queryResult, int pageSize, boolean hasMore) {
