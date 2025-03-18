@@ -2,7 +2,6 @@ package com.devtribe.devtribe_feed_service.post.repository.query;
 
 import static com.devtribe.devtribe_feed_service.post.domain.QPost.post;
 
-import com.devtribe.devtribe_feed_service.global.common.CursorPagination;
 import com.devtribe.devtribe_feed_service.global.common.PageResponse;
 import com.devtribe.devtribe_feed_service.post.domain.FeedSortOption;
 import com.devtribe.devtribe_feed_service.post.domain.Post;
@@ -23,11 +22,12 @@ public class QueryFeedBySortOption {
     }
 
     public PageResponse<Post> findAllBySortOption(
-        CursorPagination cursorPagination,
+        Long cursorId,
+        Integer pageSize,
         FeedSortOption feedSortOption
     ) {
         SortQuery sortQuery = sortQueryFactory.getSortQuery(feedSortOption);
-        Post cursorPost = getCursorPost(cursorPagination.cursorId());
+        Post cursorPost = getCursorPost(cursorId);
         BooleanExpression whereCondition =
             cursorPost != null ? sortQuery.getWhereCondition(cursorPost) : null;
 
@@ -35,10 +35,9 @@ public class QueryFeedBySortOption {
             .selectFrom(post)
             .where(whereCondition)
             .orderBy(sortQuery.getOrderBy())
-            .limit(cursorPagination.pageSize() + 1)
+            .limit(pageSize + 1)
             .fetch();
 
-        int pageSize = cursorPagination.pageSize();
         boolean hasMore = queryResult.size() > pageSize;
         List<Post> data = getPostList(queryResult, pageSize, hasMore);
         Long nextCursor = getNextCursor(queryResult, pageSize, hasMore);

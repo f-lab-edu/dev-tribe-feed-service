@@ -18,7 +18,13 @@ public class FeedRepositoryImpl implements FeedRepository {
     }
 
     @Override
-    public PageResponse<Post> findAllBySortOption(CursorPagination cursorPagination, FeedSortOption feedSortOption) {
-        return this.queryFeedBySortOption.findAllBySortOption(cursorPagination, feedSortOption);
+    public PageResponse<Post> findAllBySortOption(
+        CursorPagination cursorPagination,
+        FeedSortOption feedSortOption
+    ) {
+        return this.queryFeedBySortOption.findAllBySortOption(
+            cursorPagination.cursorId(),
+            cursorPagination.pageSize(),
+            feedSortOption);
     }
 }
