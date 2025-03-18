@@ -51,24 +51,15 @@ public class QueryFeedBySortOption {
     }
 
     private PageResponse<Post> getPageResponse(List<Post> queryResult, Integer pageSize) {
+        if (queryResult.isEmpty()) {
+            return new PageResponse<>(List.of(), null, 0L, false);
+        }
+
         boolean hasMore = queryResult.size() > pageSize;
-        List<Post> data = getPostList(queryResult, pageSize, hasMore);
-        Long nextCursor = getNextCursor(queryResult, pageSize, hasMore);
+        List<Post> data = queryResult.subList(0, Math.min(queryResult.size(), pageSize));
+        Long nextCursor = hasMore ? queryResult.get(pageSize).getId() : null;
 
         return new PageResponse<>(data, nextCursor, (long) data.size(), hasMore);
     }
 
-    private List<Post> getPostList(List<Post> queryResult, int pageSize, boolean hasMore) {
-        if (!hasMore) {
-            return queryResult;
-        }
-        return queryResult.subList(0, pageSize);
-    }
-
-    private Long getNextCursor(List<Post> queryResult, int pageSize, boolean hasMore) {
-        if (!hasMore) {
-            return null;
-        }
-        return queryResult.get(pageSize).getId();
-    }
 }
