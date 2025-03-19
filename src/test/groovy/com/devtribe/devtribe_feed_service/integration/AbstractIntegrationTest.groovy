@@ -1,28 +1,28 @@
 package com.devtribe.devtribe_feed_service.integration
 
 
-import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.containers.GenericContainer
-import org.testcontainers.utility.DockerImageName
+import org.testcontainers.containers.MySQLContainer
+import org.testcontainers.spock.Testcontainers
 import spock.lang.Specification
 
-@ActiveProfiles("integration-test")
-class AbstractIntegrationTest extends Specification {
+@Testcontainers
+abstract class AbstractIntegrationTest extends Specification {
 
-    static mysql = new GenericContainer<>(DockerImageName.parse("mysql:8.0.26"))
-            .withEnv("MYSQL_DATABASE", "devtribe")
-            .withEnv("MYSQL_ROOT_PASSWORD", "root")
-            .withExposedPorts(3306)
+    static final MYSQL_IMAGE = "mysql:8.0"
+
+    static final container = new MySQLContainer(MYSQL_IMAGE)
+            .withDatabaseName("devtribe-feed")
+
+    static {
+        container.start()
+    }
 
     @DynamicPropertySource
-    static void setDatasourceProperties(DynamicPropertyRegistry registry) {
-        mysql.start()
-        registry.add("spring.datasource.url", {
-            "jdbc:mysql://${mysql.host}:${mysql.getMappedPort(3306)}/testdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
-        })
-        registry.add("spring.datasource.username", { "root" })
-        registry.add("spring.datasource.password", { "root" })
+    static void setDataSourceProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", container::getJdbcUrl)
+        registry.add("spring.datasource.username", container::getUsername)
+        registry.add("spring.datasource.password", container::getPassword)
     }
 }
