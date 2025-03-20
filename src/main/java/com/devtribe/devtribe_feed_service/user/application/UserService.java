@@ -38,7 +38,7 @@ public class UserService {
         checkEmailAlreadyRegistered(request);
         checkNicknameAlreadyUsed(request);
 
-        User user = request.toUser();
+        User user = request.toEntity();
         return userRepository.save(user);
     }
 
