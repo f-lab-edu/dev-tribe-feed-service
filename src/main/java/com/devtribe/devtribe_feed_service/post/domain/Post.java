@@ -1,5 +1,7 @@
 package com.devtribe.devtribe_feed_service.post.domain;
 
+import com.devtribe.devtribe_feed_service.post.application.dtos.UpdatePostRequest;
+import com.devtribe.devtribe_feed_service.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -48,6 +50,9 @@ public class Post {
     @Column(name = "downvote_count", nullable = false)
     private Integer downvoteCount;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -66,6 +71,25 @@ public class Post {
         this.publication = Publication.PUBLIC;
         this.upvoteCount = 0;
         this.downvoteCount = 0;
+    }
+
+    public void updatePostDetail(UpdatePostRequest request) {
+        this.title = request.title();
+        this.content = request.content();
+        this.thumbnail = request.thumbnail();
+        this.publication = request.publication();
+    }
+
+    public void deletePost() {
+        this.isDeleted = true;
+    }
+
+    public boolean isWrittenBy(User findAuthor) {
+        if (this.userId == null || findAuthor == null) {
+            return false;
+        }
+
+        return this.userId.equals(findAuthor.getId());
     }
 }
 

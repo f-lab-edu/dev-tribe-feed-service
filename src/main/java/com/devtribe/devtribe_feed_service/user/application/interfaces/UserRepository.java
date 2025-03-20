@@ -1,6 +1,7 @@
 package com.devtribe.devtribe_feed_service.user.application.interfaces;
 
 import com.devtribe.devtribe_feed_service.user.domain.User;
+import java.util.Optional;
 
 public interface UserRepository {
 
@@ -9,4 +10,6 @@ public interface UserRepository {
     boolean isEmailRegistered(String email);
 
     boolean isNicknameUsed(String nickname);
+
+    Optional<User> findById(long id);
 }
