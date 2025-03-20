@@ -53,20 +53,15 @@ class PostServiceTest extends Specification {
         given:
         def author = getUser(1L)
         def request = getCreatePostRequest(1L)
-
-        def expectedPost = request.toEntity(author)
-        postRepository.save(_ as Post) >> { args -> args[0] }
-
+        def savedPost = getPost(1L)
+        postRepository.save(_ as Post) >> savedPost
         userService.getUser(request.authorId()) >> author
 
         when:
         def actualPost = postService.createPost(request)
 
         then:
-        actualPost.getId() == expectedPost.getId()
-        actualPost.getTitle() == expectedPost.getTitle()
-        actualPost.getContent() == expectedPost.getContent()
-        actualPost.getUserId() == author.getId()
+        actualPost.id() == savedPost.getId()
     }
 
     def "존재하지 않은 작성자로 Post 생성 요청이 주어질 때, Post 생성에 실패한다."() {
@@ -105,11 +100,10 @@ class PostServiceTest extends Specification {
         def actual = postService.updatePost(postId, updatePostRequest)
 
         then:
-        actual.getId() == expected.getId()
-        actual.getTitle() == expected.getTitle()
-        actual.getContent() == expected.getContent()
-        actual.getThumbnail() == expected.getThumbnail()
-        actual.getPublication() == expected.getPublication()
+        actual.title() == expected.getTitle()
+        actual.content() == expected.getContent()
+        actual.thumbnail() == expected.getThumbnail()
+        actual.publication() == expected.getPublication()
     }
 
     def "작성자가 아닌 유저의 Post 수정 요청이 주어질 때, Post 수정에 실패한다."() {

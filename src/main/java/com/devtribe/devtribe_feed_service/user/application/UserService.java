@@ -26,9 +26,10 @@ public class UserService {
         this.createUserRequestValidator = createUserRequestValidator;
     }
 
+    @Transactional(readOnly = true)
     public User getUser(Long userId) {
-        // TODO: userId를 갖는 User를 반환.
-        return null;
+        return userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
     }
 
     @Transactional
