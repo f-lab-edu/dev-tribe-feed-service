@@ -72,4 +72,8 @@ public class User {
         this.linkedinUrl = linkedinUrl;
         this.blogUrl = blogUrl;
     }
+
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+    }
 }
