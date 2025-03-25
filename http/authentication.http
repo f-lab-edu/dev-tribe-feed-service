@@ -1,0 +1,37 @@
+### 회원가입
+POST http://localhost:8080/api/v1/users/signup
+Content-Type: application/json
+
+{
+  "email": "example@example.com",
+  "password": "password1Q2w3e4r!!",
+  "nickname": "nickname",
+  "biography": "This is a biography."
+}
+
+
+### 로그인 성공
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "example@example.com",
+  "password": "password1Q2w3e4r!!"
+}
+
+### 로그인 실패
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "example@example.com",
+  "password": "wrongpassword"
+}
+
+### 로그아웃
+GET http://localhost:8080/api/v1/auth/logout
+
+### 내 정보
+GET http://localhost:8080/api/v1/users/me
+Content-Type: application/json
+Cookie: JSESSIONID=DF521714E32D45AC2ECDAA976C5F0EBE
