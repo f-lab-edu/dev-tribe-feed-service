@@ -1,4 +1,4 @@
-package com.devtribe.devtribe_feed_service.global.config;
+package com.devtribe.devtribe_feed_service.global.config.jpa;
 
 import com.devtribe.devtribe_feed_service.global.config.security.authentication.CustomUserDetail;
 import java.util.Optional;

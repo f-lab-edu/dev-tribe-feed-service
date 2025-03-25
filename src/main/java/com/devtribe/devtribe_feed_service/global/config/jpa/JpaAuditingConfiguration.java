@@ -1,4 +1,4 @@
-package com.devtribe.devtribe_feed_service.global.config;
+package com.devtribe.devtribe_feed_service.global.config.jpa;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
