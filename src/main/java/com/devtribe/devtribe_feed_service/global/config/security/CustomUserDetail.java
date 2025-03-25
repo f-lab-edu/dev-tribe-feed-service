@@ -36,4 +36,8 @@ public class CustomUserDetail implements UserDetails, CredentialsContainer {
     public void eraseCredentials() {
         user.changePassword(null);
     }
+
+    public User getUser() {
+        return user;
+    }
 }
