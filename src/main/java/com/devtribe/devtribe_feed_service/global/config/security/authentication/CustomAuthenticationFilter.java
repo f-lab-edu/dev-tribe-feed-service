@@ -1,4 +1,4 @@
-package com.devtribe.devtribe_feed_service.global.config.security;
+package com.devtribe.devtribe_feed_service.global.config.security.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

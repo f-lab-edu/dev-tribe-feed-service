@@ -1,4 +1,4 @@
-package com.devtribe.devtribe_feed_service.global.config.security;
+package com.devtribe.devtribe_feed_service.global.config.security.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
