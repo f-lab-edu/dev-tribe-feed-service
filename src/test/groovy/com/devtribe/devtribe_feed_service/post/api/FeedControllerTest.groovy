@@ -2,7 +2,7 @@ package com.devtribe.devtribe_feed_service.post.api
 
 import com.devtribe.devtribe_feed_service.global.common.PageResponse
 import com.devtribe.devtribe_feed_service.post.application.FeedService
-import com.devtribe.devtribe_feed_service.test.fixtures.PostResponseFixture
+import com.devtribe.devtribe_feed_service.test.utils.fixtures.PostResponseFixture
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest

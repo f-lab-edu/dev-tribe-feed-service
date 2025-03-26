@@ -3,8 +3,8 @@ package com.devtribe.devtribe_feed_service.post.domain
 import com.devtribe.devtribe_feed_service.post.application.dtos.UpdatePostRequest
 import spock.lang.Specification
 
-import static com.devtribe.devtribe_feed_service.test.fixtures.PostFixture.getPost
-import static com.devtribe.devtribe_feed_service.test.fixtures.UserFixture.getUser
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.PostFixture.getPost
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.UserFixture.getUser
 
 class PostTest extends Specification {
 
