@@ -5,6 +5,7 @@ import com.devtribe.devtribe_feed_service.user.application.interfaces.UserReposi
 import com.devtribe.devtribe_feed_service.user.application.validators.CreateUserRequestValidator
 import com.devtribe.devtribe_feed_service.user.application.validators.EmailValidator
 import com.devtribe.devtribe_feed_service.user.application.validators.PasswordValidator
+import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Specification
 import spock.lang.Subject
 
@@ -16,9 +17,10 @@ class UserServiceTest extends Specification {
     def emailValidator = Mock(EmailValidator)
     def passwordValidator = Mock(PasswordValidator)
     def createUserRequestValidator = Mock(CreateUserRequestValidator)
+    def passwordEncoder = Mock(PasswordEncoder)
 
     @Subject
-    UserService userService = new UserService(userRepository, emailValidator, passwordValidator, createUserRequestValidator)
+    UserService userService = new UserService(userRepository, emailValidator, passwordValidator, passwordEncoder, createUserRequestValidator)
 
     def "유효한 유저 생성 요청이 주어질때 유저 생성에 성공한다."() {
         given:
