@@ -1,11 +1,13 @@
 package com.devtribe.devtribe_feed_service.user.api
 
+import com.devtribe.devtribe_feed_service.test.config.NoSecurityWebMvcTest
+import com.devtribe.devtribe_feed_service.test.config.TestSecurityConfig
 import com.devtribe.devtribe_feed_service.user.application.UserService
 import com.devtribe.devtribe_feed_service.user.application.dtos.CreateUserResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.context.annotation.Import
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -16,7 +18,8 @@ import static com.devtribe.devtribe_feed_service.test.utils.fixtures.CreateUserR
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 
 @Title(value = "유저 컨트롤러 테스트")
-@WebMvcTest(UserController.class)
+@NoSecurityWebMvcTest(controllers = UserController.class)
+@Import(TestSecurityConfig.class)
 class UserControllerTest extends Specification {
 
     @Autowired

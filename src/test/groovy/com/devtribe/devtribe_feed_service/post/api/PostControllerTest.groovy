@@ -6,11 +6,13 @@ import com.devtribe.devtribe_feed_service.post.application.dtos.CreatePostRespon
 import com.devtribe.devtribe_feed_service.post.application.dtos.UpdatePostRequest
 import com.devtribe.devtribe_feed_service.post.application.dtos.UpdatePostResponse
 import com.devtribe.devtribe_feed_service.post.domain.Publication
+import com.devtribe.devtribe_feed_service.test.config.NoSecurityWebMvcTest
+import com.devtribe.devtribe_feed_service.test.config.TestSecurityConfig
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.context.annotation.Import
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -21,7 +23,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 
 @Title(value = "게시글 컨트롤러 테스트")
-@WebMvcTest(PostController.class)
+@Import(TestSecurityConfig.class)
+@NoSecurityWebMvcTest(controllers = PostController.class)
 class PostControllerTest extends Specification {
 
     @Autowired

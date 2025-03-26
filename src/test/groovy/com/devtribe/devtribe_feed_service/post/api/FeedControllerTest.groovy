@@ -2,10 +2,12 @@ package com.devtribe.devtribe_feed_service.post.api
 
 import com.devtribe.devtribe_feed_service.global.common.PageResponse
 import com.devtribe.devtribe_feed_service.post.application.FeedService
+import com.devtribe.devtribe_feed_service.test.config.NoSecurityWebMvcTest
+import com.devtribe.devtribe_feed_service.test.config.TestSecurityConfig
 import com.devtribe.devtribe_feed_service.test.utils.fixtures.PostResponseFixture
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.context.annotation.Import
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -16,7 +18,8 @@ import spock.lang.Title
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 
 @Title(value = "피드 조회 컨트롤러 테스트")
-@WebMvcTest(FeedController.class)
+@NoSecurityWebMvcTest(controllers = FeedController.class)
+@Import(TestSecurityConfig.class)
 class FeedControllerTest extends Specification {
 
     @Autowired
