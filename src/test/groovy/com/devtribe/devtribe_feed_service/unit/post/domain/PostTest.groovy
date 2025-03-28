@@ -1,10 +1,11 @@
-package com.devtribe.devtribe_feed_service.post.domain
+package com.devtribe.devtribe_feed_service.unit.post.domain
 
 import com.devtribe.devtribe_feed_service.post.application.dtos.UpdatePostRequest
+import com.devtribe.devtribe_feed_service.post.domain.Publication
 import spock.lang.Specification
 
-import static com.devtribe.devtribe_feed_service.test.utils.fixtures.PostFixture.getPost
 import static com.devtribe.devtribe_feed_service.test.utils.fixtures.UserFixture.getUser
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.PostFixture.getPost
 
 class PostTest extends Specification {
 

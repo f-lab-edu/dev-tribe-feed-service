@@ -1,7 +1,8 @@
-package com.devtribe.devtribe_feed_service.user.api
+package com.devtribe.devtribe_feed_service.integration.api.user
 
 import com.devtribe.devtribe_feed_service.test.config.NoSecurityWebMvcTest
 import com.devtribe.devtribe_feed_service.test.config.TestSecurityConfig
+import com.devtribe.devtribe_feed_service.user.api.UserController
 import com.devtribe.devtribe_feed_service.user.application.UserService
 import com.devtribe.devtribe_feed_service.user.application.dtos.CreateUserResponse
 import com.fasterxml.jackson.databind.ObjectMapper

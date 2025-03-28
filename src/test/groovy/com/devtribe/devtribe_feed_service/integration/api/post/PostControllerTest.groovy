@@ -1,5 +1,6 @@
-package com.devtribe.devtribe_feed_service.post.api
+package com.devtribe.devtribe_feed_service.integration.api.post
 
+import com.devtribe.devtribe_feed_service.post.api.PostController
 import com.devtribe.devtribe_feed_service.post.application.PostService
 import com.devtribe.devtribe_feed_service.post.application.dtos.CreatePostRequest
 import com.devtribe.devtribe_feed_service.post.application.dtos.CreatePostResponse

@@ -1,5 +1,6 @@
-package com.devtribe.devtribe_feed_service.post.application.validators
+package com.devtribe.devtribe_feed_service.unit.post.application.validators
 
+import com.devtribe.devtribe_feed_service.post.application.validators.PostRequestValidator
 import spock.lang.Specification
 
 class PostRequestValidatorTest extends Specification {

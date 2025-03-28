@@ -1,10 +1,11 @@
-package com.devtribe.devtribe_feed_service.post.api
+package com.devtribe.devtribe_feed_service.integration.api.post
 
 import com.devtribe.devtribe_feed_service.global.common.PageResponse
+import com.devtribe.devtribe_feed_service.post.api.FeedController
 import com.devtribe.devtribe_feed_service.post.application.FeedService
 import com.devtribe.devtribe_feed_service.test.config.NoSecurityWebMvcTest
 import com.devtribe.devtribe_feed_service.test.config.TestSecurityConfig
-import com.devtribe.devtribe_feed_service.test.utils.fixtures.PostResponseFixture
+import com.devtribe.devtribe_feed_service.test.utils.fixtures.post.PostResponseFixture
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Import

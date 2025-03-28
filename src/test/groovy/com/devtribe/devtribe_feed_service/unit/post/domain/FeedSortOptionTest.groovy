@@ -1,5 +1,6 @@
-package com.devtribe.devtribe_feed_service.post.domain
+package com.devtribe.devtribe_feed_service.unit.post.domain
 
+import com.devtribe.devtribe_feed_service.post.domain.FeedSortOption
 import spock.lang.Specification
 
 class FeedSortOptionTest extends Specification {

@@ -1,5 +1,6 @@
-package com.devtribe.devtribe_feed_service.user.application.validators
+package com.devtribe.devtribe_feed_service.unit.user.application.validator
 
+import com.devtribe.devtribe_feed_service.user.application.validators.PasswordValidator
 import spock.lang.Specification
 
 class PasswordValidatorTest extends Specification {

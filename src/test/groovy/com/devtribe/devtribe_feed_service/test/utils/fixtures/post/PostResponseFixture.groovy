@@ -1,4 +1,4 @@
-package com.devtribe.devtribe_feed_service.test.utils.fixtures
+package com.devtribe.devtribe_feed_service.test.utils.fixtures.post
 
 import com.devtribe.devtribe_feed_service.post.application.dtos.PostResponse
 import com.devtribe.devtribe_feed_service.post.domain.Publication

@@ -1,4 +1,4 @@
-package com.devtribe.devtribe_feed_service.integration.feed
+package com.devtribe.devtribe_feed_service.integration.infra.feed
 
 import com.devtribe.devtribe_feed_service.global.common.CursorPagination
 import com.devtribe.devtribe_feed_service.integration.AbstractIntegrationTest

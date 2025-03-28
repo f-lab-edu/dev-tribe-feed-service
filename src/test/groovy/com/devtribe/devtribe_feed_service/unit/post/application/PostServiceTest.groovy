@@ -1,5 +1,6 @@
-package com.devtribe.devtribe_feed_service.post.application
+package com.devtribe.devtribe_feed_service.unit.post.application
 
+import com.devtribe.devtribe_feed_service.post.application.PostService
 import com.devtribe.devtribe_feed_service.post.application.interfaces.PostRepository
 import com.devtribe.devtribe_feed_service.post.application.validators.PostRequestValidator
 import com.devtribe.devtribe_feed_service.post.domain.Post
@@ -8,11 +9,11 @@ import com.devtribe.devtribe_feed_service.user.application.UserService
 import spock.lang.Specification
 import spock.lang.Subject
 
-import static com.devtribe.devtribe_feed_service.test.utils.fixtures.CreatePostRequestFixture.getCreatePostRequest
-import static com.devtribe.devtribe_feed_service.test.utils.fixtures.PostFixture.getPost
-import static com.devtribe.devtribe_feed_service.test.utils.fixtures.PostFixture.getUpdatedPost
-import static com.devtribe.devtribe_feed_service.test.utils.fixtures.UpdatePostRequestFixture.getUpdatePostRequest
 import static com.devtribe.devtribe_feed_service.test.utils.fixtures.UserFixture.getUser
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.CreatePostRequestFixture.getCreatePostRequest
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.PostFixture.getPost
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.PostFixture.getUpdatedPost
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.UpdatePostRequestFixture.getUpdatePostRequest
 
 class PostServiceTest extends Specification {
 
