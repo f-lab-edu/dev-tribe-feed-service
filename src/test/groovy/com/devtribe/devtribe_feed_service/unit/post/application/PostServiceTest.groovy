@@ -5,13 +5,13 @@ import com.devtribe.devtribe_feed_service.post.application.interfaces.PostReposi
 import com.devtribe.devtribe_feed_service.post.application.validators.PostRequestValidator
 import com.devtribe.devtribe_feed_service.post.domain.Post
 import com.devtribe.devtribe_feed_service.post.domain.Publication
+import com.devtribe.devtribe_feed_service.test.utils.fixtures.post.PostFixture
 import com.devtribe.devtribe_feed_service.user.application.UserService
 import spock.lang.Specification
 import spock.lang.Subject
 
 import static com.devtribe.devtribe_feed_service.test.utils.fixtures.UserFixture.getUser
 import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.CreatePostRequestFixture.getCreatePostRequest
-import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.PostFixture.getPost
 import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.PostFixture.getUpdatedPost
 import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.UpdatePostRequestFixture.getUpdatePostRequest
 
@@ -27,7 +27,7 @@ class PostServiceTest extends Specification {
     def "이미 존재하는 postId가 주어질 때, postId를 가진 Post 반환에 성공한다."() {
         given:
         def postId = 1L
-        def post = getPost(postId)
+        def post = PostFixture.createPost(id: postId)
         postRepository.findById(postId) >> Optional.of(post)
 
         when:
@@ -54,7 +54,7 @@ class PostServiceTest extends Specification {
         given:
         def author = getUser(1L)
         def request = getCreatePostRequest(1L)
-        def savedPost = getPost(1L)
+        def savedPost = PostFixture.createPost(id:  1L)
         postRepository.save(_ as Post) >> savedPost
         userService.getUser(request.authorId()) >> author
 
@@ -89,7 +89,7 @@ class PostServiceTest extends Specification {
         def userId = 1L
         def author = getUser(userId)
         def updatePostRequest = getUpdatePostRequest(userId, Publication.PRIVATE)
-        def originPost = getPost(postId, userId)
+        def originPost = PostFixture.createPost(id: postId, userId: userId)
         def expected = getUpdatedPost(postId, userId)
 
         and:
@@ -116,8 +116,7 @@ class PostServiceTest extends Specification {
         def updatePostRequest = getUpdatePostRequest(otherAuthorId, Publication.PRIVATE)
 
         def authorId = 1L
-        def author = getUser(authorId)
-        def originPost = getPost(postId, authorId)
+        def originPost = PostFixture.createPost(id: postId, userId: authorId)
 
         and:
         postRepository.findById(postId) >> Optional.of(originPost)
@@ -134,7 +133,7 @@ class PostServiceTest extends Specification {
     def "이미 존재하는 postId가 주어질때, postId를 가진 Post 삭제에 성공한다."() {
         given:
         def postId = 1L
-        def post = getPost(postId)
+        def post = PostFixture.createPost(id:  postId)
         postRepository.findById(postId) >> Optional.of(post)
 
         when:
