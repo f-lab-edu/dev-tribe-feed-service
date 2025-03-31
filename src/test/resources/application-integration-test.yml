@@ -2,8 +2,7 @@ spring:
   datasource:
     username: root
     password: test
-    url: jdbc:tc:mysql:8.0://devtribe-feed?useUnicode=yes&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=utf8?allowPublicKeyRetrieval=true
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
