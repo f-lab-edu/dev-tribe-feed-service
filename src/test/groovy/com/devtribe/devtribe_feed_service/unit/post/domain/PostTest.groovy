@@ -5,7 +5,7 @@ import com.devtribe.devtribe_feed_service.post.domain.Publication
 import com.devtribe.devtribe_feed_service.test.utils.fixtures.post.PostFixture
 import spock.lang.Specification
 
-import static com.devtribe.devtribe_feed_service.test.utils.fixtures.UserFixture.getUser
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.UserFixture.createUser
 
 class PostTest extends Specification {
 
@@ -28,7 +28,7 @@ class PostTest extends Specification {
     def "게시글 작성자 검증 성공"() {
         given:
         def post = PostFixture.createPost(id: 1L, userId: 1L)
-        def requestUser = getUser(1L)
+        def requestUser = createUser(id: 1L)
 
         when:
         def isAuthor = post.isWrittenBy(requestUser)
@@ -48,6 +48,6 @@ class PostTest extends Specification {
         !isAuthor
 
         where:
-        requestUser << [null, getUser(2L)]
+        requestUser << [null, createUser(id: 2L)]
     }
 }

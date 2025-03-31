@@ -10,7 +10,7 @@ import com.devtribe.devtribe_feed_service.user.application.UserService
 import spock.lang.Specification
 import spock.lang.Subject
 
-import static com.devtribe.devtribe_feed_service.test.utils.fixtures.UserFixture.getUser
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.UserFixture.createUser
 import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.CreatePostRequestFixture.getCreatePostRequest
 import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.PostFixture.getUpdatedPost
 import static com.devtribe.devtribe_feed_service.test.utils.fixtures.post.UpdatePostRequestFixture.getUpdatePostRequest
@@ -52,7 +52,7 @@ class PostServiceTest extends Specification {
 
     def "유효한 Post 생성 요청이 주어질 때, Post 생성에 성공한다."() {
         given:
-        def author = getUser(1L)
+        def author = createUser(id: 1L)
         def request = getCreatePostRequest(1L)
         def savedPost = PostFixture.createPost(id:  1L)
         postRepository.save(_ as Post) >> savedPost
@@ -87,7 +87,7 @@ class PostServiceTest extends Specification {
         given:
         def postId = 1L
         def userId = 1L
-        def author = getUser(userId)
+        def author = createUser(id: userId)
         def updatePostRequest = getUpdatePostRequest(userId, Publication.PRIVATE)
         def originPost = PostFixture.createPost(id: postId, userId: userId)
         def expected = getUpdatedPost(postId, userId)
@@ -112,7 +112,7 @@ class PostServiceTest extends Specification {
         def postId = 1L
 
         def otherAuthorId = 2L
-        def otherAuthor = getUser(otherAuthorId)
+        def otherAuthor = createUser(id: otherAuthorId)
         def updatePostRequest = getUpdatePostRequest(otherAuthorId, Publication.PRIVATE)
 
         def authorId = 1L
