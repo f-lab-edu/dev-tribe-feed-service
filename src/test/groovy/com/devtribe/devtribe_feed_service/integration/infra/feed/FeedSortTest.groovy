@@ -46,7 +46,7 @@ class FeedSortTest extends AbstractIntegrationTest {
         def newest = FeedSortOption.NEWEST
 
         when:
-        def result = feedRepository.findAllBySortOption(pagination, newest)
+        def result = feedRepository.findFeedsByFilterAndSortOption(pagination, newest)
 
         then:
         result.totalCount() == 5
@@ -66,7 +66,7 @@ class FeedSortTest extends AbstractIntegrationTest {
         def oldest = FeedSortOption.DOWNVOTE
 
         when:
-        def result = feedRepository.findAllBySortOption(pagination, oldest)
+        def result = feedRepository.findFeedsByFilterAndSortOption(pagination, oldest)
 
         then:
         result.totalCount() == 5
@@ -87,7 +87,7 @@ class FeedSortTest extends AbstractIntegrationTest {
         def upvote = FeedSortOption.UPVOTE
 
         when:
-        def result = feedRepository.findAllBySortOption(pagination, upvote)
+        def result = feedRepository.findFeedsByFilterAndSortOption(pagination, upvote)
 
         then:
         result.totalCount() == 5
@@ -107,7 +107,7 @@ class FeedSortTest extends AbstractIntegrationTest {
         def downvote = FeedSortOption.DOWNVOTE
 
         when:
-        def result = feedRepository.findAllBySortOption(pagination, downvote)
+        def result = feedRepository.findFeedsByFilterAndSortOption(pagination, downvote)
 
         then:
         result.totalCount() == 5
