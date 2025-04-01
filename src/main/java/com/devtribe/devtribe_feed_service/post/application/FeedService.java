@@ -26,7 +26,7 @@ public class FeedService {
         feedRequestValidator.validatePagination(feedSearchRequest.getSize());
         feedRequestValidator.validateSortOption(feedSearchRequest.getFeedSortOption());
 
-        PageResponse<Post> postPageResponse = feedRepository.findAllBySortOption(cursorPagination, sort);
+        PageResponse<Post> postPageResponse = feedRepository.findFeedsByFilterAndSortOption(feedSearchRequest);
 
         return new PageResponse<>(
             convertToPostResponses(postPageResponse.data()),
