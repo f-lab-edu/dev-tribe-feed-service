@@ -5,7 +5,6 @@ import com.devtribe.devtribe_feed_service.post.application.interfaces.PostReposi
 import com.devtribe.devtribe_feed_service.post.repository.FeedRepositoryImpl;
 import com.devtribe.devtribe_feed_service.post.repository.PostRepositoryImpl;
 import com.devtribe.devtribe_feed_service.post.repository.jpa.JpaPostRepository;
-import com.devtribe.devtribe_feed_service.post.repository.query.QueryFeedBySortOption;
 import com.devtribe.devtribe_feed_service.post.repository.query.SortQueryFactory;
 import com.devtribe.devtribe_feed_service.user.application.interfaces.UserRepository;
 import com.devtribe.devtribe_feed_service.user.repository.UserRepositoryImpl;
@@ -34,19 +33,13 @@ public class DataTestConfig {
     }
 
     @Bean
-    public FeedRepository feedRepository(QueryFeedBySortOption queryFeedBySortOption) {
-        return new FeedRepositoryImpl(queryFeedBySortOption);
+    public FeedRepository feedRepository(SortQueryFactory sortQueryFactory, JPAQueryFactory jpaQueryFactory) {
+        return new FeedRepositoryImpl(sortQueryFactory, jpaQueryFactory);
     }
 
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
         return new JPAQueryFactory(entityManager);
-    }
-
-    @Bean
-    public QueryFeedBySortOption queryFeedBySortOption(SortQueryFactory sortQueryFactory,
-        JPAQueryFactory jpaQueryFactory) {
-        return new QueryFeedBySortOption(sortQueryFactory, jpaQueryFactory);
     }
 
     @Bean
