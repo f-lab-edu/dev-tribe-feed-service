@@ -52,7 +52,7 @@ class FeedControllerTest extends Specification {
     def "피드 정렬 조회 실패 - 올바르지 않은 정렬 옵션, 400 status와 에러메시지 반환"() {
         given:
         def api = "/api/v1/feeds?cursorId=1&size=10&sort=invalidSort"
-        feedService.getFeedListBySortOption(_, _) >> { throw new MethodArgumentTypeMismatchException("올바르지 않은 요청 값입니다.") }
+        feedService.findFeedBySearchOption(_, _) >> { throw new MethodArgumentTypeMismatchException("올바르지 않은 요청 값입니다.") }
 
         when:
         def result = mockMvc.perform(get(api)
@@ -67,7 +67,7 @@ class FeedControllerTest extends Specification {
     def "피드 정렬 조회 실패 - 페이지 크기 초과, 400 status와 에러메시지 반환"() {
         given:
         def api = "/api/v1/feeds?cursorId=1&size=999999&sort=OLDEST"
-        feedService.getFeedListBySortOption(_, _) >> { throw new IllegalArgumentException("요청한 페이지 수의 범위가 올바르지 않습니다.") }
+        feedService.findFeedBySearchOption(_, _) >> { throw new IllegalArgumentException("요청한 페이지 수의 범위가 올바르지 않습니다.") }
 
         when:
         def result = mockMvc.perform(get(api)

@@ -23,7 +23,7 @@ public class FeedService {
     }
 
     @Transactional(readOnly = true)
-    public PageResponse<PostResponse> getFeedListBySortOption(CursorPagination cursorPagination, FeedSortOption sort) {
+    public PageResponse<PostResponse> findFeedBySearchOption(CursorPagination cursorPagination, FeedSortOption sort) {
         getFeedRequestValidator.validateCursorPagination(cursorPagination);
         getFeedRequestValidator.validateSortOption(sort);
 

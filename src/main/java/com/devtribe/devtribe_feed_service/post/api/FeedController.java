@@ -26,6 +26,6 @@ public class FeedController {
         @RequestParam(value = "size", required = false) Integer pageSize,
         @RequestParam(defaultValue = "NEWEST") FeedSortOption sort
     ) {
-        return feedService.getFeedListBySortOption(new CursorPagination(cursorId, pageSize), sort);
+        return feedService.findFeedBySearchOption(new CursorPagination(cursorId, pageSize), sort);
     }
 }
