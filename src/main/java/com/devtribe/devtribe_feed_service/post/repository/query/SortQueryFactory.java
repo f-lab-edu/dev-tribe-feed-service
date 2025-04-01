@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 public class SortQueryFactory {
 
     private final Map<FeedSortOption, SortQuery> sortQueryStrategyMap = Map.of(
-        FeedSortOption.BY_NEWEST, new NewestSort(),
-        FeedSortOption.BY_OLDEST, new OldestSort(),
-        FeedSortOption.BY_UPVOTE, new UpvoteSort(),
-        FeedSortOption.BY_DOWNVOTE, new DownvoteSort()
+        FeedSortOption.NEWEST, new NewestSort(),
+        FeedSortOption.OLDEST, new OldestSort(),
+        FeedSortOption.UPVOTE, new UpvoteSort(),
+        FeedSortOption.DOWNVOTE, new DownvoteSort()
     );
 
     public SortQuery getSortQuery(FeedSortOption feedSortOption) {

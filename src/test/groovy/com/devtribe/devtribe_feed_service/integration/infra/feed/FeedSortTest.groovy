@@ -43,7 +43,7 @@ class FeedSortTest extends AbstractIntegrationTest {
                 PostFixture.createPost(title: "title5", createdAt: LocalDateTime.now().plusMinutes(5))
         ))
         def pagination = new CursorPagination(null, null)
-        def newest = FeedSortOption.BY_NEWEST
+        def newest = FeedSortOption.NEWEST
 
         when:
         def result = feedRepository.findAllBySortOption(pagination, newest)
@@ -63,7 +63,7 @@ class FeedSortTest extends AbstractIntegrationTest {
                 PostFixture.createPost(title: "title5", createdAt: LocalDateTime.now().plusMinutes(5))
         ))
         def pagination = new CursorPagination(null, null)
-        def oldest = FeedSortOption.BY_DOWNVOTE
+        def oldest = FeedSortOption.DOWNVOTE
 
         when:
         def result = feedRepository.findAllBySortOption(pagination, oldest)
@@ -84,7 +84,7 @@ class FeedSortTest extends AbstractIntegrationTest {
                 PostFixture.createPost(title: "title5", upvoteCount: 19)
         ))
         def pagination = new CursorPagination(null, null)
-        def upvote = FeedSortOption.BY_UPVOTE
+        def upvote = FeedSortOption.UPVOTE
 
         when:
         def result = feedRepository.findAllBySortOption(pagination, upvote)
@@ -104,7 +104,7 @@ class FeedSortTest extends AbstractIntegrationTest {
                 PostFixture.createPost(title: "title5", downvoteCount: 19)
         ))
         def pagination = new CursorPagination(null, null)
-        def downvote = FeedSortOption.BY_DOWNVOTE
+        def downvote = FeedSortOption.DOWNVOTE
 
         when:
         def result = feedRepository.findAllBySortOption(pagination, downvote)
