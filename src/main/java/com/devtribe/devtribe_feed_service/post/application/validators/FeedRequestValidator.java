@@ -7,7 +7,7 @@ import java.util.Arrays;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetFeedRequestValidator {
+public class FeedRequestValidator {
 
     public void validateCursorPagination(CursorPagination cursorPagination) {
         Preconditions.checkArgument(cursorPagination != null, "유효하지 않은 요청 값입니다.");

@@ -4,7 +4,7 @@ import com.devtribe.devtribe_feed_service.global.common.CursorPagination;
 import com.devtribe.devtribe_feed_service.global.common.PageResponse;
 import com.devtribe.devtribe_feed_service.post.application.dtos.PostResponse;
 import com.devtribe.devtribe_feed_service.post.application.interfaces.FeedRepository;
-import com.devtribe.devtribe_feed_service.post.application.validators.GetFeedRequestValidator;
+import com.devtribe.devtribe_feed_service.post.application.validators.FeedRequestValidator;
 import com.devtribe.devtribe_feed_service.post.domain.FeedSortOption;
 import com.devtribe.devtribe_feed_service.post.domain.Post;
 import java.util.List;
@@ -15,17 +15,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedService {
 
     private final FeedRepository feedRepository;
-    private final GetFeedRequestValidator getFeedRequestValidator;
+    private final FeedRequestValidator feedRequestValidator;
 
-    public FeedService(FeedRepository feedRepository, GetFeedRequestValidator getFeedRequestValidator) {
+    public FeedService(FeedRepository feedRepository, FeedRequestValidator feedRequestValidator) {
         this.feedRepository = feedRepository;
-        this.getFeedRequestValidator = getFeedRequestValidator;
+        this.feedRequestValidator = feedRequestValidator;
     }
 
     @Transactional(readOnly = true)
     public PageResponse<PostResponse> findFeedBySearchOption(CursorPagination cursorPagination, FeedSortOption sort) {
-        getFeedRequestValidator.validateCursorPagination(cursorPagination);
-        getFeedRequestValidator.validateSortOption(sort);
+        feedRequestValidator.validateCursorPagination(cursorPagination);
+        feedRequestValidator.validateSortOption(sort);
 
         PageResponse<Post> postPageResponse = feedRepository.findAllBySortOption(cursorPagination, sort);
 
