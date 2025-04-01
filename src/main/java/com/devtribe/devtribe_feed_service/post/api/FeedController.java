@@ -21,7 +21,7 @@ public class FeedController {
     }
 
     @GetMapping
-    public PageResponse<PostResponse> getFeedListBySortOption(
+    public PageResponse<PostResponse> findFeedBySearchOption(
         @RequestParam(value = "cursorId", required = false) Long cursorId,
         @RequestParam(value = "size", required = false) Integer pageSize,
         @RequestParam(defaultValue = "NEWEST") FeedSortOption sort
