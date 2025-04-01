@@ -31,7 +31,7 @@ class FeedControllerTest extends Specification {
 
     def "피드 정렬 조회 성공 - 200 status 반환"() {
         given:
-        def api = "/api/v1/feeds?cursorId=1&size=10&sort=BY_NEWEST"
+        def api = "/api/v1/feeds?cursorId=1&size=10&sort=NEWEST"
         def response = new PageResponse<>(
                 PostResponseFixture.createLatestPostResponse(10),
                 11L,
@@ -66,7 +66,7 @@ class FeedControllerTest extends Specification {
 
     def "피드 정렬 조회 실패 - 페이지 크기 초과, 400 status와 에러메시지 반환"() {
         given:
-        def api = "/api/v1/feeds?cursorId=1&size=999999&sort=BY_OLDEST"
+        def api = "/api/v1/feeds?cursorId=1&size=999999&sort=OLDEST"
         feedService.getFeedListBySortOption(_, _) >> { throw new IllegalArgumentException("요청한 페이지 수의 범위가 올바르지 않습니다.") }
 
         when:
