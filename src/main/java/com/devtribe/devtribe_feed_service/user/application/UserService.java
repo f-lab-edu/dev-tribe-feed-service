@@ -7,6 +7,7 @@ import com.devtribe.devtribe_feed_service.user.application.validators.CreateUser
 import com.devtribe.devtribe_feed_service.user.application.validators.EmailValidator;
 import com.devtribe.devtribe_feed_service.user.application.validators.PasswordValidator;
 import com.devtribe.devtribe_feed_service.user.domain.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +17,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final EmailValidator emailValidator;
     private final PasswordValidator passwordValidator;
+    private final PasswordEncoder passwordEncoder;
     private final CreateUserRequestValidator createUserRequestValidator;
 
     public UserService(UserRepository userRepository, EmailValidator emailValidator,
-        PasswordValidator passwordValidator,
+        PasswordValidator passwordValidator, PasswordEncoder passwordEncoder,
         CreateUserRequestValidator createUserRequestValidator) {
         this.userRepository = userRepository;
         this.emailValidator = emailValidator;
         this.passwordValidator = passwordValidator;
+        this.passwordEncoder = passwordEncoder;
         this.createUserRequestValidator = createUserRequestValidator;
     }
 
@@ -38,9 +41,15 @@ public class UserService {
         validateCreateUserRequest(request);
         checkEmailAlreadyRegistered(request);
         checkNicknameAlreadyUsed(request);
+        CreateUserRequest encodeRequest = encodePassword(request);
 
-        User savedUser = userRepository.save(request.toEntity());
+        User savedUser = userRepository.save(encodeRequest.toEntity());
         return new CreateUserResponse(savedUser);
+    }
+
+    private CreateUserRequest encodePassword(CreateUserRequest request) {
+        String encoded = passwordEncoder.encode(request.password());
+        return request.changePassword(encoded);
     }
 
     private void checkEmailAlreadyRegistered(CreateUserRequest request) {

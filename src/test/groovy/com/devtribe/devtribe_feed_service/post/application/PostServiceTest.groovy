@@ -8,11 +8,11 @@ import com.devtribe.devtribe_feed_service.user.application.UserService
 import spock.lang.Specification
 import spock.lang.Subject
 
-import static com.devtribe.devtribe_feed_service.test.fixtures.CreatePostRequestFixture.getCreatePostRequest
-import static com.devtribe.devtribe_feed_service.test.fixtures.PostFixture.getPost
-import static com.devtribe.devtribe_feed_service.test.fixtures.PostFixture.getUpdatedPost
-import static com.devtribe.devtribe_feed_service.test.fixtures.UpdatePostRequestFixture.getUpdatePostRequest
-import static com.devtribe.devtribe_feed_service.test.fixtures.UserFixture.getUser
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.CreatePostRequestFixture.getCreatePostRequest
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.PostFixture.getPost
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.PostFixture.getUpdatedPost
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.UpdatePostRequestFixture.getUpdatePostRequest
+import static com.devtribe.devtribe_feed_service.test.utils.fixtures.UserFixture.getUser
 
 class PostServiceTest extends Specification {
 

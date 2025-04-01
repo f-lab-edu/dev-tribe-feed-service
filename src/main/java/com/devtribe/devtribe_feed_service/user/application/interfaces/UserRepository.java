@@ -12,4 +12,6 @@ public interface UserRepository {
     boolean isNicknameUsed(String nickname);
 
     Optional<User> findById(long id);
+
+    Optional<User> findByEmail(String email);
 }
