@@ -30,9 +30,7 @@ public class FeedService {
 
         return new PageResponse<>(
             convertToPostResponses(postPageResponse.data()),
-            postPageResponse.nextCursor(),
-            postPageResponse.totalCount(),
-            postPageResponse.hasNextPage()
+            postPageResponse.pageNo()
         );
     }
 
