@@ -1,5 +1,5 @@
 ALTER TABLE user
-    ADD COLUMN created_by BIGINT NOT NULL,
+    ADD COLUMN created_by BIGINT,
     ADD COLUMN updated_by BIGINT;
 
 ALTER TABLE user_follow
