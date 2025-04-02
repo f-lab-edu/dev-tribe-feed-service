@@ -8,9 +8,12 @@ import com.devtribe.devtribe_feed_service.post.application.interfaces.FeedReposi
 import com.devtribe.devtribe_feed_service.post.domain.FeedFilterOption;
 import com.devtribe.devtribe_feed_service.post.domain.FeedSortOption;
 import com.devtribe.devtribe_feed_service.post.domain.Post;
+import com.devtribe.devtribe_feed_service.post.domain.Publication;
 import com.devtribe.devtribe_feed_service.post.repository.query.SortQuery;
 import com.devtribe.devtribe_feed_service.post.repository.query.SortQueryFactory;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -26,24 +29,50 @@ public class FeedRepositoryImpl implements FeedRepository {
     }
 
     @Override
-    public PageResponse<Post> findFeedsByFilterAndSortOption(FeedSearchRequest feedSearchRequest) {
-        FeedSortOption feedSortOption = feedSearchRequest.getFeedSortOption();
-        FeedFilterOption feedFilterOption = feedSearchRequest.getFeedFilterOption();
-        int offset = feedSearchRequest.getOffset();
-        int size = feedSearchRequest.getSize();
+    public PageResponse<Post> findFeedsByFilterAndSortOption(FeedSearchRequest request) {
 
-        SortQuery sortQuery = sortQueryFactory.getSortQuery(feedSortOption);
+        FeedFilterOption filter = request.getFeedFilterOption();
+        FeedSortOption sort = request.getFeedSortOption();
+        SortQuery sortQuery = sortQueryFactory.getSortQuery(sort);
 
         List<Post> queryResult = queryFactory
             .selectFrom(post)
             .where(
-                /// feedFilterOption 추가
+                containKeyword(filter.getKeyword()),
+                betweenDate(filter.getStartDate(), filter.getEndDate()),
+                eqAuthor(filter.getAuthorId()),
+                eqPublic()
             )
             .orderBy(sortQuery.getOrderBy())
-            .offset(offset)
-            .limit((long) offset * size)
+            .offset(request.getOffset())
+            .limit(request.getSize())
             .fetch();
 
-        return new PageResponse<>(queryResult, offset);
+        return new PageResponse<>(queryResult, request.getOffset());
+    }
+
+    private BooleanExpression eqPublic() {
+        return post.publication.eq(Publication.PUBLIC);
+    }
+
+    private BooleanExpression eqAuthor(Long authorId) {
+        if (authorId == null) {
+            return null;
+        }
+        return post.userId.eq(authorId);
+    }
+
+    private BooleanExpression betweenDate(LocalDateTime startDate, LocalDateTime endDate) {
+        if (startDate == null || endDate == null) {
+            return null;
+        }
+        return post.createdAt.between(startDate, endDate);
+    }
+
+    private BooleanExpression containKeyword(String keyword) {
+        if (keyword == null) {
+            return null;
+        }
+        return post.title.containsIgnoreCase(keyword).or(post.content.containsIgnoreCase(keyword));
     }
 }
