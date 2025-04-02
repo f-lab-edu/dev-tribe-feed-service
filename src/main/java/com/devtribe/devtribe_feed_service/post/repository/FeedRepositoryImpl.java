@@ -31,8 +31,8 @@ public class FeedRepositoryImpl implements FeedRepository {
     @Override
     public PageResponse<Post> findFeedsByFilterAndSortOption(FeedSearchRequest request) {
 
-        FeedFilterOption filter = request.getFeedFilterOption();
-        FeedSortOption sort = request.getFeedSortOption();
+        FeedFilterOption filter = request.feedFilterOption();
+        FeedSortOption sort = request.feedSortOption();
         SortQuery sortQuery = sortQueryFactory.getSortQuery(sort);
 
         List<Post> queryResult = queryFactory
@@ -44,11 +44,11 @@ public class FeedRepositoryImpl implements FeedRepository {
                 eqPublic()
             )
             .orderBy(sortQuery.getOrderBy())
-            .offset(request.getOffset())
-            .limit(request.getSize())
+            .offset(request.offset())
+            .limit(request.size())
             .fetch();
 
-        return new PageResponse<>(queryResult, request.getOffset());
+        return new PageResponse<>(queryResult, request.offset());
     }
 
     private BooleanExpression eqPublic() {
