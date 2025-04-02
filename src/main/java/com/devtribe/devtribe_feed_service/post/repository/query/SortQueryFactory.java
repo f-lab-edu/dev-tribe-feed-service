@@ -1,10 +1,8 @@
 package com.devtribe.devtribe_feed_service.post.repository.query;
 
+import static com.devtribe.devtribe_feed_service.post.domain.QPost.post;
+
 import com.devtribe.devtribe_feed_service.post.domain.FeedSortOption;
-import com.devtribe.devtribe_feed_service.post.repository.query.sortquery.DownvoteSort;
-import com.devtribe.devtribe_feed_service.post.repository.query.sortquery.NewestSort;
-import com.devtribe.devtribe_feed_service.post.repository.query.sortquery.OldestSort;
-import com.devtribe.devtribe_feed_service.post.repository.query.sortquery.UpvoteSort;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +10,10 @@ import org.springframework.stereotype.Component;
 public class SortQueryFactory {
 
     private final Map<FeedSortOption, SortQuery> sortQueryStrategyMap = Map.of(
-        FeedSortOption.NEWEST, new NewestSort(),
-        FeedSortOption.OLDEST, new OldestSort(),
-        FeedSortOption.UPVOTE, new UpvoteSort(),
-        FeedSortOption.DOWNVOTE, new DownvoteSort()
+        FeedSortOption.NEWEST, post.createdAt::desc,
+        FeedSortOption.OLDEST, post.createdAt::asc,
+        FeedSortOption.UPVOTE, post.upvoteCount::desc,
+        FeedSortOption.DOWNVOTE, post.downvoteCount::desc
     );
 
     public SortQuery getSortQuery(FeedSortOption feedSortOption) {
