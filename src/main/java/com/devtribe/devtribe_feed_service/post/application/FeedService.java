@@ -23,8 +23,9 @@ public class FeedService {
 
     @Transactional(readOnly = true)
     public PageResponse<PostResponse> findFeedBySearchOption(FeedSearchRequest feedSearchRequest) {
-        feedRequestValidator.validatePagination(feedSearchRequest.getSize());
         feedRequestValidator.validateSortOption(feedSearchRequest.getFeedSortOption());
+        feedRequestValidator.validateFilterOption(feedSearchRequest.getFeedFilterOption());
+        feedRequestValidator.validatePagination(feedSearchRequest.getSize());
 
         PageResponse<Post> postPageResponse = feedRepository.findFeedsByFilterAndSortOption(feedSearchRequest);
 
