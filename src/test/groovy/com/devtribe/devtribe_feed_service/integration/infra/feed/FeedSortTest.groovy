@@ -35,14 +35,13 @@ class FeedSortTest extends AbstractIntegrationTest {
 
     def "정렬 옵션이 최신순일 경우 피드는 최신순으로 정렬되어야 한다."() {
         given:
-        postRepository.save(PostFixture.createPost(title: "title1", createdAt: LocalDateTime.now()))
-        postRepository.save(PostFixture.createPost(title: "title2", createdAt: LocalDateTime.now().plusMinutes(2)))
-        postRepository.save(PostFixture.createPost(title: "title3", createdAt: LocalDateTime.now().plusMinutes(3)))
-        postRepository.save(PostFixture.createPost(title: "title4", createdAt: LocalDateTime.now().plusMinutes(4)))
-        postRepository.save(PostFixture.createPost(title: "title5", createdAt: LocalDateTime.now().plusMinutes(5)))
-
-        def expectedPostId = List.of(5, 4, 3, 2, 1)
-
+        postRepository.saveAll(List.of(
+                PostFixture.createPost(title: "title1", createdAt: LocalDateTime.now()),
+                PostFixture.createPost(title: "title2", createdAt: LocalDateTime.now().plusMinutes(2)),
+                PostFixture.createPost(title: "title3", createdAt: LocalDateTime.now().plusMinutes(3)),
+                PostFixture.createPost(title: "title4", createdAt: LocalDateTime.now().plusMinutes(4)),
+                PostFixture.createPost(title: "title5", createdAt: LocalDateTime.now().plusMinutes(5))
+        ))
         def pagination = new CursorPagination(null, null)
         def newest = FeedSortOption.BY_NEWEST
 
@@ -58,14 +57,13 @@ class FeedSortTest extends AbstractIntegrationTest {
 
     def "정렬 옵션이 오래된순일 경우 피드는 오래된순으로 정렬되어야 한다."() {
         given:
-        postRepository.save(PostFixture.createPost(title: "title1", createdAt: LocalDateTime.now()))
-        postRepository.save(PostFixture.createPost(title: "title2", createdAt: LocalDateTime.now().plusMinutes(2)))
-        postRepository.save(PostFixture.createPost(title: "title3", createdAt: LocalDateTime.now().plusMinutes(3)))
-        postRepository.save(PostFixture.createPost(title: "title4", createdAt: LocalDateTime.now().plusMinutes(4)))
-        postRepository.save(PostFixture.createPost(title: "title5", createdAt: LocalDateTime.now().plusMinutes(5)))
-
-        def expectedPostId = List.of(1, 2, 3, 4, 5)
-
+        postRepository.saveAll(List.of(
+                PostFixture.createPost(title: "title1", createdAt: LocalDateTime.now()),
+                PostFixture.createPost(title: "title2", createdAt: LocalDateTime.now().plusMinutes(2)),
+                PostFixture.createPost(title: "title3", createdAt: LocalDateTime.now().plusMinutes(3)),
+                PostFixture.createPost(title: "title4", createdAt: LocalDateTime.now().plusMinutes(4)),
+                PostFixture.createPost(title: "title5", createdAt: LocalDateTime.now().plusMinutes(5))
+        ))
         def pagination = new CursorPagination(null, null)
         def oldest = FeedSortOption.BY_DOWNVOTE
 
@@ -82,14 +80,13 @@ class FeedSortTest extends AbstractIntegrationTest {
 
     def "정렬 옵션이 추천순일 경우 피드는 오래된순으로 정렬되어야 한다."() {
         given:
-        postRepository.save(PostFixture.createPost(title: "title1", upvoteCount: 10))
-        postRepository.save(PostFixture.createPost(title: "title2", upvoteCount: 50))
-        postRepository.save(PostFixture.createPost(title: "title3", upvoteCount: 13))
-        postRepository.save(PostFixture.createPost(title: "title4", upvoteCount: 41))
-        postRepository.save(PostFixture.createPost(title: "title5", upvoteCount: 19))
-
-        def expectedUpvoteCount = List.of(50, 41, 19, 13, 10)
-
+        postRepository.saveAll(List.of(
+                PostFixture.createPost(title: "title1", upvoteCount: 10),
+                PostFixture.createPost(title: "title2", upvoteCount: 50),
+                PostFixture.createPost(title: "title3", upvoteCount: 13),
+                PostFixture.createPost(title: "title4", upvoteCount: 41),
+                PostFixture.createPost(title: "title5", upvoteCount: 19)
+        ))
         def pagination = new CursorPagination(null, null)
         def upvote = FeedSortOption.BY_UPVOTE
 
@@ -105,14 +102,13 @@ class FeedSortTest extends AbstractIntegrationTest {
 
     def "정렬 옵션이 비추천순일 경우 피드는 오래된순으로 정렬되어야 한다."() {
         given:
-        postRepository.save(PostFixture.createPost(title: "title1", downvoteCount: 10))
-        postRepository.save(PostFixture.createPost(title: "title2", downvoteCount: 50))
-        postRepository.save(PostFixture.createPost(title: "title3", downvoteCount: 13))
-        postRepository.save(PostFixture.createPost(title: "title4", downvoteCount: 41))
-        postRepository.save(PostFixture.createPost(title: "title5", downvoteCount: 19))
-
-        def expectedDownVoteCount = List.of(50, 41, 19, 13, 10)
-
+        postRepository.saveAll(List.of(
+                PostFixture.createPost(title: "title1", downvoteCount: 10),
+                PostFixture.createPost(title: "title2", downvoteCount: 50),
+                PostFixture.createPost(title: "title3", downvoteCount: 13),
+                PostFixture.createPost(title: "title4", downvoteCount: 41),
+                PostFixture.createPost(title: "title5", downvoteCount: 19)
+        ))
         def pagination = new CursorPagination(null, null)
         def downvote = FeedSortOption.BY_DOWNVOTE
 
