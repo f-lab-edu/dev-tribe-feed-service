@@ -1,6 +1,5 @@
 package com.devtribe.devtribe_feed_service.integration;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.ArrayList;
@@ -24,31 +23,40 @@ public class DatabaseCleaner implements InitializingBean {
     private EntityManager em;
 
     @SuppressWarnings("unchecked")
-    @PostConstruct
     private void findDatabaseTableNames() {
         try {
             List<String> tableNameList = em.createNativeQuery("SHOW TABLES").getResultList();
-            for (String tableName : tableNameList) {
-                if (tableName.equals("flyway_schema_history")) continue;
-                tableNames.add(tableName);
-            }
+            tableNameList.stream()
+                .filter(tableName -> !tableName.equals("flyway_schema_history"))
+                .forEach(this.tableNames::add);
         } catch (Exception e) {
             log.info("Failed to find database table names", e);
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
-    private void truncate() {
-        em.createNativeQuery(FOREIGN_KEY_CHECK_FALSE).executeUpdate();
-        for (String tableName : tableNames) {
-            em.createNativeQuery(String.format("TRUNCATE TABLE %s", tableName)).executeUpdate();
-        }
-        em.createNativeQuery(FOREIGN_KEY_CHECK_TRUE).executeUpdate();
+    private void updateForeignKeyChecks(String foreignKeyCheckFalse) {
+        em.createNativeQuery(foreignKeyCheckFalse).executeUpdate();
+    }
+
+    private void truncateTables() {
+        tableNames.forEach(tableName ->
+            updateForeignKeyChecks(String.format("TRUNCATE TABLE %s", tableName))
+        );
+    }
+
+    private void resetSequences() {
+        tableNames.forEach(tableName ->
+            updateForeignKeyChecks(String.format("ALTER TABLE %s AUTO_INCREMENT = 1", tableName))
+        );
     }
 
     @Transactional
     public void clear() {
-        truncate();
+        updateForeignKeyChecks(FOREIGN_KEY_CHECK_FALSE);
+        truncateTables();
+        resetSequences();
+        updateForeignKeyChecks(FOREIGN_KEY_CHECK_TRUE);
         em.clear();
     }
 
