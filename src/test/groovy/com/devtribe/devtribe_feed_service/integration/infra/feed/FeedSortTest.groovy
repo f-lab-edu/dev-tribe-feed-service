@@ -49,10 +49,8 @@ class FeedSortTest extends AbstractIntegrationTest {
         def result = feedRepository.findAllBySortOption(pagination, newest)
 
         then:
-        result.totalCount() == expectedPostId.size()
-        result.data().eachWithIndex { post, index ->
-            assert post.id == expectedPostId[index]
-        }
+        result.totalCount() == 5
+        result.data().collect { it.id } == [5L, 4L, 3L, 2L, 1L]
     }
 
     def "정렬 옵션이 오래된순일 경우 피드는 오래된순으로 정렬되어야 한다."() {
@@ -71,10 +69,8 @@ class FeedSortTest extends AbstractIntegrationTest {
         def result = feedRepository.findAllBySortOption(pagination, oldest)
 
         then:
-        result.totalCount() == expectedPostId.size()
-        result.data().eachWithIndex { post, index ->
-            assert post.id == expectedPostId[index]
-        }
+        result.totalCount() == 5
+        result.data().collect { it.id } == [1L, 2L, 3L, 4L, 5L]
     }
 
 
@@ -95,9 +91,7 @@ class FeedSortTest extends AbstractIntegrationTest {
 
         then:
         result.totalCount() == 5
-        result.data().eachWithIndex { post, index ->
-            assert post.upvoteCount == expectedUpvoteCount[index]
-        }
+        result.data().collect { it.upvoteCount } == [50, 41, 19, 13, 10]
     }
 
     def "정렬 옵션이 비추천순일 경우 피드는 오래된순으로 정렬되어야 한다."() {
@@ -117,9 +111,7 @@ class FeedSortTest extends AbstractIntegrationTest {
 
         then:
         result.totalCount() == 5
-        result.data().eachWithIndex { post, index ->
-            assert post.downvoteCount == expectedDownVoteCount[index]
-        }
+        result.data().collect { it.downvoteCount } == [50, 41, 19, 13, 10]
     }
 
 }
