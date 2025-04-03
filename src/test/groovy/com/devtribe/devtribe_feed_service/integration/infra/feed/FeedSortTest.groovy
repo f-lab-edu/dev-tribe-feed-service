@@ -74,7 +74,7 @@ class FeedSortTest extends AbstractIntegrationTest {
     }
 
 
-    def "정렬 옵션이 추천순일 경우 피드는 오래된순으로 정렬되어야 한다."() {
+    def "정렬 옵션이 추천순일 경우 피드는 추천순으로 정렬되어야 한다."() {
         given:
         postRepository.saveAll(List.of(
                 PostFixture.createPost(title: "title1", upvoteCount: 10),
@@ -94,7 +94,7 @@ class FeedSortTest extends AbstractIntegrationTest {
         result.data().collect { it.upvoteCount } == [50, 41, 19, 13, 10]
     }
 
-    def "정렬 옵션이 비추천순일 경우 피드는 오래된순으로 정렬되어야 한다."() {
+    def "정렬 옵션이 비추천순일 경우 피드는 비추천순으로 정렬되어야 한다."() {
         given:
         postRepository.saveAll(List.of(
                 PostFixture.createPost(title: "title1", downvoteCount: 10),
