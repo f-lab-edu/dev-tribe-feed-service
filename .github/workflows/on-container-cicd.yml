@@ -68,6 +68,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: '${{ github.event.inputs.tags }}'
 
       - name: Prepare docker-compose.dev.yml and .env
         run: |
