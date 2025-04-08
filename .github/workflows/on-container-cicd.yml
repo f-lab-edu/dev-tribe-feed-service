@@ -89,7 +89,7 @@ jobs:
 
       - name: Update docker-compose.yml with latest image tag
         run: |
-          sed -i "s|image:.*|image: ${{ secrets.DOCKERHUB_USER_NAME }}/${{ env.SPRING_APP_NAME }}:${{ env.SPRING_APP_VERSION }}|g" deploy/docker-compose.yml
+          sed -i "s|image:.*|image: ${{ secrets.DOCKERHUB_USER_NAME }}/${{ env.SPRING_APP_NAME }}:${{ env.SPRING_APP_VERSION }}|g" deploy/docker-compose.dev.yml
 
       - name: Copy files to server
         run: |
@@ -99,6 +99,6 @@ jobs:
         run: |
           cd ${{ secrets.SERVER_DIR }}
           docker pull ${{ secrets.DOCKERHUB_USER_NAME }}/${{ env.SPRING_APP_NAME }}:${{ env.SPRING_APP_VERSION }}
-          docker-compose down
-          docker-compose up -d
+          docker-compose -f docker-compose.dev.yml down
+          docker-compose -f docker-compose.dev.yml up -d
           docker system prune -f
