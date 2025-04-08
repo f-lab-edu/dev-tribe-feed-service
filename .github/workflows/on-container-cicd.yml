@@ -93,7 +93,7 @@ jobs:
 
       - name: Copy files to server
         run: |
-          cp -r deploy/* ${{ secrets.SERVER_DIR }}
+          cp -r deploy/. ${{ secrets.SERVER_DIR }}
 
       - name: Pull and run container
         run: |
