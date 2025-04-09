@@ -81,6 +81,7 @@ public class Post {
         this.publication = Publication.PUBLIC;
         this.upvoteCount = 0;
         this.downvoteCount = 0;
+        this.isDeleted = false;
     }
 
     public void updatePostDetail(UpdatePostRequest request) {
