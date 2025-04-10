@@ -1,31 +1,7 @@
 package com.devtribe.devtribe_feed_service.post.domain;
 
-import java.util.Arrays;
-import lombok.Getter;
-
-@Getter
 public enum FeedSortOption {
-    BY_NEWEST("최신순", "latest"),
-    BY_OLDEST("오래된순", "oldest"),
-    BY_UPVOTE("추천순", "upvote"),
-    BY_DOWNVOTE("비추천순", "downvote");
-
-    private final String title;
-    private final String value;
-
-    FeedSortOption(String title, String value) {
-        this.title = title;
-        this.value = value;
-    }
-
-    public static FeedSortOption fromValue(String value) {
-        return Arrays.stream(FeedSortOption.values())
-            .filter(feedSortOption -> feedSortOption.valueEquals(value))
-            .findAny()
-            .orElse(BY_NEWEST);
-    }
-
-    private boolean valueEquals(String value) {
-        return this.value.equals(value);
-    }
+    // TODO: 정렬 옵션은 피드뿐만 아니라 다른 도메인에서도 활용 가능할 것으로 보임.
+    //       추후 재사용할 경우, 공통 정렬 옵션으로 분리하는 방안 고민해보기
+    NEWEST, OLDEST, UPVOTE, DOWNVOTE,
 }

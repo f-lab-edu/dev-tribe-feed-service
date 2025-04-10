@@ -1,13 +1,12 @@
 package com.devtribe.devtribe_feed_service.post.api;
 
-import com.devtribe.devtribe_feed_service.global.common.CursorPagination;
 import com.devtribe.devtribe_feed_service.global.common.PageResponse;
 import com.devtribe.devtribe_feed_service.post.application.FeedService;
+import com.devtribe.devtribe_feed_service.post.application.dtos.FeedSearchRequest;
 import com.devtribe.devtribe_feed_service.post.application.dtos.PostResponse;
-import com.devtribe.devtribe_feed_service.post.domain.FeedSortOption;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,12 +19,10 @@ public class FeedController {
         this.feedService = feedService;
     }
 
-    @GetMapping
-    public PageResponse<PostResponse> getFeedListBySortOption(
-        @RequestParam(value = "cursorId", required = false) Long cursorId,
-        @RequestParam(value = "size", required = false) Integer pageSize,
-        @RequestParam(defaultValue = "BY_NEWEST") FeedSortOption sort
+    @PostMapping("/search")
+    public PageResponse<PostResponse> findFeedBySearchOption(
+        @RequestBody FeedSearchRequest feedSearchRequest
     ) {
-        return feedService.getFeedListBySortOption(new CursorPagination(cursorId, pageSize), sort);
+        return feedService.findFeedBySearchOption(feedSearchRequest);
     }
 }
