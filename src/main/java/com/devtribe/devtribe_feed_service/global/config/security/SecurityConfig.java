@@ -36,6 +36,7 @@ public class SecurityConfig {
                 })
             )
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/actuator/**").permitAll()
                 .requestMatchers(
                     "/api/v1/users/signup",
                     "/api/v1/auth/login",

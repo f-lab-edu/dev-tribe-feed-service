@@ -1,0 +1,54 @@
+services:
+  mysql:
+    image: mysql:8.0.37
+    container_name: devtribe-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql # 데이터 파일 외부 마운트
+      - ./mysql_conf:/etc/mysql/conf.d # 설정 파일 외부 마운트
+      - ./mysql_logs:/var/log/mysql # 로그 파일 외부 마운트
+      - ./init/exporter_user.sql:/docker-entrypoint-initdb.d/exporter_user.sql:ro
+    networks:
+      - monitoring
+
+  mysqld_exporter:
+    image: prom/mysqld-exporter:latest
+    container_name: mysqld_exporter
+    restart: always
+    ports:
+      - "9104:9104"   # Exporter가 기본적으로 메트릭을 9104 포트에서 노출
+    volumes:
+      - ./.my.cnf:/.my.cnf:ro
+    command:
+      - --config.my-cnf=/.my.cnf
+    depends_on:
+      - mysql
+    networks:
+      - monitoring
+
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    restart: always
+    # node_exporter는 host의 리소스를 모니터링하기 때문에 host 네트워크 모드를 사용
+    # 기본 포트는 9100
+    network_mode: host
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+
+volumes:
+  mysql-data:
+
+networks:
+  monitoring:
+    driver: bridge

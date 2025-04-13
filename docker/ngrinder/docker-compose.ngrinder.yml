@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  controller:
+    image: ngrinder/controller
+    container_name: ngrinder-controller
+    ports:
+      - "8300:80"
+      - "16001:16001"
+    volumes:
+      - ./scripts:/opt/ngrinder-controller/scripts
+      - ./controller-data:/opt/ngrinder-controller
+    restart: always
+
+  agent:
+    image: ngrinder/agent
+    container_name: ngrinder-agent
+    depends_on:
+      - controller
+    environment:
+      - CONTROLLER_IP=controller
+    network_mode: "service:controller"
+    restart: always
