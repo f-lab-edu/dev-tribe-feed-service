@@ -13,3 +13,154 @@ Content-Type: application/json
   "offset": 0,
   "size": 10
 }
+
+### 1. 단일 필터 - 키워드 조회(사용자가 특정 키워드를 포함하는 피드를 조회하는 경우)
+POST http://localhost/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "filter": {
+    "keyword": "자동화"
+  },
+  "sort": "NEWEST",
+  "offset": 0,
+  "size": 10
+}
+
+### 2. 단일 필터 - 날짜 범위 조회(사용자가 최근 1달간 작성된 피드를 조회하는 경우)
+POST http://localhost:8080/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "filter": {
+    "startDate": "2025-04-01T00:00:00",
+    "endDate": "2025-04-30T23:59:59"
+  },
+  "sort": "NEWEST",
+  "offset": 0,
+  "size": 10
+}
+
+### 3. 단일 필터 - 작성자 ID 조회(사용자가 특정 유저가 작성한 피드를 조회하는 경우)
+POST http://localhost:8080/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "filter": {
+    "authorId": 22374
+  },
+  "sort": "NEWEST",
+  "offset": 0,
+  "size": 10
+}
+
+### 4. 단일 정렬 - 최신순 조회(사용자가 피드를 최신순으로 정렬하여 조회하는 경우)
+POST http://localhost:8080/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "sort": "NEWEST",
+  "offset": 0,
+  "size": 10
+}
+
+### 5. 단일 정렬 - 오래된순 조회(사용자가 피드를 오래된순으로 정렬하여 조회하는 경우)
+POST http://localhost:8080/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "sort": "OLDEST",
+  "offset": 0,
+  "size": 10
+}
+
+### 6. 단일 정렬 - 추천순 조회(사용자가 피드를 추천순(좋아요 많은 순)으로 정렬하여 조회하는 경우)
+POST http://localhost:8080/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "sort": "UPVOTE",
+  "offset": 0,
+  "size": 10
+}
+
+### 7. 단일 정렬 - 비추천순 조회(사용자가 피드를 비추천순(싫어요 많은 순)으로 정렬하여 조회하는 경우)
+POST http://localhost:8080/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "sort": "DOWNVOTE",
+  "offset": 0,
+  "size": 10
+}
+
+### 8. 복합 필터 - 날짜범위 + 작성자ID 조회(사용자가 특정 날짜 범위와 작성자 ID를 함께 조합하여 피드를 조회하는 경우)
+POST http://localhost:8080/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "filter": {
+    "startDate": "2025-04-01T00:00:00",
+    "endDate": "2025-04-30T23:59:59",
+    "authorId": 22374
+  },
+  "sort": "DOWNVOTE",
+  "offset": 0,
+  "size": 10
+}
+
+### 9. 복합 필터 - 키워드 + 날짜범위 조회(사용자가 특정 키워드와 날짜 범위를 함께 조합하여 피드를 조회하는 경우)
+POST http://localhost:8080/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "filter": {
+    "keyword": "자동화",
+    "startDate": "2025-04-01T00:00:00",
+    "endDate": "2025-04-30T23:59:59"
+  },
+  "sort": "DOWNVOTE",
+  "offset": 0,
+  "size": 10
+}
+
+### 10. 복합 필터 - 키워드 + 작성자ID 조회(사용자가 특정 키워드와 작성자 ID를 함께 조합하여 피드를 조회하는 경우)
+POST http://localhost:8080/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "filter": {
+    "keyword": "자동화",
+    "authorId": 22374
+  },
+  "sort": "DOWNVOTE",
+  "offset": 0,
+  "size": 10
+}
+
+### 11. 복합 필터 - 키워드 + 날짜범위 + 작성자ID 조회(사용자가 키워드, 날짜 범위, 작성자 ID를 모두 조합하여 피드를 조회하는 경우)
+POST http://localhost:8080/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "filter": {
+    "keyword": "자동화",
+    "startDate": "2025-04-01T00:00:00",
+    "endDate": "2025-04-30T23:59:59",
+    "authorId": 22374
+  },
+  "sort": "DOWNVOTE",
+  "offset": 0,
+  "size": 10
+}
+
+
+### 12. 페이징 - Offset 변경 조회 (사용자가 페이지네이션을 통해 깊은 결과(높은 offset)를 조회하는 경우)
+POST http://localhost:8080/api/v1/feeds/search
+Content-Type: application/json
+
+{
+  "sort": "DOWNVOTE",
+  "offset": 50000,
+  "size": 10
+}
