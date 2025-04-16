@@ -1,0 +1,1 @@
+alter table post add fulltext index full_text_index (title, content) with parser ngram;

@@ -11,7 +11,9 @@ import com.devtribe.devtribe_feed_service.post.domain.Post;
 import com.devtribe.devtribe_feed_service.post.domain.Publication;
 import com.devtribe.devtribe_feed_service.post.repository.query.SortQuery;
 import com.devtribe.devtribe_feed_service.post.repository.query.SortQueryFactory;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,7 +40,7 @@ public class FeedRepositoryImpl implements FeedRepository {
         List<Post> queryResult = queryFactory
             .selectFrom(post)
             .where(
-                containKeyword(filter.getKeyword()),
+                searchKeyword(filter.getKeyword()),
                 betweenDate(filter.getStartDate(), filter.getEndDate()),
                 eqAuthor(filter.getAuthorId()),
                 eqPublic()
@@ -70,14 +72,19 @@ public class FeedRepositoryImpl implements FeedRepository {
     }
 
     /**
-     * TODO: containsIgnoreCase 사용으로 대량 데이터에서 성능 저하 가능.
-     * <p>현재 방식은 인덱스를 타지 않아 못해 데이터 양이 많아질 경우, 성능 저하가 발생 가능.
-     * 추후 전체 텍스트 검색(Full Text Search)이나 외부검색엔진(Elasticsearch) 도입 고려 필요.</p>
+     * TODO: Full-Text 검색방식으로 변경
+     * <p> 추후 외부검색엔진(Elasticsearch) 도입 고려 필요.</p>
      */
-    private BooleanExpression containKeyword(String keyword) {
+    private Predicate searchKeyword(String keyword) {
         if (keyword == null) {
             return null;
         }
-        return post.title.containsIgnoreCase(keyword).or(post.content.containsIgnoreCase(keyword));
+
+        return Expressions.booleanTemplate(
+            "function('match_against', {0}, {1}, {2}) > 0",
+            post.title,
+            post.content,
+            keyword
+        );
     }
 }
