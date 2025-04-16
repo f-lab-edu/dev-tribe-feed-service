@@ -29,6 +29,11 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
 
+logging:
+  level:
+    org.hibernate:
+      type: debug
+
 management:
   server:
     port: 9200
@@ -39,3 +44,4 @@ management:
     web:
       exposure:
         include: prometheus, health, info
+
