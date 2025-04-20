@@ -1,0 +1,10 @@
+apiVersion: 1
+
+providers:
+  - name: 'default'
+    folder: ''
+    type: file
+    disableDeletion: false              # false면 UI에서 대시보드 삭제 가능
+    editable: true                      # true면 UI에서 수정 가능
+    options:
+      path: /etc/grafana/provisioning/dashboards

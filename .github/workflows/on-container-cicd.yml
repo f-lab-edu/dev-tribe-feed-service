@@ -99,6 +99,6 @@ jobs:
         run: |
           cd ${{ secrets.SERVER_DIR }}
           docker pull ${{ secrets.DOCKERHUB_USER_NAME }}/${{ env.SPRING_APP_NAME }}:${{ env.SPRING_APP_VERSION }}
-          docker-compose -f docker-compose.dev.yml down
-          docker-compose -f docker-compose.dev.yml up -d
+          docker compose -f docker-compose.dev.yml down
+          docker compose -f docker-compose.dev.yml up -d
           docker system prune -f

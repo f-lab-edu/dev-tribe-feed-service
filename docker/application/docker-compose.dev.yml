@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  api:
+    image: ${DOCKER_REGISTRY}/${SPRING_APP_NAME}:latest
+    container_name: dev-tribe-api-server
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "9200:9200"
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    restart: always
+    # node_exporter는 host의 리소스를 모니터링하기 때문에 host 네트워크 모드를 사용
+    # 기본 포트는 9100
+    network_mode: host
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro

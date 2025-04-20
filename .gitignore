@@ -206,3 +206,11 @@ gradle-app.setting
 ### Gradle Patch ###
 # Java heap dump
 *.hprof
+
+### nGrinder ###
+/docker/ngrinder/controller-data
+
+### env ###
+*.env
+**/*.env
+.my.cnf
