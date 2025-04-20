@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 public class SortQueryFactory {
 
     private final Map<FeedSortOption, SortQuery> sortQueryStrategyMap = Map.of(
-        FeedSortOption.NEWEST, post.createdAt::desc,
-        FeedSortOption.OLDEST, post.createdAt::asc,
+        FeedSortOption.NEWEST, post.id::desc,
+        FeedSortOption.OLDEST, post.id::asc,
         FeedSortOption.UPVOTE, post.upvoteCount::desc,
         FeedSortOption.DOWNVOTE, post.downvoteCount::desc
     );
