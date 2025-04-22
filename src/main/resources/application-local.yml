@@ -13,6 +13,11 @@ spring:
       idle-timeout: 30000
       connection-timeout: 20000
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
   jpa:
     hibernate:
       ddl-auto: validate
