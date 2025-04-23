@@ -1,5 +1,7 @@
 package com.devtribe.devtribe_feed_service.post.application;
 
+import static java.lang.Integer.parseInt;
+
 import com.devtribe.devtribe_feed_service.post.application.dtos.PostVoteResponse;
 import com.devtribe.devtribe_feed_service.post.application.dtos.VoteRequest;
 import java.util.List;
@@ -32,10 +34,14 @@ public class VoteService {
         this.postVoteCountScript = postVoteCountScript;
     }
 
+    public static String getPostVotesKey(Long postId) {
+        return String.format(POST_VOTES_KEY, postId);
+    }
+
     public PostVoteResponse vote(Long postId, VoteRequest voteRequest) {
         List<String> result = redisTemplate.execute(
             postVoteScript,
-            List.of(String.format(POST_VOTES_KEY, postId), UPVOTE_COUNT_KEY, DOWNVOTE_COUNT_KEY),
+            List.of(getPostVotesKey(postId), UPVOTE_COUNT_KEY, DOWNVOTE_COUNT_KEY),
             postId.toString(), voteRequest.userId().toString(), voteRequest.voteType().toString()
         );
         return getPostVoteResponse(postId, result);
@@ -44,7 +50,7 @@ public class VoteService {
     public PostVoteResponse unvote(Long postId, Long userId) {
         List<String> result = redisTemplate.execute(
             postUnvoteScript,
-            List.of(String.format(POST_VOTES_KEY, postId), UPVOTE_COUNT_KEY, DOWNVOTE_COUNT_KEY),
+            List.of(getPostVotesKey(postId), UPVOTE_COUNT_KEY, DOWNVOTE_COUNT_KEY),
             postId.toString(), userId.toString()
         );
         return getPostVoteResponse(postId, result);
@@ -60,8 +66,11 @@ public class VoteService {
     }
 
     private PostVoteResponse getPostVoteResponse(Long postId, List<String> result) {
-        Integer upvoteCount = Integer.parseInt(result.get(0) == null ? "0" : result.get(0));
-        Integer downvoteCount = Integer.parseInt(result.get(1) == null ? "0" : result.get(1));
+        if (result == null) {
+            throw new IllegalStateException("Redis script returned null");
+        }
+        Integer upvoteCount = parseInt(result.get(0) == null ? "0" : result.get(0));
+        Integer downvoteCount = parseInt(result.get(1) == null ? "0" : result.get(1));
         return new PostVoteResponse(postId, upvoteCount, downvoteCount);
     }
 
