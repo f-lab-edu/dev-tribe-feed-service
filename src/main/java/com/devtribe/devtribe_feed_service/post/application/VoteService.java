@@ -13,15 +13,18 @@ public class VoteService {
     private final RedisTemplate<String, String> redisTemplate;
     private final RedisScript<List> postVoteScript;
     private final RedisScript<List> postUnvoteScript;
+    private final RedisScript<List> postVoteCountScript;
 
     public VoteService(
         RedisTemplate<String, String> redisTemplate,
         RedisScript<List> postVoteScript,
-        RedisScript<List> postUnvoteScript
+        RedisScript<List> postUnvoteScript,
+        RedisScript<List> postVoteCountScript
     ) {
         this.redisTemplate = redisTemplate;
         this.postVoteScript = postVoteScript;
         this.postUnvoteScript = postUnvoteScript;
+        this.postVoteCountScript = postVoteCountScript;
     }
 
     public PostVoteResponse vote(Long postId, VoteRequest voteRequest) {
@@ -50,8 +53,19 @@ public class VoteService {
         return getPostVoteResponse(postId, result);
     }
 
+    public PostVoteResponse getVoteCount(Long postId) {
+        String upvoteCountKey = "post:upvoteCount";
+        String downvoteCountKey = "post:downvoteCount";
+
+        List<String> result = redisTemplate.execute(
+            postVoteCountScript,
+            List.of(upvoteCountKey, downvoteCountKey),
+            postId.toString()
+        );
+        return getPostVoteResponse(postId, result);
+    }
+
     private PostVoteResponse getPostVoteResponse(Long postId, List<String> result) {
-        /// TODO null - check 개선 필요
         Integer upvoteCount = Integer.parseInt(result.get(0) == null ? "0" : result.get(0));
         Integer downvoteCount = Integer.parseInt(result.get(1) == null ? "0" : result.get(1));
         return new PostVoteResponse(postId, upvoteCount, downvoteCount);
