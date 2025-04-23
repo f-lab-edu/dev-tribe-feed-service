@@ -10,7 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class VoteService {
 
+    public static final String POST_VOTES_KEY = "post:%d:votes";
+    public static final String UPVOTE_COUNT_KEY = "post:upvoteCount";
+    public static final String DOWNVOTE_COUNT_KEY = "post:downvoteCount";
+
     private final RedisTemplate<String, String> redisTemplate;
+
     private final RedisScript<List> postVoteScript;
     private final RedisScript<List> postUnvoteScript;
     private final RedisScript<List> postVoteCountScript;
@@ -28,38 +33,27 @@ public class VoteService {
     }
 
     public PostVoteResponse vote(Long postId, VoteRequest voteRequest) {
-        String key = "post:" + postId + ":votes";
-        String upvoteCountKey = "post:upvoteCount";
-        String downvoteCountKey = "post:downvoteCount";
-
         List<String> result = redisTemplate.execute(
             postVoteScript,
-            List.of(key, upvoteCountKey, downvoteCountKey),
+            List.of(String.format(POST_VOTES_KEY, postId), UPVOTE_COUNT_KEY, DOWNVOTE_COUNT_KEY),
             postId.toString(), voteRequest.userId().toString(), voteRequest.voteType().toString()
         );
         return getPostVoteResponse(postId, result);
     }
 
     public PostVoteResponse unvote(Long postId, Long userId) {
-        String setKey = "post:" + postId + ":votes";
-        String upvoteCountKey = "post:upvoteCount";
-        String downvoteCountKey = "post:downvoteCount";
-
         List<String> result = redisTemplate.execute(
             postUnvoteScript,
-            List.of(setKey, upvoteCountKey, downvoteCountKey),
+            List.of(String.format(POST_VOTES_KEY, postId), UPVOTE_COUNT_KEY, DOWNVOTE_COUNT_KEY),
             postId.toString(), userId.toString()
         );
         return getPostVoteResponse(postId, result);
     }
 
     public PostVoteResponse getVoteCount(Long postId) {
-        String upvoteCountKey = "post:upvoteCount";
-        String downvoteCountKey = "post:downvoteCount";
-
         List<String> result = redisTemplate.execute(
             postVoteCountScript,
-            List.of(upvoteCountKey, downvoteCountKey),
+            List.of(UPVOTE_COUNT_KEY, DOWNVOTE_COUNT_KEY),
             postId.toString()
         );
         return getPostVoteResponse(postId, result);
