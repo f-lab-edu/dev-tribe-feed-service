@@ -34,16 +34,21 @@ public class VoteService {
         """;
 
     private final String cancelScript = """
-        local setKey = KEYS[1]
-        local countKey = KEYS[2]
+        local userId = ARGV[1]
         
-        local removeValue = ARGV[1]
-        local id = ARGV[2]
-        
-        -- 비추천 제거 시 실제로 제거되었으면 카운트 감소
-        if redis.call('SREM', setKey, removeValue) == 1 then
-            redis.call('ZINCRBY', countKey, -1, id)
+        local removedUp = redis.call("SREM", KEYS[1], userId .. ":UPVOTE")
+        if removedUp == 1 then
+            redis.call("ZINCRBY", KEYS[2], -1, userId)
+            return 1
         end
+        
+        local removedDown = redis.call("SREM", KEYS[1], userId .. ":DOWNVOTE")
+        if removedDown == 1 then
+            redis.call("ZINCRBY", KEYS[3], -1, userId)
+            return 1
+        end
+        
+        return 0
         """;
 
     public VoteService(RedisTemplate<String, String> redisTemplate) {
@@ -74,27 +79,14 @@ public class VoteService {
         return new PostVoteResponse();
     }
 
-    public PostVoteResponse unvote(Long postId, Long userId) {
-        String key = "post:" + postId + ":votes";
+    public void unvote(Long postId, Long userId) {
+        String setKey = "post:" + postId + ":votes";
         String upvoteCountKey = "post:upvoteCount";
         String downvoteCountKey = "post:downvoteCount";
-        String upvote = voteRequest.userId() + ":" + VoteType.UPVOTE;
-        String downvote = voteRequest.userId() + ":" + VoteType.DOWNVOTE;
 
-        if (voteRequest.voteType() == VoteType.UPVOTE) {
-            redisTemplate.execute(
-                new DefaultRedisScript<>(cancelScript, String.class),
-                List.of(key, upvoteCountKey),
-                upvote, postId.toString()
-            );
-        } else {
-            redisTemplate.execute(
-                new DefaultRedisScript<>(cancelScript, String.class),
-                List.of(key, downvoteCountKey),
-                downvote, postId.toString()
-            );
-        }
-
-        return null;
+        redisTemplate.execute(new DefaultRedisScript<>(cancelScript, String.class),
+            List.of(setKey, upvoteCountKey, downvoteCountKey),
+            userId
+        );
     }
 }
