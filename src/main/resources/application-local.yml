@@ -3,10 +3,10 @@ spring:
     name: devtribe-feed-service
 
   datasource:
-    url: jdbc:mysql://localhost:3306/devtribe-feed
+    url: ${DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: sa
-    password: password
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     hikari:
       minimum-idle: 10
       maximum-pool-size: 200
