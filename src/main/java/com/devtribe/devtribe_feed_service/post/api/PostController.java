@@ -80,7 +80,7 @@ public class PostController {
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
         Long userId = userDetail.getUserId();
-        voteService.unvote(postId, upvotePostRequest(userId));
+        voteService.unvote(postId, userId);
         return ResponseEntity.noContent().build();
     }
 

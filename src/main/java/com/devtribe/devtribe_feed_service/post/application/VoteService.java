@@ -74,7 +74,7 @@ public class VoteService {
         return new PostVoteResponse();
     }
 
-    public PostVoteResponse unvote(Long postId, VoteRequest voteRequest) {
+    public PostVoteResponse unvote(Long postId, Long userId) {
         String key = "post:" + postId + ":votes";
         String upvoteCountKey = "post:upvoteCount";
         String downvoteCountKey = "post:downvoteCount";
