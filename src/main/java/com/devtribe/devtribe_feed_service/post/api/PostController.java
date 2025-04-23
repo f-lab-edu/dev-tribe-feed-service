@@ -14,6 +14,7 @@ import com.devtribe.devtribe_feed_service.post.application.dtos.UpdatePostRespon
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -52,6 +53,14 @@ public class PostController {
     public ResponseEntity<Void> deletePost(@PathVariable("id") Long id) {
         postService.deletePost(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/vote")
+    public ResponseEntity<PostVoteResponse> voteCount(
+        @PathVariable("id") Long postId
+    ){
+        PostVoteResponse responseBody = voteService.getVoteCount(postId);
+        return ResponseEntity.ok(responseBody);
     }
 
     @PostMapping("/{id}/upvote")
