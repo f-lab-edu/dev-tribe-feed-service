@@ -55,7 +55,7 @@ public class PostController {
     }
 
     @PostMapping("/{id}/upvote")
-    public ResponseEntity<PostVoteResponse> upvotePost(
+    public ResponseEntity<PostVoteResponse> upvote(
         @PathVariable("id") Long postId,
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
@@ -65,7 +65,7 @@ public class PostController {
     }
 
     @PostMapping("/{id}/downvote")
-    public ResponseEntity<PostVoteResponse> downvotePost(
+    public ResponseEntity<PostVoteResponse> downvote(
         @PathVariable("id") Long postId,
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
