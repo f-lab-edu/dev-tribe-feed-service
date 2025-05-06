@@ -9,7 +9,7 @@ services:
       - "8080:8080"
       - "9200:9200"
     environment:
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
 
