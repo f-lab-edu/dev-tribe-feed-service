@@ -40,4 +40,8 @@ public class CustomUserDetail implements UserDetails, CredentialsContainer {
     public User getUser() {
         return user;
     }
+
+    public Long getUserId() {
+        return user.getId();
+    }
 }

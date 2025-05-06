@@ -1,0 +1,15 @@
+### 게시글 추천
+POST http://localhost:8080/api/v1/posts/1/upvote
+Content-Type: application/json
+
+### 게시글 비추천
+POST http://localhost:8080/api/v1/posts/1/downvote
+Content-Type: application/json
+
+### 게시글 투표 취소
+DELETE http://localhost:8080/api/v1/posts/1/unvote
+Content-Type: application/json
+
+### 게시글 추천/비추천 수 조회
+GET http://localhost:8080/api/v1/posts/1/vote
+Content-Type: application/json
