@@ -73,4 +73,14 @@ public class PostController {
         PostVoteResponse responseBody = voteService.vote(postId, downvotePostRequest(userId));
         return ResponseEntity.ok(responseBody);
     }
+
+    @DeleteMapping("/{id}/unvote")
+    public ResponseEntity<Void> unvote(
+        @PathVariable("id") Long postId,
+        @AuthenticationPrincipal CustomUserDetail userDetail
+    ) {
+        Long userId = userDetail.getUserId();
+        voteService.unvote(postId, userId);
+        return ResponseEntity.noContent().build();
+    }
 }
