@@ -60,4 +60,8 @@ public class PostVote {
         this.userId = userId;
         this.voteType = voteType;
     }
+
+    public void updateVoteType(VoteType voteType) {
+        this.voteType = voteType;
+    }
 }
