@@ -60,7 +60,7 @@ public class PostController {
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
         Long userId = userDetail.getUserId();
-        PostVoteResponse responseBody = voteService.vote(postId, upvotePostRequest(userId));
+        PostVoteResponse responseBody = voteService.vote(upvotePostRequest(userId, postId));
         return ResponseEntity.ok(responseBody);
     }
 
@@ -70,7 +70,7 @@ public class PostController {
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
         Long userId = userDetail.getUserId();
-        PostVoteResponse responseBody = voteService.vote(postId, downvotePostRequest(userId));
+        PostVoteResponse responseBody = voteService.vote(downvotePostRequest(userId, postId));
         return ResponseEntity.ok(responseBody);
     }
 
