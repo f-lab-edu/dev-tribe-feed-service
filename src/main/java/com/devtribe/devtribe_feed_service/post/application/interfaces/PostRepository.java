@@ -13,4 +13,8 @@ public interface PostRepository {
     List<Post> saveAll(List<Post> posts);
 
     Optional<Post> findById(Long postId);
+
+    void upvotePost(Long postId);
+
+    void downvotePost(Long postId);
 }

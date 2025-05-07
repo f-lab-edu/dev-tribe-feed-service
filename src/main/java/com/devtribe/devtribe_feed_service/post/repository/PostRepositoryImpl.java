@@ -30,4 +30,15 @@ public class PostRepositoryImpl implements PostRepository {
     public Optional<Post> findById(Long postId) {
         return postRepository.findById(postId);
     }
+
+    @Override
+    public void upvotePost(Long postId) {
+        postRepository.increaseUpvoteCount(postId);
+    }
+
+    @Override
+    public void downvotePost(Long postId) {
+        postRepository.increaseDownvoteCount(postId);
+    }
+
 }
