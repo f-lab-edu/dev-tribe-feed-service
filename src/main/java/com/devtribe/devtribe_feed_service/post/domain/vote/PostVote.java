@@ -2,6 +2,7 @@ package com.devtribe.devtribe_feed_service.post.domain.vote;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -17,8 +18,10 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
+@EntityListeners(value = {AuditingEntityListener.class})
 @Entity
 @Table(name = "post_vote")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
