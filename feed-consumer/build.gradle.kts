@@ -1,19 +1,6 @@
-plugins {
-    id("java")
-}
-
-group = "com.devtribe"
-version = "0.0.1-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-}
+    implementation(project(mapOf("path" to ":feed-common")))
 
-tasks.test {
-    useJUnitPlatform()
+    implementation("org.springframework.kafka:spring-kafka")
+    testImplementation("org.testcontainers:spock")
 }
