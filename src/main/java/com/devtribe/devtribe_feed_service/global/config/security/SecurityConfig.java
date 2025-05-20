@@ -5,6 +5,7 @@ import com.devtribe.devtribe_feed_service.global.config.security.authentication.
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -42,6 +43,7 @@ public class SecurityConfig {
                     "/api/v1/auth/login",
                     "/api/v1/auth/logout").permitAll()
                 .requestMatchers("/api/v1/feeds/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/posts/*/vote").permitAll()
                 .requestMatchers("/api/v1/posts/**").authenticated()
                 .anyRequest().authenticated()
             )

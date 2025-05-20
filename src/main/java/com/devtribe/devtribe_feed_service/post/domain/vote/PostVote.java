@@ -20,9 +20,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @Getter
 @Entity
-@Table(name = "vote")
+@Table(name = "post_vote")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Vote {
+public class PostVote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +31,8 @@ public class Vote {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "target_id", nullable = false)
-    private Long targetId;
-
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "target_type", nullable = false)
-    private TargetType targetType;
+    @Column(name = "post_id", nullable = false)
+    private Long postId;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "vote_type", nullable = false)
@@ -59,10 +55,9 @@ public class Vote {
     private Long updatedBy;
 
     @Builder
-    public Vote(Long targetId, Long userId, TargetType targetType, VoteType voteType) {
-        this.targetId = targetId;
+    public PostVote(Long postId, Long userId, VoteType voteType) {
+        this.postId = postId;
         this.userId = userId;
-        this.targetType = targetType;
         this.voteType = voteType;
     }
 }
