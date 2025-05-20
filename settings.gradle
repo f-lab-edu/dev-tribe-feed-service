@@ -1,1 +1,5 @@
 rootProject.name = 'devtribe-feed-service'
+include 'feed-api'
+include 'feed-common'
+include 'feed-consumer'
+
