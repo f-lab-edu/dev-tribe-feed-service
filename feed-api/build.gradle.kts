@@ -1,21 +1,23 @@
-plugins {
-    id("java")
-    id("io.spring.dependency-management") version "1.1.7"
-    id("java-library")
-}
 
-group = "com.devtribe"
-version = "0.0.1-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-}
+    implementation(project(mapOf("path" to ":feed-common")))
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-hateoas")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
-tasks.test {
-    useJUnitPlatform()
+    implementation(platform("org.testcontainers:testcontainers-bom:1.20.6"))
+    implementation("org.testcontainers:mysql")
+
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.testcontainers:spock")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
 }
