@@ -1,6 +1,4 @@
 dependencies {
-    implementation(project(mapOf("path" to ":feed-common")))
-
-    implementation("org.springframework.kafka:spring-kafka")
-    testImplementation("org.testcontainers:spock")
+    implementation(project(mapOf("path" to ":feed-core")))
+    implementation("org.springframework.boot:spring-boot-starter-web")
 }
