@@ -9,6 +9,8 @@ java {
 	}
 }
 
+val queryDslVersion = "5.0.0"
+
 allprojects {
 
 	group = "com.devtribe"
@@ -23,6 +25,7 @@ subprojects {
 
 	apply {
 		plugin("java")
+		plugin("groovy")
 		plugin("org.springframework.boot")
 		plugin("io.spring.dependency-management")
 		plugin("java-library")
@@ -36,16 +39,15 @@ subprojects {
 
 	dependencies {
 		compileOnly("org.projectlombok:lombok")
+		implementation("com.querydsl:querydsl-jpa:$queryDslVersion:jakarta")
+		annotationProcessor("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
 		annotationProcessor("org.projectlombok:lombok")
-
-		implementation("com.google.guava:guava:33.4.0-jre")
-
-		testImplementation("org.assertj:assertj-core:3.26.3")
 		testImplementation(platform("org.junit:junit-bom:5.10.0"))
 		testImplementation("org.junit.jupiter:junit-jupiter")
+		testImplementation("org.assertj:assertj-core:3.26.3")
 		testImplementation("org.spockframework:spock-core:2.4-M4-groovy-4.0")
 		testImplementation("org.spockframework:spock-spring:2.4-M4-groovy-4.0")
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
+
 	}
 
 	configurations {
