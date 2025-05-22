@@ -20,9 +20,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @Getter
 @Entity
-@Table(name = "post_vote")
+@Table(name = "post_vote_log")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostVote {
+public class PostVoteLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +55,7 @@ public class PostVote {
     private Long updatedBy;
 
     @Builder
-    public PostVote(Long postId, Long userId, VoteType voteType) {
+    public PostVoteLog(Long postId, Long userId, VoteType voteType) {
         this.postId = postId;
         this.userId = userId;
         this.voteType = voteType;
