@@ -1,6 +1,6 @@
 package com.devtribe.domain.vote.application.dtos;
 
-import com.devtribe.domain.vote.entity.PostVote;
+import com.devtribe.domain.vote.entity.PostVoteLog;
 import com.devtribe.domain.vote.entity.VoteType;
 
 public record VoteRequest(
@@ -16,8 +16,8 @@ public record VoteRequest(
         return new VoteRequest(userId, VoteType.DOWNVOTE);
     }
 
-    public PostVote toEntity() {
-        return PostVote.builder()
+    public PostVoteLog toEntity() {
+        return PostVoteLog.builder()
             .userId(this.userId)
             .voteType(this.voteType)
             .build();
