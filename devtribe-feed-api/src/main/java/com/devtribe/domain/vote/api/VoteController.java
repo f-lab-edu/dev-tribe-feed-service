@@ -1,6 +1,6 @@
 package com.devtribe.domain.vote.api;
 
-import com.devtribe.domain.vote.application.VoteService;
+import com.devtribe.domain.vote.application.PostVoteService;
 import com.devtribe.domain.vote.application.dtos.PostVoteResponse;
 import com.devtribe.domain.vote.application.dtos.VoteRequest;
 import com.devtribe.global.security.CustomUserDetail;
@@ -20,17 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/votes")
 public class VoteController {
 
-    private final VoteService voteService;
+    private final PostVoteService postVoteService;
 
-    public VoteController(VoteService voteService) {
-        this.voteService = voteService;
+    public VoteController(PostVoteService postVoteService) {
+        this.postVoteService = postVoteService;
     }
 
     @GetMapping("/post/{id}")
     public PostVoteResponse voteCount(
         @PathVariable("id") Long postId
     ) {
-        return voteService.getVoteCount(postId);
+        return postVoteService.getVoteCount(postId);
     }
 
     @PostMapping("post/{id}")
@@ -40,7 +40,7 @@ public class VoteController {
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
         log.info("voteType: {}", voteType);
-        return voteService.vote(postId, userDetail.getUserId(), voteType);
+        return postVoteService.vote(postId, userDetail.getUserId(), voteType);
     }
 
     @DeleteMapping("post/{id}")
@@ -49,7 +49,7 @@ public class VoteController {
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
         Long userId = userDetail.getUserId();
-        voteService.unvote(postId, userId);
+        postVoteService.unvote(postId, userId);
         return ResponseEntity.noContent().build();
     }
 }

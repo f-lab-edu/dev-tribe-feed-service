@@ -12,7 +12,7 @@ import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VoteService {
+public class PostVoteService {
 
     public static final String POST_VOTES_KEY = "post:%d:votes";
     public static final String UPVOTE_COUNT_KEY = "post:upvoteCount";
@@ -25,7 +25,7 @@ public class VoteService {
     private final RedisScript<List> postUnvoteScript;
     private final RedisScript<List> postVoteCountScript;
 
-    public VoteService(
+    public PostVoteService(
         RedisTemplate<String, String> redisTemplate,
         PostService postService,
         RedisScript<List> postVoteScript,
