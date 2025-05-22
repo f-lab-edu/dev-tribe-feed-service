@@ -1,15 +1,23 @@
 ### 게시글 추천
-POST http://localhost:8080/api/v1/posts/1/upvote
+POST http://localhost:8080/api/v1/votes/post/1
 Content-Type: application/json
+
+{
+  "voteType": "UPVOTE"
+}
 
 ### 게시글 비추천
-POST http://localhost:8080/api/v1/posts/1/downvote
+POST http://localhost:8080/api/v1/votes/post/1
 Content-Type: application/json
 
+{
+  "voteType": "DOWNVOTE"
+}
+
 ### 게시글 투표 취소
-DELETE http://localhost:8080/api/v1/posts/1/unvote
+DELETE http://localhost:8080/api/v1/votes/post/1
 Content-Type: application/json
 
 ### 게시글 추천/비추천 수 조회
-GET http://localhost:8080/api/v1/posts/1/vote
+GET http://localhost:8080/api/v1/votes/post/1
 Content-Type: application/json

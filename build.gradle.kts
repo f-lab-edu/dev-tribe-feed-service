@@ -1,6 +1,7 @@
 plugins {
 	id("java")
 	id("org.springframework.boot") version "3.4.2"
+	id("io.spring.dependency-management") version "1.1.4"
 }
 
 java {
@@ -9,7 +10,12 @@ java {
 	}
 }
 
-val queryDslVersion = "5.0.0"
+repositories {
+	mavenCentral()
+}
+
+ext["springCloudVersion"] = "2024.0.0"
+ext["queryDslVersion"] = "5.0.0"
 
 allprojects {
 
@@ -39,8 +45,8 @@ subprojects {
 
 	dependencies {
 		compileOnly("org.projectlombok:lombok")
-		implementation("com.querydsl:querydsl-jpa:$queryDslVersion:jakarta")
-		annotationProcessor("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
+		implementation("com.querydsl:querydsl-jpa:${property("queryDslVersion")}:jakarta")
+		annotationProcessor("com.querydsl:querydsl-apt:${property("queryDslVersion")}:jakarta")
 		annotationProcessor("org.projectlombok:lombok")
 		testImplementation(platform("org.junit:junit-bom:5.10.0"))
 		testImplementation("org.junit.jupiter:junit-jupiter")
@@ -48,6 +54,12 @@ subprojects {
 		testImplementation("org.spockframework:spock-core:2.4-M4-groovy-4.0")
 		testImplementation("org.spockframework:spock-spring:2.4-M4-groovy-4.0")
 
+	}
+
+	dependencyManagement {
+		imports {
+			mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+		}
 	}
 
 	configurations {

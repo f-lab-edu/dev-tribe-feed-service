@@ -6,6 +6,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
     implementation("org.testcontainers:mysql")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")

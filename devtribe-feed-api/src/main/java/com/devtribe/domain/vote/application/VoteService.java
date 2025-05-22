@@ -43,13 +43,13 @@ public class VoteService {
         return String.format(POST_VOTES_KEY, postId);
     }
 
-    public PostVoteResponse vote(Long postId, VoteRequest voteRequest) {
+    public PostVoteResponse vote(Long postId, Long userId, VoteRequest voteRequest) {
         Post post = postService.getPost(postId);
 
         List<String> result = redisTemplate.execute(
             postVoteScript,
             List.of(getPostVotesKey(post.getId()), UPVOTE_COUNT_KEY, DOWNVOTE_COUNT_KEY),
-            post.getId().toString(), voteRequest.userId().toString(), voteRequest.voteType().toString()
+            post.getId().toString(), userId.toString(), voteRequest.voteType().toString()
         );
         return getPostVoteResponse(postId, result);
     }
