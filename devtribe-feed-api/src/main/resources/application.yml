@@ -1,3 +1,6 @@
 spring:
+  application:
+    name: devtribe-feed-service
   profiles:
     active: local
+    include: event
