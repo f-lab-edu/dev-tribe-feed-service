@@ -1,14 +1,11 @@
 package com.devtribe.domain.vote.api;
 
 import com.devtribe.domain.vote.application.PostVoteService;
-import com.devtribe.domain.vote.application.dtos.PostVoteResponse;
 import com.devtribe.domain.vote.application.dtos.VoteRequest;
 import com.devtribe.global.security.CustomUserDetail;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,30 +23,22 @@ public class VoteController {
         this.postVoteService = postVoteService;
     }
 
-    @GetMapping("/post/{id}")
-    public PostVoteResponse voteCount(
-        @PathVariable("id") Long postId
-    ) {
-        return postVoteService.getVoteCount(postId);
-    }
-
     @PostMapping("post/{id}")
-    public PostVoteResponse vote(
+    public void vote(
         @PathVariable("id") Long postId,
         @RequestBody VoteRequest voteType,
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
         log.info("voteType: {}", voteType);
-        return postVoteService.vote(postId, userDetail.getUserId(), voteType);
+        postVoteService.vote(postId, userDetail.getUserId(), voteType);
     }
 
     @DeleteMapping("post/{id}")
-    public ResponseEntity<Void> unvote(
+    public void unvote(
         @PathVariable("id") Long postId,
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
         Long userId = userDetail.getUserId();
         postVoteService.unvote(postId, userId);
-        return ResponseEntity.noContent().build();
     }
 }
