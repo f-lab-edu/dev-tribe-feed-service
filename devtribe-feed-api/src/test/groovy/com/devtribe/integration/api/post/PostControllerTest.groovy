@@ -7,7 +7,6 @@ import com.devtribe.domain.post.application.dtos.CreatePostResponse
 import com.devtribe.domain.post.application.dtos.UpdatePostRequest
 import com.devtribe.domain.post.application.dtos.UpdatePostResponse
 import com.devtribe.domain.post.entity.Publication
-import com.devtribe.domain.vote.application.VoteService
 import com.devtribe.integration.config.NoSecurityWebMvcTest
 import com.devtribe.integration.config.TestSecurityConfig
 import com.fasterxml.jackson.databind.JsonNode
@@ -35,8 +34,6 @@ class PostControllerTest extends Specification {
     ObjectMapper objectMapper
     @SpringBean
     PostService postService = Mock(PostService)
-    @SpringBean
-    VoteService voteService = Mock(VoteService)
 
     def "게시물 생성 성공 - 200 status와 게시물 id를 반환"() {
         given:
