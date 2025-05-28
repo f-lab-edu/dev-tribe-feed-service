@@ -2,9 +2,9 @@ package com.devtribe.domain.tag.appliction.dtos;
 
 import com.devtribe.domain.tag.entity.Tag;
 
-public record TagResponse(String name) {
+public record TagResponse(Long id, String name) {
 
     public static TagResponse from(Tag tag) {
-        return new TagResponse(tag.getName());
+        return new TagResponse(tag.getId(), tag.getName());
     }
 }
