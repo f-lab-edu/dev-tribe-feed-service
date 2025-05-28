@@ -1,0 +1,38 @@
+package com.devtribe.domain.tag.appliction;
+
+import com.devtribe.domain.tag.appliction.dtos.TagCreateRequest;
+import com.devtribe.domain.tag.appliction.dtos.TagResponse;
+import com.devtribe.domain.tag.appliction.validators.TagRequestValidator;
+import com.devtribe.domain.tag.dao.TagRepository;
+import com.devtribe.domain.tag.entity.Tag;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class TagService {
+
+    private final TagRepository tagRepository;
+    private final TagRequestValidator validator;
+
+    public TagService(
+        TagRepository tagRepository,
+        TagRequestValidator validator
+    ) {
+        this.tagRepository = tagRepository;
+        this.validator = validator;
+    }
+
+    @Transactional
+    public Long createTag(TagCreateRequest request) {
+        validator.validateTagNameLength(request.tagName());
+        return tagRepository.save(new Tag(request.tagName())).getId();
+    }
+
+    @Transactional(readOnly = true)
+    public TagResponse getTagName(Long tagId) {
+        Tag tag = tagRepository.findById(tagId)
+            .orElseThrow(() -> new IllegalArgumentException("요창한 태그가 존재하지 않습니다."));
+
+        return TagResponse.from(tag);
+    }
+}
