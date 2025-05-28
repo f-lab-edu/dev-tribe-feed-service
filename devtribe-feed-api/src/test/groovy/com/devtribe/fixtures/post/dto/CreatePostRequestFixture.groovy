@@ -10,7 +10,8 @@ class CreatePostRequestFixture {
                 "title",
                 "content",
                 authorId,
-                "thumbnail"
+                "thumbnail",
+                List.of(1L, 2L)
         )
     }
 }

@@ -11,7 +11,8 @@ class UpdatePostRequestFixture {
                 "title updated",
                 "content updated",
                 "thumbnail updated",
-                publication
+                publication,
+                List.of(1L)
         )
     }
 }
