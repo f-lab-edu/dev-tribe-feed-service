@@ -1,0 +1,8 @@
+### 게시글 상세 조회
+GET http://{{host}}/api/v1/posts/600001
+
+> {%
+  client.test("응답 코드 확인", () => {
+    client.assert(response.status === 200, "200이 아님");
+  });
+%}
