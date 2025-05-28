@@ -2,14 +2,17 @@ package com.devtribe.domain.post.application;
 
 import com.devtribe.domain.post.application.dtos.CreatePostRequest;
 import com.devtribe.domain.post.application.dtos.CreatePostResponse;
+import com.devtribe.domain.post.application.dtos.PostDetailResponse;
 import com.devtribe.domain.post.application.dtos.UpdatePostRequest;
 import com.devtribe.domain.post.application.dtos.UpdatePostResponse;
 import com.devtribe.domain.post.application.validators.PostRequestValidator;
 import com.devtribe.domain.post.dao.PostJpaRepository;
 import com.devtribe.domain.post.entity.Post;
+import com.devtribe.domain.tag.appliction.dtos.TagResponse;
 import com.devtribe.domain.user.application.UserService;
 import com.devtribe.domain.user.entity.User;
 import com.google.common.base.Preconditions;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +52,13 @@ public class PostService {
 
         postTagService.updatePostTag(savedPost.getId(), request.tags());
         return new CreatePostResponse(savedPost.getId());
+    }
+
+    @Transactional(readOnly = true)
+    public PostDetailResponse getPostDetail(Long postId) {
+        Post findPost = getPost(postId);
+        List<TagResponse> postTags = postTagService.getTagsByPostId(postId);
+        return PostDetailResponse.of(findPost, postTags);
     }
 
     @Transactional

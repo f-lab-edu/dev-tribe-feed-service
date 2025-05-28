@@ -4,6 +4,7 @@ import com.devtribe.domain.post.application.validators.PostTagRequestValidator;
 import com.devtribe.domain.post.dao.PostTagRepository;
 import com.devtribe.domain.post.entity.PostTag;
 import com.devtribe.domain.tag.appliction.TagService;
+import com.devtribe.domain.tag.appliction.dtos.TagResponse;
 import com.devtribe.domain.tag.entity.Tag;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,12 @@ public class PostTagService {
         this.postTagRepository = postTagRepository;
         this.validator = validator;
         this.tagService = tagService;
+    }
+
+    @Transactional
+    public List<TagResponse> getTagsByPostId(Long postId) {
+        return postTagRepository.findAllTagByPostId(postId).stream()
+            .map(TagResponse::from).toList();
     }
 
     @Transactional
