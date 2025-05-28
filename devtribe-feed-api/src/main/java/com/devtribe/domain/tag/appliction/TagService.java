@@ -35,4 +35,10 @@ public class TagService {
 
         return TagResponse.from(tag);
     }
+
+    @Transactional(readOnly = true)
+    public Tag findTagById(Long tagId) {
+        return tagRepository.findById(tagId)
+            .orElseThrow(() -> new IllegalArgumentException("요청한 태그가 존재하지 않습니다."));
+    }
 }
