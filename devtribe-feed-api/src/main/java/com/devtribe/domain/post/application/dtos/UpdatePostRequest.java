@@ -4,7 +4,6 @@ import com.devtribe.domain.post.entity.Publication;
 import java.util.List;
 
 public record UpdatePostRequest(
-    Long authorId,
     String title,
     String content,
     String thumbnail,

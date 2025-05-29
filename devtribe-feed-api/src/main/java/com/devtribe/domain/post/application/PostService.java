@@ -9,8 +9,8 @@ import com.devtribe.domain.post.application.validators.PostRequestValidator;
 import com.devtribe.domain.post.dao.PostJpaRepository;
 import com.devtribe.domain.post.entity.Post;
 import com.devtribe.domain.tag.appliction.dtos.TagResponse;
-import com.devtribe.domain.user.application.UserService;
 import com.devtribe.domain.user.entity.User;
+import com.devtribe.global.security.CustomUserDetail;
 import com.google.common.base.Preconditions;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -21,18 +21,15 @@ public class PostService {
 
     private final PostRequestValidator postRequestValidator;
     private final PostJpaRepository postRepository;
-    private final UserService userService;
     private final PostTagService postTagService;
 
     public PostService(
         PostRequestValidator postRequestValidator,
         PostJpaRepository postRepository,
-        UserService userService,
         PostTagService postTagService
     ) {
         this.postRequestValidator = postRequestValidator;
         this.postRepository = postRepository;
-        this.userService = userService;
         this.postTagService = postTagService;
     }
 
@@ -43,11 +40,11 @@ public class PostService {
     }
 
     @Transactional
-    public CreatePostResponse createPost(CreatePostRequest request) {
+    public CreatePostResponse createPost(CreatePostRequest request, CustomUserDetail userDetail) {
         postRequestValidator.validateTitle(request.title());
         postRequestValidator.validateBody(request.content());
 
-        User findUser = userService.getUser(request.authorId());
+        User findUser = userDetail.getUser();
         Post savedPost = postRepository.save(request.toEntity(findUser));
 
         postTagService.updatePostTag(savedPost.getId(), request.tags());
@@ -62,13 +59,17 @@ public class PostService {
     }
 
     @Transactional
-    public UpdatePostResponse updatePost(Long postId, UpdatePostRequest request) {
+    public UpdatePostResponse updatePost(
+        Long postId,
+        UpdatePostRequest request,
+        CustomUserDetail userDetail
+    ) {
         postRequestValidator.validateTitle(request.title());
         postRequestValidator.validateBody(request.content());
 
         Post findPost = getPost(postId);
-        User requestAuthor = userService.getUser(request.authorId());
-        validateAuthor(findPost, requestAuthor);
+        User user = userDetail.getUser();
+        validateAuthor(findPost, user);
 
         findPost.updatePostDetail(request.title(), request.content(), request.thumbnail(), request.publication());
         postTagService.updatePostTag(findPost.getId(), request.tags());

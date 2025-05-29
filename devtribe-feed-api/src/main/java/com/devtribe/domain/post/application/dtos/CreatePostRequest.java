@@ -8,7 +8,6 @@ import java.util.List;
 public record CreatePostRequest(
     String title,
     String content,
-    Long authorId,
     String thumbnail,
     List<Long> tags
 ) {

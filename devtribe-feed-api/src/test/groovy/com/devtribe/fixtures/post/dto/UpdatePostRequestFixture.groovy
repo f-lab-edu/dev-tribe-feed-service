@@ -5,9 +5,8 @@ import com.devtribe.domain.post.entity.Publication
 
 class UpdatePostRequestFixture {
 
-    static UpdatePostRequest getUpdatePostRequest(Long userId, Publication publication) {
+    static UpdatePostRequest getUpdatePostRequest(Publication publication) {
         return new UpdatePostRequest(
-                userId,
                 "title updated",
                 "content updated",
                 "thumbnail updated",
