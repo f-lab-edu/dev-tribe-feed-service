@@ -111,8 +111,20 @@ public class User {
     }
 
     public void updateProfile(
-
+        String companyName,
+        String jobTitle,
+        String githubUrl,
+        String linkedinUrl,
+        String blogUrl,
+        CareerLevel careerLevel,
+        CareerInterest careerInterest
     ) {
-
+        this.companyName = companyName;
+        this.jobTitle = jobTitle;
+        this.githubUrl = githubUrl;
+        this.linkedinUrl = linkedinUrl;
+        this.blogUrl = blogUrl;
+        this.careerLevel = careerLevel;
+        this.careerInterest = careerInterest;
     }
 }
