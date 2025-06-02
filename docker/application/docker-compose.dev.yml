@@ -12,7 +12,17 @@ services:
       - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
-
+    volumes:
+      - ./${PINPOINT_AGENT_PATH}:/pinpoint-agent
+    entrypoint: >
+      java
+      -javaagent:/pinpoint-agent/pinpoint-bootstrap-${PINPOINT_AGENT_VERSION}.jar
+      -Dprofiler.transport.grpc.collector.ip=${PINPOINT_COLLECTOR_IP}
+      -Dprofiler.collector.ip=${PINPOINT_COLLECTOR_IP}
+      -Dpinpoint.agentId=${PINPOINT_AGENT_ID}
+      -Dpinpoint.applicationName=${SPRING_APP_NAME}
+      -Dpinpoint.profiler.profiles.active=${PINPOINT_AGENT_PROFILES}
+      -cp app:app/lib/* com.devtribe.devtribe_feed_service.DevtribeFeedServiceApplication
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 30s
