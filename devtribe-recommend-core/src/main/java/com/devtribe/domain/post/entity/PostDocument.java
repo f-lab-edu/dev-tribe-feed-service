@@ -12,8 +12,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class PostDocument {
 
     @Id
-    private String id;
-
     @Field(type = FieldType.Long)
     private Long postId;
 
@@ -25,4 +23,21 @@ public class PostDocument {
 
     @Field(type = FieldType.Date, format = {DateFormat.date_hour_minute_second_millis, DateFormat.epoch_millis})
     private LocalDateTime updatedAt;
+
+    public PostDocument(
+        Long postId,
+        List<String> tags,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+    ) {
+        this.postId = postId;
+        this.tags = tags;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public void updateTags(List<String> tags, LocalDateTime updatedAt) {
+        this.tags = tags;
+        this.updatedAt = updatedAt;
+    }
 }
