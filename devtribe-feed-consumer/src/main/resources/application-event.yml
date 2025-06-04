@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    function:
+      definition: vote;
+    stream:
+      binder:
+        brokers: localhost:9092
+      bindings:
+        vote-in-0:
+          destination: vote
+          content-type: application/json
+          group: feed-consumer
+          consumer.max-attempts: 2
