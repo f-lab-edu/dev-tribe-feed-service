@@ -7,18 +7,18 @@ import lombok.Getter;
 @Getter
 public class PostVoteEvent {
 
-    private VoteType type;
+    private VoteType voteType;
     private Long userId;
     private Long postId;
-    private LocalDateTime createdAt;
+    private LocalDateTime occurredAt;
 
     @Override
     public String toString() {
         return "VoteEvent{" +
-            "type=" + type +
+            "voteType=" + voteType +
             ", userId=" + userId +
             ", postId=" + postId +
-            ", createdAt=" + createdAt +
+            ", occurredAt=" + occurredAt +
             '}';
     }
 }

@@ -2,10 +2,8 @@ package com.devtribe.task;
 
 import com.devtribe.domain.vote.dao.PostVoteRedisRepository;
 import com.devtribe.event.PostVoteEvent;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
 public class PostUnvoteTask {
 
@@ -20,7 +18,5 @@ public class PostUnvoteTask {
             event.getPostId(),
             event.getUserId()
         );
-
-        log.info("event received: {}", event);
     }
 }

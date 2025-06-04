@@ -21,7 +21,7 @@ public class PostVoteEventConsumer {
     @Bean(name = "vote")
     public Consumer<PostVoteEvent> vote() {
         return event -> {
-            if (event.getType() == VoteType.UPVOTE || event.getType() == VoteType.DOWNVOTE) {
+            if (event.getVoteType() == VoteType.UPVOTE || event.getVoteType() == VoteType.DOWNVOTE) {
                 voteTask.processEvent(event);
             } else {
                 unvoteTask.processEvent(event);

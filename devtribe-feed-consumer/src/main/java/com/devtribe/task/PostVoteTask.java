@@ -17,7 +17,7 @@ public class PostVoteTask {
         postVoteRedisRepository.vote(
             event.getPostId(),
             event.getUserId(),
-            event.getType()
+            event.getVoteType()
         );
     }
 }

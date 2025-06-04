@@ -1,8 +1,18 @@
 package com.devtribe.domain.vote.event;
 
 import com.devtribe.domain.vote.entity.VoteType;
-import java.time.LocalDateTime;
+import com.devtribe.global.event.Event;
+import lombok.Getter;
 
-public record PostVoteEvent(VoteType type, Long userId, Long postId, LocalDateTime createdAt) {
+@Getter
+public abstract class PostVoteEvent extends Event {
 
+    protected VoteType voteType;
+    protected Long userId;
+    protected Long postId;
+
+    public void setVoteInfo(Long postId, Long userId) {
+        this.postId = postId;
+        this.userId = userId;
+    }
 }
