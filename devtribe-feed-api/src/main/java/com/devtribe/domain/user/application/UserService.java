@@ -2,6 +2,8 @@ package com.devtribe.domain.user.application;
 
 import com.devtribe.domain.user.application.dtos.CreateUserRequest;
 import com.devtribe.domain.user.application.dtos.CreateUserResponse;
+import com.devtribe.domain.user.application.dtos.UserProfileResponse;
+import com.devtribe.domain.user.application.dtos.UserProfileUpdateRequest;
 import com.devtribe.domain.user.application.validators.CreateUserRequestValidator;
 import com.devtribe.domain.user.application.validators.EmailValidator;
 import com.devtribe.domain.user.application.validators.PasswordValidator;
@@ -45,6 +47,26 @@ public class UserService {
 
         User savedUser = userRepository.save(encodeRequest.toEntity());
         return new CreateUserResponse(savedUser);
+    }
+
+    @Transactional
+    public void updateUserProfile(Long userId, UserProfileUpdateRequest request) {
+        User user = getUser(userId);
+        user.updateProfile(
+            request.companyName(),
+            request.jobTitle(),
+            request.githubUrl(),
+            request.linkedinUrl(),
+            request.blogUrl(),
+            request.careerLevel(),
+            request.careerInterest()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public UserProfileResponse getUserProfile(Long userId) {
+        User user = getUser(userId);
+        return UserProfileResponse.from(user);
     }
 
     private CreateUserRequest encodePassword(CreateUserRequest request) {

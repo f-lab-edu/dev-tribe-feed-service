@@ -1,0 +1,33 @@
+### 로그인
+POST http://{{host}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": {{test_user_email}},
+  "password": {{test_user_password}}
+}
+
+> {%
+  client.test("응답 코드 확인", () => {
+    client.assert(response.status === 200, "200이 아님");
+  });
+%}
+
+### 게시글 태그 추가
+PUT http://{{host}}/api/v1/posts/600001
+Content-Type: application/json
+
+{
+  "title": "updated title",
+  "content": "updated content",
+  "thumbnail": "no thumbnail",
+  "authorId": 1,
+  "publication": "PRIVATE",
+  "tags": [1]
+}
+
+> {%
+  client.test("응답 코드 확인", () => {
+    client.assert(response.status === 200, "200이 아님");
+  });
+%}

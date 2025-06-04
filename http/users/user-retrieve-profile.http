@@ -1,0 +1,11 @@
+### 로그인
+POST http://{{host}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": {{test_user_email}},
+  "password": {{test_user_password}}
+}
+
+### 유저 profile 확인
+GET http://{{host}}/api/v1/users/profile

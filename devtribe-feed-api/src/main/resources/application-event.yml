@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    stream:
+      binder:
+        brokers: localhost:9092
+      bindings:
+        vote-out-0:
+          destination: vote
+          content-type: application/json
