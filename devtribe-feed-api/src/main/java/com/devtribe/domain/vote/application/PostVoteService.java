@@ -3,47 +3,64 @@ package com.devtribe.domain.vote.application;
 import com.devtribe.domain.post.application.PostService;
 import com.devtribe.domain.post.entity.Post;
 import com.devtribe.domain.vote.application.dtos.VoteRequest;
+import com.devtribe.domain.vote.dao.PostVoteRedisRepository;
 import com.devtribe.domain.vote.entity.VoteType;
 import com.devtribe.domain.vote.event.PostVoteEvent;
-import com.devtribe.domain.vote.event.PostVoteEventPublisher;
 import java.time.LocalDateTime;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PostVoteService {
 
     private final PostService postService;
-    private final PostVoteEventPublisher postVoteEventPublisher;
+    private final PostVoteRedisRepository postVoteRedisRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public PostVoteService(
         PostService postService,
-        PostVoteEventPublisher postVoteEventPublisher
+        PostVoteRedisRepository postVoteRedisRepository,
+        ApplicationEventPublisher eventPublisher
     ) {
         this.postService = postService;
-        this.postVoteEventPublisher = postVoteEventPublisher;
+        this.postVoteRedisRepository = postVoteRedisRepository;
+        this.eventPublisher = eventPublisher;
     }
 
-    public void vote(Long postId, Long userId, VoteRequest voteRequest) {
+    @Transactional(readOnly = true)
+    public void postVote(Long postId, Long userId, VoteRequest voteRequest) {
         Post post = postService.getPost(postId);
 
-        postVoteEventPublisher.publish(
-            new PostVoteEvent(
-                voteRequest.voteType(),
-                userId,
-                post.getId(),
-                LocalDateTime.now())
-        );
+        try {
+            postVoteRedisRepository.vote(postId, userId, voteRequest.voteType());
+            eventPublisher.publishEvent(
+                new PostVoteEvent(
+                    voteRequest.voteType(),
+                    userId,
+                    post.getId(),
+                    LocalDateTime.now())
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void unvote(Long postId, Long userId) {
+    @Transactional(readOnly = true)
+    public void postUnvote(Long postId, Long userId) {
         Post post = postService.getPost(postId);
 
-        postVoteEventPublisher.publish(
-            new PostVoteEvent(
-                VoteType.UNVOTE,
-                userId,
-                post.getId(),
-                LocalDateTime.now())
-        );
+        try {
+            postVoteRedisRepository.unvote(postId, userId);
+            eventPublisher.publishEvent(
+                new PostVoteEvent(
+                    VoteType.UNVOTE,
+                    userId,
+                    post.getId(),
+                    LocalDateTime.now())
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

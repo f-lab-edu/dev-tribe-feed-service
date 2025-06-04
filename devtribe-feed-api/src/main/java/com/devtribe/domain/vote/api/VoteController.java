@@ -30,7 +30,7 @@ public class VoteController {
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
         log.info("voteType: {}", voteType);
-        postVoteService.vote(postId, userDetail.getUserId(), voteType);
+        postVoteService.postVote(postId, userDetail.getUserId(), voteType);
     }
 
     @DeleteMapping("post/{id}")
@@ -39,6 +39,6 @@ public class VoteController {
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
         Long userId = userDetail.getUserId();
-        postVoteService.unvote(postId, userId);
+        postVoteService.postUnvote(postId, userId);
     }
 }
