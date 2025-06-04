@@ -1,31 +1,23 @@
 package com.devtribe.task;
 
+import com.devtribe.domain.vote.dao.PostVoteRedisRepository;
 import com.devtribe.event.PostVoteEvent;
-import java.util.List;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
-public class PostVoteTask extends AbstractVoteTask {
+public class PostVoteTask {
 
-    public PostVoteTask(
-        RedisScript<List> postUnvoteScript,
-        RedisTemplate<String, String> redisTemplate,
-        RedisScript<List> postVoteScript
-    ) {
-        super(postUnvoteScript, redisTemplate, postVoteScript);
+    private final PostVoteRedisRepository postVoteRedisRepository;
+
+    public PostVoteTask(PostVoteRedisRepository postVoteRedisRepository) {
+        this.postVoteRedisRepository = postVoteRedisRepository;
     }
 
     public void processEvent(PostVoteEvent event) {
-        upvote(
+        postVoteRedisRepository.vote(
             event.getPostId(),
             event.getUserId(),
             event.getType()
         );
-
-        log.info("event received: {}", event);
     }
 }
