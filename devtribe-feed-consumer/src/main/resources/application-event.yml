@@ -9,5 +9,5 @@ spring:
         vote-in-0:
           destination: vote
           content-type: application/json
-          group: notification-consumer
+          group: feed-consumer
           consumer.max-attempts: 2
