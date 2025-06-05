@@ -1,17 +1,19 @@
 package com.devtribe.domain.post.entity;
 
 import java.time.Instant;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+@Getter
 @Document(indexName = "post-click-logs")
 public class PostClickLogDocument {
 
     @Id
-    private Long id;
+    private String id;
 
     @Field(type = FieldType.Long)
     private Long postId;
