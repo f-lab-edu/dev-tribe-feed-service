@@ -1,0 +1,30 @@
+services:
+  db:
+    image: mysql:8.0.37
+    container_name: devtribe-recommend-batch-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - ${PORT}:3306
+    volumes:
+      - batch_data:/var/lib/mysql # 데이터 파일 외부 마운트
+      - batch_data:/var/log/mysql # 로그 파일 외부 마운트
+      - ./mysql_conf:/etc/mysql/conf.d # 설정 파일 외부 마운트
+      - ./init/exporter_user.sql:/docker-entrypoint-initdb.d/exporter_user.sql:ro
+    command:
+      - "mysqld"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "--host=localhost" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+volumes:
+  batch_data: { }
