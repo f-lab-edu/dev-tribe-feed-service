@@ -1,4 +1,4 @@
-package com.devtribe.global.config;
+package com.devtribe.domain.global.config.redis;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
