@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: devtribe-recommend-consumer
+
+  profiles:
+    active: local
+    include: event

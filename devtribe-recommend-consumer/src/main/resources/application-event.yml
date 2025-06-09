@@ -1,0 +1,29 @@
+spring:
+  cloud:
+    function:
+      definition: postClick;postEvent;postVote;
+    stream:
+      binder:
+        brokers: ${EVENT_BROKER_URL}
+      bindings:
+        postEvent-in-0:
+          destination: postEvent
+          content-type: application/json
+          group: recommend-consumer-post-event
+          consumer:
+            max-attempts: 3 # 최대 시도 횟수 = 첫 시도 + 재시도
+            back-off-initial-interval: 1000 # 첫 재시도 대기 시간
+            back-off-multiplier: 2.0 # 재시도 배수
+            back-off-max-interval: 5000 # 최대 재시도 시간
+        postClick-in-0:
+          destination: postClick
+          content-type: application/json
+          group: recommend-consumer-post-click
+          consumer:
+            max-attempts: 2
+        postVote-in-0:
+          destination: postVote
+          content-type: application/json
+          group: recommend-consumer-post-vote
+          consumer:
+            max-attempts: 2
