@@ -1,4 +1,4 @@
-package com.devtribe.global.config;
+package com.devtribe.global.config.redis;
 
 import java.util.List;
 import org.springframework.context.annotation.Bean;

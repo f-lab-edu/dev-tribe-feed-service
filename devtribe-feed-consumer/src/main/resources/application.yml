@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: feed-consumer
+  profiles:
+    active: local
+    include: event
+
+server:
+  port: 8081
