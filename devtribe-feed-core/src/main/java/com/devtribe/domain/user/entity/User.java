@@ -2,6 +2,8 @@ package com.devtribe.domain.user.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -53,6 +55,14 @@ public class User {
     @Column(name = "blog_url")
     private String blogUrl;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "career_level")
+    private CareerLevel careerLevel;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "career_interest")
+    private CareerInterest careerInterest;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -70,8 +80,19 @@ public class User {
     private Long updatedBy;
 
     @Builder
-    public User(String email, String nickname, String password, String biography,
-        String companyName, String jobTitle, String githubUrl, String linkedinUrl, String blogUrl) {
+    public User(
+        String email,
+        String nickname,
+        String password,
+        String biography,
+        String companyName,
+        String jobTitle,
+        String githubUrl,
+        String linkedinUrl,
+        String blogUrl,
+        CareerLevel careerLevel,
+        CareerInterest careerInterest
+    ) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
@@ -81,9 +102,29 @@ public class User {
         this.githubUrl = githubUrl;
         this.linkedinUrl = linkedinUrl;
         this.blogUrl = blogUrl;
+        this.careerLevel = careerLevel;
+        this.careerInterest = careerInterest;
     }
 
     public void changePassword(String newPassword) {
         this.password = newPassword;
+    }
+
+    public void updateProfile(
+        String companyName,
+        String jobTitle,
+        String githubUrl,
+        String linkedinUrl,
+        String blogUrl,
+        CareerLevel careerLevel,
+        CareerInterest careerInterest
+    ) {
+        this.companyName = companyName;
+        this.jobTitle = jobTitle;
+        this.githubUrl = githubUrl;
+        this.linkedinUrl = linkedinUrl;
+        this.blogUrl = blogUrl;
+        this.careerLevel = careerLevel;
+        this.careerInterest = careerInterest;
     }
 }
