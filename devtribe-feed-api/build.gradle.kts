@@ -11,6 +11,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
     implementation("com.google.guava:guava:33.4.0-jre")
+    implementation("io.micrometer:micrometer-registry-prometheus")
 
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 
