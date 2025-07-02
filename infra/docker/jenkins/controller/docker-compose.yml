@@ -1,0 +1,13 @@
+services:
+  jenkins:
+    container_name: devtribe-jenkins
+    image: jenkins/jenkins:${IMAGE_TAG}
+    ports:
+      - ${WEB_UI_PORT}:8080
+      - ${AGENT_PORT}:50000
+    volumes:
+      - jenkins_home:/var/jenkins_home
+
+
+volumes:
+  jenkins_home: { }
