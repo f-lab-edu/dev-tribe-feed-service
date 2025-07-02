@@ -3,15 +3,22 @@ version: '3.8'
 services:
   api:
     image: ${DOCKER_REGISTRY}/${SPRING_APP_NAME}:latest
-    container_name: dev-tribe-api-server
+    container_name: devtribe-feed-api-server
     restart: unless-stopped
     ports:
-      - "8080:8080"
-      - "9200:9200"
+      - ${SERVER_PORT}:8080
+      - ${MANAGE_PORT}:${MANAGE_PORT}
     environment:
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${DB_URL}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=${HIKARI_MIN_IDLE}
+      - SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=${HIKARI_MAXIMUM_POOL_SIZE}
+      - SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT=${HIKARI_IDLE_TIMEOUT}
+      - SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT=${HIKARI_CONNECTION_TIMEOUT}
+      - SPRING_DATA_REDIS_HOST=${REDIS_HOST}
+      - SPRING_DATA_REDIS_PORT=${REDIS_PORT}
     volumes:
       - ./${PINPOINT_AGENT_PATH}:/pinpoint-agent
     entrypoint: >
@@ -22,7 +29,7 @@ services:
       -Dpinpoint.agentId=${PINPOINT_AGENT_ID}
       -Dpinpoint.applicationName=${SPRING_APP_NAME}
       -Dpinpoint.profiler.profiles.active=${PINPOINT_AGENT_PROFILES}
-      -cp app:app/lib/* com.devtribe.devtribe_feed_service.DevtribeFeedServiceApplication
+      -jar /app/app.jar
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 30s

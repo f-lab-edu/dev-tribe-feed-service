@@ -5,11 +5,11 @@ services:
     image: ngrinder/controller
     container_name: ngrinder-controller
     ports:
-      - "8300:80"
-      - "16001:16001"
+      - ${N_GRINDER_UI_PORT}:80
+      - ${N_GRINDER_AGENT_PORT}:16001
     volumes:
       - ./scripts:/opt/ngrinder-controller/scripts
-      - ./controller-data:/opt/ngrinder-controller
+      - ngrinder_data:/opt/ngrinder-controller
     restart: always
 
   agent:
@@ -21,3 +21,6 @@ services:
       - CONTROLLER_IP=controller
     network_mode: "service:controller"
     restart: always
+
+volumes:
+  ngrinder_data: {}
