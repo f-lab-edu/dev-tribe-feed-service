@@ -1,6 +1,6 @@
 package com.devtribe.integration.infra.post
 
-import com.devtribe.domain.post.dao.PostJpaRepository
+import com.devtribe.domain.post.dao.PostRepository
 import com.devtribe.fixtures.post.domain.PostFixture
 import com.devtribe.integration.AbstractIntegrationTest
 import com.devtribe.integration.DataTestConfig
@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Import
 class PostRepositoryTest extends AbstractIntegrationTest {
 
     @Autowired
-    PostJpaRepository postRepository
+    PostRepository postRepository
 
     @Autowired
     EntityManager entityManager

@@ -1,31 +1,33 @@
 package com.devtribe.domain.post.application;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.devtribe.domain.post.application.dtos.CreatePostRequest;
 import com.devtribe.domain.post.application.dtos.CreatePostResponse;
 import com.devtribe.domain.post.application.dtos.PostDetailResponse;
 import com.devtribe.domain.post.application.dtos.UpdatePostRequest;
 import com.devtribe.domain.post.application.dtos.UpdatePostResponse;
 import com.devtribe.domain.post.application.validators.PostRequestValidator;
-import com.devtribe.domain.post.dao.PostJpaRepository;
+import com.devtribe.domain.post.dao.PostRepository;
 import com.devtribe.domain.post.entity.Post;
 import com.devtribe.domain.tag.appliction.dtos.TagResponse;
 import com.devtribe.domain.user.entity.User;
 import com.devtribe.global.security.CustomUserDetail;
 import com.google.common.base.Preconditions;
-import java.util.List;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PostService {
 
     private final PostRequestValidator postRequestValidator;
-    private final PostJpaRepository postRepository;
+    private final PostRepository postRepository;
     private final PostTagService postTagService;
 
     public PostService(
         PostRequestValidator postRequestValidator,
-        PostJpaRepository postRepository,
+        PostRepository postRepository
         PostTagService postTagService
     ) {
         this.postRequestValidator = postRequestValidator;
