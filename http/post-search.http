@@ -1,17 +1,13 @@
-### 피드 검색 조회
+### 피드 키워드 검색 조회(관련도 순)
 POST http://localhost:8080/api/v1/posts/search
 Content-Type: application/json
 
 {
-  "filter": {
-    "keyword": "검색어 예시",
-    "startDate": "2025-04-01T00:00:00",
-    "endDate": "2025-04-30T23:59:59",
-    "authorId": 1
-  },
-  "sort": "NEWEST",
-  "offset": 0,
-  "size": 10
+  "keyword": "검색어 예시",
+  "pageRequest": {
+    "page": 0,
+    "size": 10
+  }
 }
 
 ### 1. 단일 필터 - 키워드 조회(사용자가 특정 키워드를 포함하는 피드를 조회하는 경우)

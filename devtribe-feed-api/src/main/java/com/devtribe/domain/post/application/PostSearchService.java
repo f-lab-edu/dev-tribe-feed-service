@@ -1,6 +1,7 @@
 package com.devtribe.domain.post.application;
 
 import com.devtribe.domain.post.application.dtos.PostResponse;
+import com.devtribe.domain.post.application.dtos.PostSearchRequest;
 import com.devtribe.domain.post.application.validators.FeedRequestValidator;
 import com.devtribe.domain.post.dao.PostRepository;
 import com.devtribe.domain.post.entity.Post;
@@ -32,6 +33,19 @@ public class PostSearchService {
         return new PageResponse<>(
             convertToPostResponses(postPageResponse.data()),
             postPageResponse.pageNo()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public PageResponse<PostResponse> searchPostByKeyword(PostSearchRequest postSearchRequest) {
+
+        PageResponse<Post> postSearchResult = postRepository.searchPostByKeyword(
+            postSearchRequest.keyword(),
+            postSearchRequest.pageRequest());
+
+        return new PageResponse<>(
+            convertToPostResponses(postSearchResult.data()),
+            postSearchResult.pageNo()
         );
     }
 

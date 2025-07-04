@@ -2,7 +2,7 @@ package com.devtribe.domain.post.api;
 
 import com.devtribe.domain.post.application.PostSearchService;
 import com.devtribe.domain.post.application.dtos.PostResponse;
-import com.devtribe.global.model.FeedSearchRequest;
+import com.devtribe.domain.post.application.dtos.PostSearchRequest;
 import com.devtribe.global.model.PageResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +20,9 @@ public class PostSearchController {
     }
 
     @PostMapping("/search")
-    public PageResponse<PostResponse> findFeedBySearchOption(
-        @RequestBody FeedSearchRequest feedSearchRequest
+    public PageResponse<PostResponse> searchPostByKeyword(
+        @RequestBody PostSearchRequest searchRequest
     ) {
-        return postSearchService.findFeedBySearchOption(feedSearchRequest);
+        return postSearchService.searchPostByKeyword(searchRequest);
     }
 }
