@@ -6,7 +6,7 @@ import com.devtribe.global.model.PageResponse;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FeedRepository {
+public interface PostSearchRepository {
 
     PageResponse<Post> findFeedsByFilterAndSortOption(FeedSearchRequest feedSearchRequest);
 }
