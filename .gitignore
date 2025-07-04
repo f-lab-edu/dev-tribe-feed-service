@@ -208,7 +208,8 @@ gradle-app.setting
 *.hprof
 
 ### nGrinder ###
-/docker/ngrinder/controller-data
+infra/docker/ngrinder/controller-data/*
+!infra/docker/ngrinder/controller-data/.gitkeep
 
 ### env ###
 *.env
