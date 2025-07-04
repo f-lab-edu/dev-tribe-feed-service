@@ -8,6 +8,7 @@ import com.devtribe.domain.post.entity.FeedSortOption;
 import com.devtribe.domain.post.entity.Post;
 import com.devtribe.domain.post.entity.Publication;
 import com.devtribe.global.model.FeedSearchRequest;
+import com.devtribe.global.model.PageRequest;
 import com.devtribe.global.model.PageResponse;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -37,7 +38,6 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
         List<Post> queryResult = queryFactory
             .selectFrom(post)
             .where(
-                searchKeyword(filter.getKeyword()),
                 betweenDate(filter.getStartDate(), filter.getEndDate()),
                 eqAuthor(filter.getAuthorId()),
                 eqPublic()
@@ -48,6 +48,22 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
             .fetch();
 
         return new PageResponse<>(queryResult, request.offset());
+    }
+
+    @Override
+    public PageResponse<Post> searchPostByKeyword(String keyword, PageRequest pageRequest) {
+
+        List<Post> queryResult = queryFactory
+            .selectFrom(post)
+            .where(
+                eqPublic(),
+                searchKeyword(keyword)
+            )
+            .offset(pageRequest.getOffset())
+            .limit(pageRequest.size())
+            .fetch();
+
+        return new PageResponse<>(queryResult, pageRequest.page());
     }
 
     private BooleanExpression eqPublic() {
