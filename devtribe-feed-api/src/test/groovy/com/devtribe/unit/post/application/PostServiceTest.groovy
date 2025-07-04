@@ -2,7 +2,7 @@ package com.devtribe.unit.post.application
 
 import com.devtribe.domain.post.application.PostService
 import com.devtribe.domain.post.application.validators.PostRequestValidator
-import com.devtribe.domain.post.dao.PostJpaRepository
+import com.devtribe.domain.post.dao.PostRepository
 import com.devtribe.domain.post.entity.Post
 import com.devtribe.domain.post.entity.Publication
 import com.devtribe.domain.user.application.UserService
@@ -18,7 +18,7 @@ import static com.devtribe.fixtures.user.domain.UserFixture.createUser
 class PostServiceTest extends Specification {
 
     def postRequestValidator = Mock(PostRequestValidator)
-    def postRepository = Mock(PostJpaRepository)
+    def postRepository = Mock(PostRepository)
     def userService = Mock(UserService)
 
     @Subject

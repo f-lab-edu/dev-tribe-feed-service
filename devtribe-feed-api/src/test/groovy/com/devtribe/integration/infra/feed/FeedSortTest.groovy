@@ -1,7 +1,7 @@
 package com.devtribe.integration.infra.feed
 
 import com.devtribe.domain.post.dao.FeedRepository
-import com.devtribe.domain.post.dao.PostJpaRepository
+import com.devtribe.domain.post.dao.PostRepository
 import com.devtribe.domain.post.entity.FeedSortOption
 import com.devtribe.fixtures.post.domain.PostFixture
 import com.devtribe.integration.AbstractIntegrationTest
@@ -26,7 +26,7 @@ class FeedSortTest extends AbstractIntegrationTest {
     FeedRepository feedRepository
 
     @Autowired
-    PostJpaRepository postRepository
+    PostRepository postRepository
 
     @Autowired
     DatabaseCleaner databaseCleaner

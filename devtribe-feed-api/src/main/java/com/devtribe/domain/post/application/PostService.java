@@ -5,7 +5,7 @@ import com.devtribe.domain.post.application.dtos.CreatePostResponse;
 import com.devtribe.domain.post.application.dtos.UpdatePostRequest;
 import com.devtribe.domain.post.application.dtos.UpdatePostResponse;
 import com.devtribe.domain.post.application.validators.PostRequestValidator;
-import com.devtribe.domain.post.dao.PostJpaRepository;
+import com.devtribe.domain.post.dao.PostRepository;
 import com.devtribe.domain.post.entity.Post;
 import com.devtribe.domain.user.application.UserService;
 import com.devtribe.domain.user.entity.User;
@@ -17,12 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
     private final PostRequestValidator postRequestValidator;
-    private final PostJpaRepository postRepository;
+    private final PostRepository postRepository;
     private final UserService userService;
 
     public PostService(
         PostRequestValidator postRequestValidator,
-        PostJpaRepository postRepository,
+        PostRepository postRepository,
         UserService userService
     ) {
         this.postRequestValidator = postRequestValidator;
