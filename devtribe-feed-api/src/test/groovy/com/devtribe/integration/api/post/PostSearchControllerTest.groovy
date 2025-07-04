@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Import
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Title
 
@@ -28,9 +29,11 @@ class PostSearchControllerTest extends Specification {
     @SpringBean
     PostSearchService feedService = Mock()
 
+    @Shared
+    final String API = "/api/v1/posts/search"
+
     def "피드 검색 조회 성공 - 200 status 반환"() {
         given:
-        def api = "/api/v1/feeds/search"
         String request = """
         {
           "filter": {
@@ -50,7 +53,7 @@ class PostSearchControllerTest extends Specification {
         feedService.findFeedBySearchOption(_) >> response
 
         when:
-        def result = mockMvc.perform(post(api)
+        def result = mockMvc.perform(post(API)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(request))
                 .andReturn()
@@ -61,7 +64,6 @@ class PostSearchControllerTest extends Specification {
 
     def "피드 정렬 조회 실패 - 올바르지 않은 정렬 옵션, 400 status와 에러메시지 반환"() {
         given:
-        def api = "/api/v1/feeds/search"
         String request = """
         {
           "filter": {
@@ -79,7 +81,7 @@ class PostSearchControllerTest extends Specification {
         """.stripIndent()
 
         when:
-        def result = mockMvc.perform(post(api)
+        def result = mockMvc.perform(post(API)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(request))
                 .andReturn()
@@ -91,7 +93,6 @@ class PostSearchControllerTest extends Specification {
 
     def "피드 정렬 조회 실패 - 페이지 크기 초과, 400 status와 에러메시지 반환"() {
         given:
-        def api = "/api/v1/feeds/search"
         String request = """
         {
           "filter": {
@@ -111,7 +112,7 @@ class PostSearchControllerTest extends Specification {
         feedService.findFeedBySearchOption(_) >> { throw new IllegalArgumentException("요청한 페이지 수의 범위가 올바르지 않습니다.") }
 
         when:
-        def result = mockMvc.perform(post(api)
+        def result = mockMvc.perform(post(API)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(request))
                 .andReturn()
