@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/feeds")
-public class FeedController {
+public class PostSearchController {
 
     private final PostSearchService postSearchService;
 
-    public FeedController(PostSearchService postSearchService) {
+    public PostSearchController(PostSearchService postSearchService) {
         this.postSearchService = postSearchService;
     }
 

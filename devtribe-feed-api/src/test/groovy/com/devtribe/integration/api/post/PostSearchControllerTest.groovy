@@ -1,6 +1,6 @@
 package com.devtribe.integration.api.post
 
-import com.devtribe.domain.post.api.FeedController
+import com.devtribe.domain.post.api.PostSearchController
 import com.devtribe.domain.post.application.PostSearchService
 import com.devtribe.fixtures.post.dto.PostResponseFixture
 import com.devtribe.global.model.PageResponse
@@ -18,9 +18,9 @@ import spock.lang.Title
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 
 @Title(value = "피드 조회 컨트롤러 테스트")
-@NoSecurityWebMvcTest(controllers = FeedController.class)
+@NoSecurityWebMvcTest(controllers = PostSearchController.class)
 @Import(TestSecurityConfig.class)
-class FeedControllerTest extends Specification {
+class PostSearchControllerTest extends Specification {
 
     @Autowired
     MockMvc mockMvc
