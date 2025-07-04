@@ -2,7 +2,7 @@ package com.devtribe.domain.post.application;
 
 import com.devtribe.domain.post.application.dtos.PostResponse;
 import com.devtribe.domain.post.application.validators.FeedRequestValidator;
-import com.devtribe.domain.post.dao.PostSearchRepository;
+import com.devtribe.domain.post.dao.PostRepository;
 import com.devtribe.domain.post.entity.Post;
 import com.devtribe.global.model.FeedSearchRequest;
 import com.devtribe.global.model.PageResponse;
@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class FeedService {
 
-    private final PostSearchRepository postSearchRepository;
+    private final PostRepository postRepository;
     private final FeedRequestValidator feedRequestValidator;
 
-    public FeedService(PostSearchRepository postSearchRepository, FeedRequestValidator feedRequestValidator) {
-        this.postSearchRepository = postSearchRepository;
+    public FeedService(PostRepository postRepository, FeedRequestValidator feedRequestValidator) {
+        this.postRepository = postRepository;
         this.feedRequestValidator = feedRequestValidator;
     }
 
@@ -27,7 +27,7 @@ public class FeedService {
         feedRequestValidator.validateFilterOption(feedSearchRequest.feedFilterOption());
         feedRequestValidator.validatePagination(feedSearchRequest.size());
 
-        PageResponse<Post> postPageResponse = postSearchRepository.findFeedsByFilterAndSortOption(feedSearchRequest);
+        PageResponse<Post> postPageResponse = postRepository.findFeedsByFilterAndSortOption(feedSearchRequest);
 
         return new PageResponse<>(
             convertToPostResponses(postPageResponse.data()),
