@@ -18,12 +18,12 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class FeedRepositoryImpl implements FeedRepository {
+public class PostSearchRepositoryImpl implements PostSearchRepository {
 
     private final SortQueryFactory sortQueryFactory;
     private final JPAQueryFactory queryFactory;
 
-    public FeedRepositoryImpl(SortQueryFactory sortQueryFactory, JPAQueryFactory queryFactory) {
+    public PostSearchRepositoryImpl(SortQueryFactory sortQueryFactory, JPAQueryFactory queryFactory) {
         this.sortQueryFactory = sortQueryFactory;
         this.queryFactory = queryFactory;
     }

@@ -1,7 +1,7 @@
 package com.devtribe.integration.infra.feed
 
-import com.devtribe.domain.post.dao.FeedRepository
 import com.devtribe.domain.post.dao.PostRepository
+import com.devtribe.domain.post.dao.PostSearchRepository
 import com.devtribe.domain.post.entity.FeedSortOption
 import com.devtribe.fixtures.post.domain.PostFixture
 import com.devtribe.integration.AbstractIntegrationTest
@@ -16,14 +16,13 @@ import java.time.LocalDateTime
 
 import static com.devtribe.fixtures.post.dto.FeedSearchRequestFixture.createFeedSearchRequest
 
-
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(DataTestConfig.class)
 class FeedSortTest extends AbstractIntegrationTest {
 
     @Autowired
-    FeedRepository feedRepository
+    PostSearchRepository feedRepository
 
     @Autowired
     PostRepository postRepository

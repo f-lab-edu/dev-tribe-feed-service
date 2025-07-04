@@ -1,7 +1,7 @@
 package com.devtribe.integration.infra.feed
 
-import com.devtribe.domain.post.dao.FeedRepository
 import com.devtribe.domain.post.dao.PostRepository
+import com.devtribe.domain.post.dao.PostSearchRepository
 import com.devtribe.domain.post.entity.FeedSortOption
 import com.devtribe.fixtures.post.domain.PostFixture
 import com.devtribe.integration.AbstractIntegrationTest
@@ -18,7 +18,6 @@ import java.time.LocalDateTime
 import static com.devtribe.fixtures.post.dto.FeedFilterOptionFixture.createFeedFilterOption
 import static com.devtribe.fixtures.post.dto.FeedSearchRequestFixture.createFeedSearchRequest
 
-
 @Title("피드 검색 필터 테스트")
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -26,7 +25,7 @@ import static com.devtribe.fixtures.post.dto.FeedSearchRequestFixture.createFeed
 class FeedFilterTest extends AbstractIntegrationTest {
 
     @Autowired
-    FeedRepository feedRepository
+    PostSearchRepository feedRepository
 
     @Autowired
     PostRepository postRepository
