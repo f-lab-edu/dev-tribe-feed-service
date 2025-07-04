@@ -1,7 +1,7 @@
 package com.devtribe.integration.api.post
 
 import com.devtribe.domain.post.api.FeedController
-import com.devtribe.domain.post.application.FeedService
+import com.devtribe.domain.post.application.PostSearchService
 import com.devtribe.fixtures.post.dto.PostResponseFixture
 import com.devtribe.global.model.PageResponse
 import com.devtribe.integration.config.NoSecurityWebMvcTest
@@ -26,7 +26,7 @@ class FeedControllerTest extends Specification {
     MockMvc mockMvc
 
     @SpringBean
-    FeedService feedService = Mock()
+    PostSearchService feedService = Mock()
 
     def "피드 검색 조회 성공 - 200 status 반환"() {
         given:

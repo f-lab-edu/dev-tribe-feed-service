@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class FeedService {
+public class PostSearchService {
 
     private final PostRepository postRepository;
     private final FeedRequestValidator feedRequestValidator;
 
-    public FeedService(PostRepository postRepository, FeedRequestValidator feedRequestValidator) {
+    public PostSearchService(PostRepository postRepository, FeedRequestValidator feedRequestValidator) {
         this.postRepository = postRepository;
         this.feedRequestValidator = feedRequestValidator;
     }
