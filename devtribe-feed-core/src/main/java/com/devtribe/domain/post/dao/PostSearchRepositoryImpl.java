@@ -3,8 +3,8 @@ package com.devtribe.domain.post.dao;
 
 import static com.devtribe.domain.post.entity.QPost.post;
 
-import com.devtribe.domain.post.entity.FeedFilterOption;
-import com.devtribe.domain.post.entity.FeedSortOption;
+import com.devtribe.domain.post.dto.PostFilterCriteria;
+import com.devtribe.domain.post.dto.PostSortCriteria;
 import com.devtribe.domain.post.entity.Post;
 import com.devtribe.domain.post.entity.Publication;
 import com.devtribe.global.model.FeedSearchRequest;
@@ -31,8 +31,8 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
 
     public PageResponse<Post> findFeedsByFilterAndSortOption(FeedSearchRequest request) {
 
-        FeedFilterOption filter = request.feedFilterOption();
-        FeedSortOption sort = request.feedSortOption();
+        PostFilterCriteria filter = request.postFilterCriteria();
+        PostSortCriteria sort = request.postSortCriteria();
         SortQuery sortQuery = sortQueryFactory.getSortQuery(sort);
 
         List<Post> queryResult = queryFactory
