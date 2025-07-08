@@ -1,46 +1,39 @@
 package com.devtribe.domain.post.application.validators;
 
-import com.devtribe.domain.post.entity.FeedFilterOption;
-import com.devtribe.domain.post.entity.FeedSortOption;
+import com.devtribe.domain.post.dto.PostFilterCriteria;
+import com.devtribe.domain.post.dto.PostSortCriteria;
 import com.google.common.base.Preconditions;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FeedRequestValidator {
 
-    public static final int MAX_KEYWORD_LENGTH = 20;
     public static final int MAX_PAGE_SIZE = 30;
 
-    public void validateSortOption(FeedSortOption sort) {
+    public void validateSortOption(PostSortCriteria sort) {
         Preconditions.checkArgument(sort != null, "유효하지 않은 요청 값입니다.");
     }
 
-    public void validateFilterOption(FeedFilterOption filterOption) {
-        Preconditions.checkArgument(filterOption != null, "유효하지 않은 요청 값입니다.");
+    public void validateFilterOption(PostFilterCriteria postFilterCriteria) {
+        Preconditions.checkArgument(postFilterCriteria != null, "유효하지 않은 요청 값입니다.");
 
         Preconditions.checkArgument(
-            filterOption.getKeyword() == null ||
-                filterOption.getKeyword().length() <= MAX_KEYWORD_LENGTH,
-            "최대 키워드 길이 " + MAX_KEYWORD_LENGTH + "자를 넘을 수 없습니다."
-        );
-
-        Preconditions.checkArgument(
-            filterOption.getAuthorId() == null ||
-            filterOption.getAuthorId() > 0,
+            postFilterCriteria.getAuthorId() == null ||
+            postFilterCriteria.getAuthorId() > 0,
             "작성자가 유효하지 않습니다."
         );
 
-        if (filterOption.getStartDate() == null && filterOption.getEndDate() == null) {
+        if (postFilterCriteria.getStartDate() == null && postFilterCriteria.getEndDate() == null) {
             return;
         }
 
         Preconditions.checkArgument(
-            filterOption.getStartDate() != null && filterOption.getEndDate() != null,
+            postFilterCriteria.getStartDate() != null && postFilterCriteria.getEndDate() != null,
             "날짜 범위가 유효하지 않습니다."
         );
 
         Preconditions.checkArgument(
-            !filterOption.getStartDate().isAfter(filterOption.getEndDate()),
+            !postFilterCriteria.getStartDate().isAfter(postFilterCriteria.getEndDate()),
             "시작 날짜는 종료 날짜보다 이전이어야 합니다."
         );
     }

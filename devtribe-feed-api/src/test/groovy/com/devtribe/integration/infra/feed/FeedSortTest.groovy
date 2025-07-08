@@ -2,7 +2,7 @@ package com.devtribe.integration.infra.feed
 
 import com.devtribe.domain.post.dao.PostRepository
 import com.devtribe.domain.post.dao.PostSearchRepository
-import com.devtribe.domain.post.entity.FeedSortOption
+import com.devtribe.domain.post.dto.PostSortCriteria
 import com.devtribe.fixtures.post.domain.PostFixture
 import com.devtribe.integration.AbstractIntegrationTest
 import com.devtribe.integration.DataTestConfig
@@ -43,7 +43,7 @@ class FeedSortTest extends AbstractIntegrationTest {
                 PostFixture.createPost(title: "title4", createdAt: LocalDateTime.now().plusMinutes(4)),
                 PostFixture.createPost(title: "title5", createdAt: LocalDateTime.now().plusMinutes(5))
         ))
-        def request = createFeedSearchRequest(sort: FeedSortOption.NEWEST)
+        def request = createFeedSearchRequest(sort: PostSortCriteria.NEWEST)
 
         when:
         def result = feedRepository.findFeedsByFilterAndSortOption(request)
@@ -62,7 +62,7 @@ class FeedSortTest extends AbstractIntegrationTest {
                 PostFixture.createPost(title: "title4", createdAt: LocalDateTime.now().plusMinutes(4)),
                 PostFixture.createPost(title: "title5", createdAt: LocalDateTime.now().plusMinutes(5))
         ))
-        def request = createFeedSearchRequest(sort: FeedSortOption.OLDEST)
+        def request = createFeedSearchRequest(sort: PostSortCriteria.OLDEST)
 
         when:
         def result = feedRepository.findFeedsByFilterAndSortOption(request)
@@ -81,7 +81,7 @@ class FeedSortTest extends AbstractIntegrationTest {
                 PostFixture.createPost(title: "title4", upvoteCount: 41),
                 PostFixture.createPost(title: "title5", upvoteCount: 19)
         ))
-        def request = createFeedSearchRequest(sort: FeedSortOption.UPVOTE)
+        def request = createFeedSearchRequest(sort: PostSortCriteria.UPVOTE)
 
         when:
         def result = feedRepository.findFeedsByFilterAndSortOption(request)
@@ -100,7 +100,7 @@ class FeedSortTest extends AbstractIntegrationTest {
                 PostFixture.createPost(title: "title4", downvoteCount: 41),
                 PostFixture.createPost(title: "title5", downvoteCount: 19)
         ))
-        def request = createFeedSearchRequest(sort: FeedSortOption.DOWNVOTE)
+        def request = createFeedSearchRequest(sort: PostSortCriteria.DOWNVOTE)
 
         when:
         def result = feedRepository.findFeedsByFilterAndSortOption(request)
