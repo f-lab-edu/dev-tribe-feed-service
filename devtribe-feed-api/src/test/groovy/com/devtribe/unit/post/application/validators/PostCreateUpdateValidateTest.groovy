@@ -3,7 +3,7 @@ package com.devtribe.unit.post.application.validators
 import com.devtribe.domain.post.application.validators.PostRequestValidator
 import spock.lang.Specification
 
-class PostRequestValidatorTest extends Specification {
+class PostCreateUpdateValidateTest extends Specification {
 
     def validator = new PostRequestValidator()
     static def MAX_TITLE_LEN = PostRequestValidator.MAX_TITLE_LENGTH

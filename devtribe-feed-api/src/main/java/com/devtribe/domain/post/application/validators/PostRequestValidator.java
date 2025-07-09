@@ -2,7 +2,6 @@ package com.devtribe.domain.post.application.validators;
 
 import com.devtribe.domain.post.application.dtos.PostQueryRequest;
 import com.devtribe.domain.post.application.dtos.PostSearchRequest;
-import com.devtribe.domain.post.dto.PostSortCriteria;
 import com.google.common.base.Preconditions;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +11,7 @@ public class PostRequestValidator {
     public static final Integer MAX_TITLE_LENGTH = 250;
     public static final Integer MAX_BODY_LENGTH = 1000;
     public static final int MAX_KEYWORD_LENGTH = 20;
-    public static final int MAX_PAGE_SIZE = 30;
+    public static final int MAX_PAGE_SIZE = 100;
 
     public void validateTitle(String title) {
         Preconditions.checkArgument(title != null, "제목은 필수값입니다.");
@@ -31,12 +30,11 @@ public class PostRequestValidator {
     }
 
     public void validateSearchRequest(PostSearchRequest request) {
-        validateKeywordLength(request.keyword());
+        validateKeyword(request.keyword());
         validatePageRequest(request.size());
     }
 
     public void validateQueryRequest(PostQueryRequest request) {
-        validateSortOption(request.sort());
         validateAuthor(request.authorId());
         validatePageRequest(request.size());
 
@@ -54,18 +52,13 @@ public class PostRequestValidator {
         );
     }
 
-    private void validateSortOption(PostSortCriteria sort) {
+    private void validateKeyword(String keyword) {
         Preconditions.checkArgument(
-            sort != null,
-            "유효하지 않은 요청 값입니다.");
-    }
-
-    private void validateKeywordLength(String keyword) {
+            keyword != null && !keyword.isEmpty(),
+            "키워드는 필수값입니다.");
         Preconditions.checkArgument(
-            keyword == null ||
-                keyword.length() <= MAX_KEYWORD_LENGTH,
-            "최대 키워드 길이 " + MAX_KEYWORD_LENGTH + "자를 넘을 수 없습니다."
-        );
+            keyword.length() <= MAX_KEYWORD_LENGTH,
+            "최대 키워드 길이 " + MAX_KEYWORD_LENGTH + "자를 넘을 수 없습니다.");
     }
 
     private void validateAuthor(Long authorId) {
@@ -77,7 +70,7 @@ public class PostRequestValidator {
     private void validatePageRequest(int size) {
         Preconditions.checkArgument(
             size <= MAX_PAGE_SIZE,
-            "요청한 페이지 수의 범위가 올바르지 않습니다.");
+            "요청한 페이지 수의 범위가 올바르지 않습니다. 최대 요청 가능한 페이지 수는 " + MAX_PAGE_SIZE + " 입니다.");
     }
 
 }
