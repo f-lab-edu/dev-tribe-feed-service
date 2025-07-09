@@ -1,11 +1,10 @@
 package com.devtribe.domain.post.api;
 
 import com.devtribe.domain.post.application.PostSearchService;
-import com.devtribe.domain.post.application.dtos.PostResponse;
 import com.devtribe.domain.post.application.dtos.PostSearchRequest;
-import com.devtribe.global.model.PageResponse;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.devtribe.domain.post.application.dtos.PostSearchResponse;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +18,9 @@ public class PostSearchController {
         this.postSearchService = postSearchService;
     }
 
-    @PostMapping("/search")
-    public PageResponse<PostResponse> searchPostByKeyword(
-        @RequestBody PostSearchRequest searchRequest
+    @GetMapping("/search")
+    public PostSearchResponse searchPostByKeyword(
+        @ModelAttribute PostSearchRequest searchRequest
     ) {
         return postSearchService.searchPostByKeyword(searchRequest);
     }
