@@ -3,60 +3,37 @@ package com.devtribe.domain.post.dao;
 
 import static com.devtribe.domain.post.entity.QPost.post;
 
-import com.devtribe.domain.post.dto.PostFilterCriteria;
-import com.devtribe.domain.post.dto.PostSortCriteria;
+import com.devtribe.domain.post.dto.PostSearchCriteria;
 import com.devtribe.domain.post.entity.Post;
 import com.devtribe.domain.post.entity.Publication;
-import com.devtribe.global.model.FeedSearchRequest;
 import com.devtribe.global.model.PageRequest;
 import com.devtribe.global.model.PageResponse;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class PostSearchRepositoryImpl implements PostSearchRepository {
 
-    private final SortQueryFactory sortQueryFactory;
     private final JPAQueryFactory queryFactory;
 
-    public PostSearchRepositoryImpl(SortQueryFactory sortQueryFactory, JPAQueryFactory queryFactory) {
-        this.sortQueryFactory = sortQueryFactory;
+    public PostSearchRepositoryImpl(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }
 
-    public PageResponse<Post> findFeedsByFilterAndSortOption(FeedSearchRequest request) {
-
-        PostFilterCriteria filter = request.postFilterCriteria();
-        PostSortCriteria sort = request.postSortCriteria();
-        SortQuery sortQuery = sortQueryFactory.getSortQuery(sort);
-
-        List<Post> queryResult = queryFactory
-            .selectFrom(post)
-            .where(
-                betweenDate(filter.getStartDate(), filter.getEndDate()),
-                eqAuthor(filter.getAuthorId()),
-                eqPublic()
-            )
-            .orderBy(sortQuery.getOrderBy())
-            .offset(request.offset())
-            .limit(request.size())
-            .fetch();
-
-        return new PageResponse<>(queryResult, request.offset());
-    }
-
     @Override
-    public PageResponse<Post> searchPostByKeyword(String keyword, PageRequest pageRequest) {
+    public PageResponse<Post> searchPostByKeyword(PostSearchCriteria criteria) {
+        String keyword = criteria.keyword();
+        PageRequest pageRequest = criteria.pageRequest();
 
         List<Post> queryResult = queryFactory
             .selectFrom(post)
             .where(
                 eqPublic(),
+                eqIsNotDeleted(),
                 searchKeyword(keyword)
             )
             .offset(pageRequest.getOffset())
@@ -66,22 +43,12 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
         return new PageResponse<>(queryResult, pageRequest.page());
     }
 
+    private BooleanExpression eqIsNotDeleted() {
+        return post.isDeleted.eq(false);
+    }
+
     private BooleanExpression eqPublic() {
         return post.publication.eq(Publication.PUBLIC);
-    }
-
-    private BooleanExpression eqAuthor(Long authorId) {
-        if (authorId == null) {
-            return null;
-        }
-        return post.userId.eq(authorId);
-    }
-
-    private BooleanExpression betweenDate(LocalDateTime startDate, LocalDateTime endDate) {
-        if (startDate == null || endDate == null) {
-            return null;
-        }
-        return post.createdAt.between(startDate, endDate);
     }
 
     /**
