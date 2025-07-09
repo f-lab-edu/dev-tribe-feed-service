@@ -25,8 +25,8 @@ public class DataTestConfig {
     }
 
     @Bean
-    public PostSearchRepository feedRepository(SortQueryFactory sortQueryFactory, JPAQueryFactory jpaQueryFactory) {
-        return new PostSearchRepositoryImpl(sortQueryFactory, jpaQueryFactory);
+    public PostSearchRepository feedRepository(JPAQueryFactory jpaQueryFactory) {
+        return new PostSearchRepositoryImpl(jpaQueryFactory);
     }
 
     @Bean
