@@ -2,6 +2,7 @@ package com.devtribe.unit.post.application
 
 import com.devtribe.domain.post.application.PostService
 import com.devtribe.domain.post.application.PostTagService
+import com.devtribe.domain.post.application.mapper.PostQueryMapper
 import com.devtribe.domain.post.application.validators.PostRequestValidator
 import com.devtribe.domain.post.dao.PostRepository
 import com.devtribe.domain.post.entity.Post
@@ -24,12 +25,14 @@ class PostServiceTest extends Specification {
     def postRepository = Mock(PostRepository)
     def userService = Mock(UserService)
     def postTagService = Mock(PostTagService)
+    def postQueryMapper = Mock(PostQueryMapper)
 
     @Subject
     PostService postService = new PostService(
             postRequestValidator,
             postRepository,
-            postTagService
+            postTagService,
+            postQueryMapper
     )
 
     def "이미 존재하는 postId가 주어질 때, postId를 가진 Post 반환에 성공한다."() {

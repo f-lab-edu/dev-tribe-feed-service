@@ -1,13 +1,13 @@
 package com.devtribe.domain.post.application;
 
-import com.devtribe.domain.post.application.dtos.PostResponse;
 import com.devtribe.domain.post.application.dtos.PostSearchRequest;
-import com.devtribe.domain.post.application.validators.FeedRequestValidator;
+import com.devtribe.domain.post.application.dtos.PostSearchResponse;
+import com.devtribe.domain.post.application.mapper.PostSearchMapper;
+import com.devtribe.domain.post.application.validators.PostRequestValidator;
 import com.devtribe.domain.post.dao.PostRepository;
+import com.devtribe.domain.post.dto.PostSearchCriteria;
 import com.devtribe.domain.post.entity.Post;
-import com.devtribe.global.model.FeedSearchRequest;
 import com.devtribe.global.model.PageResponse;
-import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,41 +15,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostSearchService {
 
     private final PostRepository postRepository;
-    private final FeedRequestValidator feedRequestValidator;
+    private final PostRequestValidator validator;
+    private final PostSearchMapper postSearchMapper;
 
-    public PostSearchService(PostRepository postRepository, FeedRequestValidator feedRequestValidator) {
+    public PostSearchService(
+        PostRepository postRepository,
+        PostRequestValidator validator,
+        PostSearchMapper postSearchMapper
+    ) {
         this.postRepository = postRepository;
-        this.feedRequestValidator = feedRequestValidator;
+        this.validator = validator;
+        this.postSearchMapper = postSearchMapper;
     }
 
     @Transactional(readOnly = true)
-    public PageResponse<PostResponse> findFeedBySearchOption(FeedSearchRequest feedSearchRequest) {
-        feedRequestValidator.validateSortOption(feedSearchRequest.postSortCriteria());
-        feedRequestValidator.validateFilterOption(feedSearchRequest.postFilterCriteria());
-        feedRequestValidator.validatePagination(feedSearchRequest.size());
+    public PostSearchResponse searchPostByKeyword(PostSearchRequest request) {
+        validator.validateSearchRequest(request);
 
-        PageResponse<Post> postPageResponse = postRepository.findFeedsByFilterAndSortOption(feedSearchRequest);
-
-        return new PageResponse<>(
-            convertToPostResponses(postPageResponse.data()),
-            postPageResponse.pageNo()
-        );
-    }
-
-    @Transactional(readOnly = true)
-    public PageResponse<PostResponse> searchPostByKeyword(PostSearchRequest postSearchRequest) {
-
-        PageResponse<Post> postSearchResult = postRepository.searchPostByKeyword(
-            postSearchRequest.keyword(),
-            postSearchRequest.pageRequest());
-
-        return new PageResponse<>(
-            convertToPostResponses(postSearchResult.data()),
-            postSearchResult.pageNo()
-        );
-    }
-
-    private List<PostResponse> convertToPostResponses(List<Post> posts) {
-        return posts.stream().map(PostResponse::from).toList();
+        PostSearchCriteria criteria = postSearchMapper.toCriteria(request);
+        PageResponse<Post> postSearchResult = postRepository.searchPostByKeyword(criteria);
+        return postSearchMapper.toResponse(postSearchResult);
     }
 }
