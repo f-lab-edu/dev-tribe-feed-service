@@ -1,0 +1,23 @@
+### 단일 필터 - 날짜 범위 조회(사용자가 최근 1달간 작성된 피드를 조회하는 경우)
+GET http://localhost:8080/api/v1/posts?startDate=2025-01-01T00:00:00&endDate=2025-02-01T00:00:00
+
+### 단일 필터 - 작성자 ID 조회(사용자가 특정 유저가 작성한 피드를 조회하는 경우)
+GET http://localhost:8080/api/v1/posts?authorId=1
+
+### 단일 정렬 - 최신순 조회(사용자가 피드를 최신순으로 정렬하여 조회하는 경우)
+GET http://localhost:8080/api/v1/posts?sort=NEWEST
+
+### 단일 정렬 - 오래된순 조회(사용자가 피드를 오래된순으로 정렬하여 조회하는 경우)
+GET http://localhost:8080/api/v1/posts?sort=OLDEST
+
+### 단일 정렬 - 추천순 조회(사용자가 피드를 추천순(좋아요 많은 순)으로 정렬하여 조회하는 경우)
+GET http://localhost:8080/api/v1/posts?sort=UPVOTE
+
+### 단일 정렬 - 비추천순 조회(사용자가 피드를 비추천순(싫어요 많은 순)으로 정렬하여 조회하는 경우)
+GET http://localhost:8080/api/v1/posts?sort=DOWNVOTE
+
+### 복합 필터 - 날짜범위 + 작성자ID 조회(사용자가 특정 날짜 범위와 작성자 ID를 함께 조합하여 피드를 조회하는 경우)
+GET http://localhost:8080/api/v1/posts?startDate=2025-01-01T00:00:00&endDate=2025-02-01T00:00:00&authorId=2
+
+### 페이징 - Offset 변경 조회 (사용자가 페이지네이션을 통해 깊은 결과(높은 offset)를 조회하는 경우)
+GET http://localhost:8080/api/v1/posts?page=90000
