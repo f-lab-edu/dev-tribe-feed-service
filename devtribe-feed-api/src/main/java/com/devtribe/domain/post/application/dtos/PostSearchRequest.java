@@ -1,7 +1,12 @@
 package com.devtribe.domain.post.application.dtos;
 
-import com.devtribe.global.model.PageRequest;
+public record PostSearchRequest(String keyword, Integer page, Integer size) {
 
-public record PostSearchRequest(String keyword, PageRequest pageRequest) {
+    private static final int DEFAULT_PAGE = 0;
+    private static final int DEFAULT_SIZE = 10;
 
+    public PostSearchRequest {
+        if (page == null) page = DEFAULT_PAGE;
+        if (size == null) size = DEFAULT_SIZE;
+    }
 }
