@@ -44,7 +44,10 @@ public class SecurityConfig {
                     "/api/v1/auth/logout").permitAll()
                 .requestMatchers("/api/v1/feeds/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/posts/*/vote").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/tags").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/posts/**").permitAll()
                 .requestMatchers("/api/v1/posts/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/v1/tags").authenticated()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

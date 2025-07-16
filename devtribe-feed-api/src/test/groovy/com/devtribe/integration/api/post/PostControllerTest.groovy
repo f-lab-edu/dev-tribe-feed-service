@@ -2,11 +2,11 @@ package com.devtribe.integration.api.post
 
 import com.devtribe.domain.post.api.PostController
 import com.devtribe.domain.post.application.PostService
-import com.devtribe.domain.post.application.dtos.CreatePostRequest
 import com.devtribe.domain.post.application.dtos.CreatePostResponse
 import com.devtribe.domain.post.application.dtos.UpdatePostRequest
 import com.devtribe.domain.post.application.dtos.UpdatePostResponse
 import com.devtribe.domain.post.entity.Publication
+import com.devtribe.fixtures.post.dto.CreatePostRequestFixture
 import com.devtribe.integration.config.NoSecurityWebMvcTest
 import com.devtribe.integration.config.TestSecurityConfig
 import com.fasterxml.jackson.databind.JsonNode
@@ -37,14 +37,13 @@ class PostControllerTest extends Specification {
 
     def "게시물 생성 성공 - 200 status와 게시물 id를 반환"() {
         given:
-        def createRequest = new CreatePostRequest(
-                "새로운 Post 제목",
-                "새로운 내용",
-                1L,
-                "https://example.com/thumbnail.jpg"
+        def createRequest = CreatePostRequestFixture.createPostRequest(
+                title: "새로운 Post 제목",
+                content: "새로운 내용",
+                thumbnail: "https://example.com/thumbnail.jpg"
         )
         def response = new CreatePostResponse(1L)
-        postService.createPost(createRequest) >> response
+        postService.createPost(createRequest, _) >> response
 
         when:
         def result = mockMvc.perform(
@@ -64,13 +63,12 @@ class PostControllerTest extends Specification {
 
     def "게시물 생성 실패 - 존재하지 않는 유저, 400 status와 예외메시지를 반환한다."() {
         given:
-        def createRequest = new CreatePostRequest(
-                "새로운 Post 제목",
-                "새로운 내용",
-                999L,
-                "https://example.com/thumbnail.jpg"
+        def createRequest = CreatePostRequestFixture.createPostRequest(
+                title: "새로운 Post 제목",
+                content: "새로운 내용",
+                thumbnail: "https://example.com/thumbnail.jpg"
         )
-        postService.createPost(createRequest) >> { throw new IllegalArgumentException("존재하지 않는 유저입니다.") }
+        postService.createPost(createRequest, _) >> { throw new IllegalArgumentException("존재하지 않는 유저입니다.") }
 
         when:
         def result = mockMvc.perform(
@@ -88,11 +86,11 @@ class PostControllerTest extends Specification {
         given:
         def postId = 1L
         def updateRequest = new UpdatePostRequest(
-                1L,
                 "변경 제목",
                 "변경 본문",
                 "https://example.com/change-thumbnail.jpg",
-                Publication.PRIVATE
+                Publication.PRIVATE,
+                List.of(1L)
         )
         def updateResponse = new UpdatePostResponse(
                 "변경 제목",
@@ -100,7 +98,7 @@ class PostControllerTest extends Specification {
                 "https://example.com/change-thumbnail.jpg",
                 Publication.PRIVATE
         )
-        postService.updatePost(postId, updateRequest) >> updateResponse
+        postService.updatePost(postId, updateRequest, _) >> updateResponse
 
         when:
         def result = mockMvc.perform(
@@ -125,13 +123,13 @@ class PostControllerTest extends Specification {
     def "게시물 수정 실패 - 유효하지 않은 요청, 400 status와 예외메시지를 반환한다."() {
         given:
         def updateRequest = new UpdatePostRequest(
-                userId,
                 "변경 제목",
                 "변경 본문",
                 "https://example.com/change-thumbnail.jpg",
-                Publication.PRIVATE
+                Publication.PRIVATE,
+                List.of(1L)
         )
-        postService.updatePost(postId, updateRequest) >> { throw new IllegalArgumentException(exceptionMessage) }
+        postService.updatePost(postId, updateRequest, _) >> { throw new IllegalArgumentException(exceptionMessage) }
 
         when:
         def result = mockMvc.perform(

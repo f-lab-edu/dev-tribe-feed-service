@@ -24,5 +24,4 @@ public class PostRequestValidator {
         Preconditions.checkArgument(content.length() <= MAX_BODY_LENGTH,
             "본문은 " + MAX_BODY_LENGTH + "자를 초과할 수 없습니다.");
     }
-
 }

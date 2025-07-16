@@ -1,0 +1,3 @@
+### 태그 리스트 조히
+GET http://{{host}}/api/v1/tags
+Accept: application/json

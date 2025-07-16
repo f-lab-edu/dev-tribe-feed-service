@@ -1,0 +1,57 @@
+### 로그인
+POST http://{{host}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": {{test_user_email}},
+  "password": {{test_user_password}}
+}
+
+> {%
+  client.test("응답 코드 확인", () => {
+    client.assert(response.status === 200, "200이 아님");
+  });
+%}
+
+### 태그 생성: 성공
+POST http://{{host}}/api/v1/tags
+Content-Type: application/json
+
+{
+  "tagName": "backend"
+}
+
+> {%
+  client.test("응답 코드 확인", () => {
+    client.assert(response.status === 200, "200이 아님");
+  });
+%}
+
+
+### 태그 생성: 성공
+POST http://{{host}}/api/v1/tags
+Content-Type: application/json
+
+{
+  "tagName": "ai"
+}
+
+> {%
+  client.test("응답 코드 확인", () => {
+    client.assert(response.status === 200, "200이 아님");
+  });
+%}
+
+### 태그 생성: 성공
+POST http://{{host}}/api/v1/tags
+Content-Type: application/json
+
+{
+  "tagName": "frontend"
+}
+
+> {%
+  client.test("응답 코드 확인", () => {
+    client.assert(response.status === 200, "200이 아님");
+  });
+%}
