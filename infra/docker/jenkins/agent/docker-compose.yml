@@ -1,0 +1,14 @@
+services:
+  jenkins:
+    container_name: devtribe-jenkins-agent
+    image: jenkins/ssh-agent:${IMAGE_TAG}
+    volumes:
+      - jenkins_home:/home/jenkins
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - JENKINS_SLAVE_SSH_PUBKEY=${JENKINS_SLAVE_SSH_PUBKEY}
+    ports:
+      - "2222:22"
+
+volumes:
+  jenkins_home: { }

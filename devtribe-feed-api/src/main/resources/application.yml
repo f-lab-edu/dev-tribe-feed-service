@@ -2,5 +2,5 @@ spring:
   application:
     name: devtribe-feed-service
   profiles:
-    active: local
+    active: ${SPRING_PROFILES_ACTIVE}
     include: event
