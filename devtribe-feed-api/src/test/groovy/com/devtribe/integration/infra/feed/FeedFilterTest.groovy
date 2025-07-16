@@ -1,8 +1,8 @@
 package com.devtribe.integration.infra.feed
 
-import com.devtribe.domain.post.dao.FeedRepository
-import com.devtribe.domain.post.dao.PostJpaRepository
-import com.devtribe.domain.post.entity.FeedSortOption
+import com.devtribe.domain.post.dao.PostRepository
+import com.devtribe.domain.post.dao.PostSearchRepository
+import com.devtribe.domain.post.dto.PostSortCriteria
 import com.devtribe.fixtures.post.domain.PostFixture
 import com.devtribe.integration.AbstractIntegrationTest
 import com.devtribe.integration.DataTestConfig
@@ -18,7 +18,6 @@ import java.time.LocalDateTime
 import static com.devtribe.fixtures.post.dto.FeedFilterOptionFixture.createFeedFilterOption
 import static com.devtribe.fixtures.post.dto.FeedSearchRequestFixture.createFeedSearchRequest
 
-
 @Title("피드 검색 필터 테스트")
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -26,10 +25,10 @@ import static com.devtribe.fixtures.post.dto.FeedSearchRequestFixture.createFeed
 class FeedFilterTest extends AbstractIntegrationTest {
 
     @Autowired
-    FeedRepository feedRepository
+    PostSearchRepository feedRepository
 
     @Autowired
-    PostJpaRepository postRepository
+    PostRepository postRepository
 
     @Autowired
     DatabaseCleaner databaseCleaner
@@ -71,7 +70,7 @@ class FeedFilterTest extends AbstractIntegrationTest {
     def "키워드가 주어질때 키워드를 포함하는 title을 가진 피드 리스트를 반환한다."() {
         given:
         def filter = createFeedFilterOption(keyword: "성능")
-        def request = createFeedSearchRequest(filter: filter, sort: FeedSortOption.NEWEST)
+        def request = createFeedSearchRequest(filter: filter, sort: PostSortCriteria.NEWEST)
 
         when:
         def result = feedRepository.findFeedsByFilterAndSortOption(request)
@@ -84,7 +83,7 @@ class FeedFilterTest extends AbstractIntegrationTest {
     def "키워드가 주어질때 키워드를 포함하는 content을 가진 피드 리스트를 반환한다"() {
         given:
         def filter = createFeedFilterOption(keyword: "성능")
-        def request = createFeedSearchRequest(filter: filter, sort: FeedSortOption.NEWEST)
+        def request = createFeedSearchRequest(filter: filter, sort: PostSortCriteria.NEWEST)
 
         when:
         def result = feedRepository.findFeedsByFilterAndSortOption(request)
@@ -99,7 +98,7 @@ class FeedFilterTest extends AbstractIntegrationTest {
         def filter = createFeedFilterOption(
                 startDate: LocalDateTime.of(2025, 4, 2, 0, 0),
                 endDate: LocalDateTime.of(2025, 4, 4, 0, 0))
-        def request = createFeedSearchRequest(filter: filter, sort: FeedSortOption.NEWEST)
+        def request = createFeedSearchRequest(filter: filter, sort: PostSortCriteria.NEWEST)
 
         when:
         def result = feedRepository.findFeedsByFilterAndSortOption(request)
@@ -116,7 +115,7 @@ class FeedFilterTest extends AbstractIntegrationTest {
     def "authorId가 주어질 때 작성자와 일치하는 피드 리스트를 반환한다"() {
         given:
         def filter = createFeedFilterOption(authorId: 1L)
-        def request = createFeedSearchRequest(filter: filter, sort: FeedSortOption.NEWEST)
+        def request = createFeedSearchRequest(filter: filter, sort: PostSortCriteria.NEWEST)
 
         when:
         def result = feedRepository.findFeedsByFilterAndSortOption(request)

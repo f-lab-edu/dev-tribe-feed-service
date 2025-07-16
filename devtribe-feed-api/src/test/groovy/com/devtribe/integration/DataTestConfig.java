@@ -1,7 +1,7 @@
 package com.devtribe.integration;
 
-import com.devtribe.domain.post.dao.FeedRepository;
-import com.devtribe.domain.post.dao.FeedRepositoryImpl;
+import com.devtribe.domain.post.dao.PostSearchRepository;
+import com.devtribe.domain.post.dao.PostSearchRepositoryImpl;
 import com.devtribe.domain.post.dao.SortQueryFactory;
 import com.devtribe.domain.user.dao.JpaUserRepository;
 import com.devtribe.domain.user.dao.UserRepository;
@@ -25,8 +25,8 @@ public class DataTestConfig {
     }
 
     @Bean
-    public FeedRepository feedRepository(SortQueryFactory sortQueryFactory, JPAQueryFactory jpaQueryFactory) {
-        return new FeedRepositoryImpl(sortQueryFactory, jpaQueryFactory);
+    public PostSearchRepository feedRepository(JPAQueryFactory jpaQueryFactory) {
+        return new PostSearchRepositoryImpl(jpaQueryFactory);
     }
 
     @Bean

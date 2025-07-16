@@ -3,6 +3,8 @@ package com.devtribe.domain.post.api;
 import com.devtribe.domain.post.application.PostService;
 import com.devtribe.domain.post.application.dtos.CreatePostRequest;
 import com.devtribe.domain.post.application.dtos.CreatePostResponse;
+import com.devtribe.domain.post.application.dtos.PostQueryRequest;
+import com.devtribe.domain.post.application.dtos.PostQueryResponse;
 import com.devtribe.domain.post.application.dtos.PostDetailResponse;
 import com.devtribe.domain.post.application.dtos.UpdatePostRequest;
 import com.devtribe.domain.post.application.dtos.UpdatePostResponse;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +29,11 @@ public class PostController {
 
     public PostController(PostService postService) {
         this.postService = postService;
+    }
+
+    @GetMapping
+    public PostQueryResponse getPostList(@ModelAttribute PostQueryRequest postQueryRequest) {
+        return postService.getPostList(postQueryRequest);
     }
 
     @PostMapping

@@ -42,7 +42,8 @@ public class SecurityConfig {
                     "/api/v1/users/signup",
                     "/api/v1/auth/login",
                     "/api/v1/auth/logout").permitAll()
-                .requestMatchers("/api/v1/feeds/**").permitAll()
+                .requestMatchers("/api/v1/posts/search").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/posts").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/posts/*/vote").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/tags").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/posts/**").permitAll()

@@ -1,42 +1,63 @@
 package com.devtribe.domain.post.application;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.devtribe.domain.post.application.dtos.CreatePostRequest;
 import com.devtribe.domain.post.application.dtos.CreatePostResponse;
 import com.devtribe.domain.post.application.dtos.PostDetailResponse;
+import com.devtribe.domain.post.application.dtos.PostQueryRequest;
+import com.devtribe.domain.post.application.dtos.PostQueryResponse;
 import com.devtribe.domain.post.application.dtos.UpdatePostRequest;
 import com.devtribe.domain.post.application.dtos.UpdatePostResponse;
+import com.devtribe.domain.post.application.mapper.PostQueryMapper;
 import com.devtribe.domain.post.application.validators.PostRequestValidator;
-import com.devtribe.domain.post.dao.PostJpaRepository;
+import com.devtribe.domain.post.dao.PostRepository;
+import com.devtribe.domain.post.dto.PostQueryCriteria;
 import com.devtribe.domain.post.entity.Post;
 import com.devtribe.domain.tag.appliction.dtos.TagResponse;
 import com.devtribe.domain.user.entity.User;
 import com.devtribe.global.security.CustomUserDetail;
+import com.devtribe.global.model.PageResponse;
+
 import com.google.common.base.Preconditions;
-import java.util.List;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PostService {
 
     private final PostRequestValidator postRequestValidator;
-    private final PostJpaRepository postRepository;
+    private final PostRepository postRepository;
     private final PostTagService postTagService;
+    private final PostQueryMapper postQueryMapper;
 
     public PostService(
         PostRequestValidator postRequestValidator,
-        PostJpaRepository postRepository,
-        PostTagService postTagService
+        PostRepository postRepository,
+        PostTagService postTagService,
+        PostQueryMapper postQueryMapper
     ) {
         this.postRequestValidator = postRequestValidator;
         this.postRepository = postRepository;
         this.postTagService = postTagService;
+        this.postQueryMapper = postQueryMapper;
     }
 
     @Transactional(readOnly = true)
     public Post getPost(Long postId) {
         return postRepository.findById(postId)
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
+    }
+
+    @Transactional(readOnly = true)
+    public PostQueryResponse getPostList(PostQueryRequest request) {
+        postRequestValidator.validateQueryRequest(request);
+
+        PostQueryCriteria criteria = postQueryMapper.toCriteria(request);
+        PageResponse<Post> postPageResult = postRepository.findPostsByCriteria(criteria);
+
+        return postQueryMapper.toResponse(postPageResult);
     }
 
     @Transactional
