@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "korean": {
+          "type": "custom",
+          "tokenizer": "nori_tokenizer"
+        }
+      }
+    }
+  }
+}
