@@ -3,9 +3,9 @@ package com.devtribe.domain.post.api;
 import com.devtribe.domain.post.application.PostService;
 import com.devtribe.domain.post.application.dtos.CreatePostRequest;
 import com.devtribe.domain.post.application.dtos.CreatePostResponse;
+import com.devtribe.domain.post.application.dtos.PostDetailResponse;
 import com.devtribe.domain.post.application.dtos.PostQueryRequest;
 import com.devtribe.domain.post.application.dtos.PostQueryResponse;
-import com.devtribe.domain.post.application.dtos.PostDetailResponse;
 import com.devtribe.domain.post.application.dtos.UpdatePostRequest;
 import com.devtribe.domain.post.application.dtos.UpdatePostResponse;
 import com.devtribe.global.security.CustomUserDetail;
@@ -37,12 +37,11 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<CreatePostResponse> createPost(
+    public CreatePostResponse createPost(
         @RequestBody CreatePostRequest request,
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
-        CreatePostResponse responseBody = postService.createPost(request, userDetail);
-        return ResponseEntity.ok(responseBody);
+        return postService.createPost(request, userDetail);
     }
 
     @GetMapping("/{id}")
@@ -53,13 +52,12 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UpdatePostResponse> updatePost(
+    public UpdatePostResponse updatePost(
         @PathVariable("id") Long postId,
         @RequestBody UpdatePostRequest request,
         @AuthenticationPrincipal CustomUserDetail userDetail
     ) {
-        UpdatePostResponse responseBody = postService.updatePost(postId, request, userDetail);
-        return ResponseEntity.ok(responseBody);
+        return postService.updatePost(postId, request, userDetail);
     }
 
     @DeleteMapping("/{id}")
