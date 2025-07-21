@@ -1,12 +1,11 @@
 package com.devtribe.domain.post.dao;
 
 import com.devtribe.domain.post.dto.PostSearchCriteria;
-import com.devtribe.domain.post.entity.Post;
-import com.devtribe.global.model.PageResponse;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostSearchRepository {
 
-    PageResponse<Post> searchPostByKeyword(PostSearchCriteria criteria);
+    List<Long> searchPostByKeyword(PostSearchCriteria criteria);
 }
