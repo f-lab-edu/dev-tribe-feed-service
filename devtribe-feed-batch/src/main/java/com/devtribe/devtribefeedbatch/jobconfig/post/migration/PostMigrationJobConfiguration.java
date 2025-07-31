@@ -1,11 +1,12 @@
 package com.devtribe.devtribefeedbatch.jobconfig.post.migration;
 
+import com.devtribe.devtribefeedbatch.service.monitoring.BatchJobExecutionListener;
+import com.devtribe.devtribefeedbatch.service.monitoring.ElasticsearchCleanListener;
 import com.devtribe.domain.post.entity.Post;
 import com.devtribe.domain.post.entity.PostDocument;
 import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -31,15 +32,25 @@ public class PostMigrationJobConfiguration {
     private static final int CHUNK_SIZE = 1000;
     private static final int PAGE_SIZE = 1000;
 
+    private final ElasticsearchCleanListener elasticsearchCleanListener;
+    private final BatchJobExecutionListener batchJobExecutionListener;
+
+    public PostMigrationJobConfiguration(
+        ElasticsearchCleanListener elasticsearchCleanListener,
+        BatchJobExecutionListener batchJobExecutionListener) {
+        this.elasticsearchCleanListener = elasticsearchCleanListener;
+        this.batchJobExecutionListener = batchJobExecutionListener;
+    }
+
     /// 초기화 잡
     @Bean
     public Job postMigrationJob(
         JobRepository jobRepository,
-        JobExecutionListener jobExecutionListener,
         Step postMigrationStep
     ) {
         return new JobBuilder(JOB_NAME, jobRepository)
-            .listener(jobExecutionListener)
+            .listener(batchJobExecutionListener)
+            .listener(elasticsearchCleanListener)
             .start(postMigrationStep)
             .build();
     }
