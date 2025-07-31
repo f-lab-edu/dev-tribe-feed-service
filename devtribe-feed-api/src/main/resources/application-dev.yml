@@ -13,6 +13,12 @@ spring:
       idle-timeout: ${HIKARI_IDLE_TIMEOUT}
       connection-timeout: ${HIKARI_CONNECTION_TIMEOUT}
 
+  elasticsearch:
+    uris:
+      - ${ELASTICSEARCH_URI}
+    username: ${ELASTICSEARCH_USERNAME}
+    password: ${ELASTICSEARCH_PASSWORD}
+
   data:
     redis:
       host: ${REDIS_HOST}

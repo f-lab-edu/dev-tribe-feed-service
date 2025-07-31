@@ -27,6 +27,12 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: false
 
+  elasticsearch:
+    uris:
+      - ${ELASTICSEARCH_URI}
+    username: ${ELASTICSEARCH_USERNAME}
+    password: ${ELASTICSEARCH_PASSWORD}
+
   flyway:
     enabled: true
     locations: classpath:db/migration
