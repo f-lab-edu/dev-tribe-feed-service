@@ -24,6 +24,11 @@ public class PostSearchMapper {
         return new PostSearchResponse(postResponses);
     }
 
+    public PostSearchResponse toResponse(List<Post> pageResponse) {
+        List<PostResponse> postResponses = convertToPostResponses(pageResponse);
+        return new PostSearchResponse(postResponses);
+    }
+
     private List<PostResponse> convertToPostResponses(List<Post> posts) {
         return posts.stream().map(PostResponse::from).toList();
     }

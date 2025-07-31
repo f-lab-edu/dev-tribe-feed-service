@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
 @TestConfiguration
 public class DataTestConfig {
@@ -25,8 +26,8 @@ public class DataTestConfig {
     }
 
     @Bean
-    public PostSearchRepository feedRepository(JPAQueryFactory jpaQueryFactory) {
-        return new PostSearchRepositoryImpl(jpaQueryFactory);
+    public PostSearchRepository feedRepository(ElasticsearchOperations elasticsearchOperations) {
+        return new PostSearchRepositoryImpl(elasticsearchOperations);
     }
 
     @Bean

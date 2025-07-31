@@ -1,0 +1,23 @@
+{
+  "mappings": {
+    "properties": {
+      "userId": {
+        "type": "long"
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "korean"
+      },
+      "content": {
+        "type": "text",
+        "analyzer": "korean"
+      },
+      "publication": {
+        "type": "keyword"
+      },
+      "isDeleted": {
+        "type": "boolean"
+      }
+    }
+  }
+}

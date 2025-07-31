@@ -1,5 +1,6 @@
 rootProject.name = 'devtribe-feed-service'
 include 'devtribe-feed-api'
+include 'devtribe-feed-batch'
 include 'devtribe-feed-core'
 include 'devtribe-feed-consumer'
 include 'devtribe-recommend-api'

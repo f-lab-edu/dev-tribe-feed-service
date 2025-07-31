@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: devtribe-feed-batch
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_USERNAME}
+
+  elasticsearch:
+    uris:
+      - ${ES_URI}
+    username: ${ES_USERNAME}
+    password: ${ES_PASSWORD}
+
+  batch:
+    jdbc:
+      initialize-schema: always

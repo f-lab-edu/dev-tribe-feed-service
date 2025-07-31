@@ -7,7 +7,7 @@ import com.devtribe.domain.post.application.validators.PostRequestValidator;
 import com.devtribe.domain.post.dao.PostRepository;
 import com.devtribe.domain.post.dto.PostSearchCriteria;
 import com.devtribe.domain.post.entity.Post;
-import com.devtribe.global.model.PageResponse;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +33,9 @@ public class PostSearchService {
         validator.validateSearchRequest(request);
 
         PostSearchCriteria criteria = postSearchMapper.toCriteria(request);
-        PageResponse<Post> postSearchResult = postRepository.searchPostByKeyword(criteria);
+        List<Long> postIds = postRepository.searchPostByKeyword(criteria);
+        List<Post> postSearchResult = postRepository.findAllByIdIn(postIds);
+
         return postSearchMapper.toResponse(postSearchResult);
     }
 }
