@@ -1,4 +1,4 @@
-tasks.bootJar{
+tasks.bootJar {
     enabled = false
 }
 
@@ -8,16 +8,21 @@ tasks.jar {
 }
 
 dependencies {
-    // Feed Core
-    implementation(project(mapOf("path" to ":devtribe-feed-core")))
+    // Module
+    implementation(project(":devtribe-feed-core"))
 
     // Spring
-    implementation ("org.springframework.boot:spring-boot-starter-batch")
+    implementation("org.springframework.boot:spring-boot-starter-batch")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+
+    // DB
     runtimeOnly("com.h2database:h2")
-    annotationProcessor("jakarta.persistence:jakarta.persistence-api")
 
     // Test
     testImplementation("org.springframework.batch:spring-batch-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.testcontainers:mysql")
+    testImplementation("org.testcontainers:elasticsearch")
 
 }
